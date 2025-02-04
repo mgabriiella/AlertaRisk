@@ -1,10 +1,11 @@
 # ALERTARISK
 
-Uma plataforma de alerta para possíveis catastrofes relacionadas as chuvas
+Uma plataforma de alerta para possíveis catástrofes relacionadas as chuvas.
 
 ## Sobre
 
-Mapeando as zonas de risco e verificando o volume da chuva, o AlertaRisk consegue prever e informar sobre possíveis alagamentos e as medidas a serem tomadas antes e depois das possíveis catastrófes. 
+Mapeando as zonas de risco e verificando o volume da chuva, o AlertaRisk consegue prever e informar sobre possíveis alagamentos e as medidas a serem tomadas antes e depois das possíveis catastrófes.
+
 ## Instalação
 
 1. Clone o repositório:
@@ -30,6 +31,7 @@ npm start
 http://localhost:3006
 ```
 3. Configure a área de monitoramento e visualize os alertas de risco.
+ 
 ## Autores
 
 Back-end:
