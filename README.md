@@ -4,7 +4,7 @@ Uma plataforma de alerta para possíveis catástrofes relacionadas as chuvas.
 
 ## Sobre
 
-Mapeando as zonas de risco e verificando o volume da chuva, o AlertaRisk consegue prever e informar sobre possíveis alagamentos e as medidas a serem tomadas antes e depois das possíveis catastrófes.
+Mapeando as zonas de risco e verificando o volume da chuva, o AlertaRisk consegue prever e informar sobre possíveis alagamentos e as medidas a serem tomadas antes e depois das possíveis catástrofes.
 
 ## Instalação
 
@@ -36,16 +36,16 @@ http://localhost:3006
 
 Back-end:
 
-Jorge Falcão;
-Luana Marques;
-Matheus Alves;
-Tarcilla Almeida;
-Victor Melo.
+- Jorge Falcão
+- Luana Marques
+- Matheus Alves
+- Tarcilla Almeida
+- Victor Melo
 
 Front-end:
 
-Cláudia Ribeiro;
-Evelyn Karoline;
-Gabriel de Figueiredo;
-Gabriel Ferreira;
-Maria Gabriella.
+- Cláudia Ribeiro
+- Evelyn Karoline
+- Gabriel de Figueiredo
+- Gabriel Ferreira
+- Maria Gabriella
