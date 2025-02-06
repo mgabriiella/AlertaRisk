@@ -6,7 +6,7 @@ O AlertaRisk é uma plataforma desenvolvida para prever e alertar sobre possíve
 
 Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam o que fazer antes, durante e depois de uma emergência.
 
-### ⚙️ Funcionalidades
+## ⚙️ Funcionalidades
 ### 🖥️ Página Inicial
 - ✔️ Cadastro de usuários em áreas de risco
 - ✔️ Envio de alertas via WhatsApp e SMS
@@ -18,6 +18,16 @@ Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam
 - ✅ Mapa Interativo → Exibição de zonas de risco e alertas ativos
 - ✅ Alertas em Tempo Real → Notificações sobre chuvas fortes e alagamentos
 - ✅ Orientações de Segurança → O que fazer antes, durante e depois de um evento extremo
+
+## 🛠️ Tecnologias Utilizadas
+### 🚀 Back-end:
+
+- Java
+- Node.js
+
+###🎨 Front-end:
+
+- React.js
 
 ## Instalação
 
