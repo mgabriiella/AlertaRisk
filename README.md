@@ -8,16 +8,16 @@ Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam
 
 ## ⚙️ Funcionalidades
 ## 🖥️ Página Inicial
-✔️ Cadastro de usuários em áreas de risco
-✔️ Envio de alertas via WhatsApp e SMS
-✔️ Medidas preventivas e orientações de segurança
-✔️ Contatos de emergência: SAMU, Bombeiros, Defesa Civil e Polícia Militar de Pernambuco
+- ✔️ Cadastro de usuários em áreas de risco
+- ✔️ Envio de alertas via WhatsApp e SMS
+- ✔️ Medidas preventivas e orientações de segurança
+- ✔️ Contatos de emergência: SAMU, Bombeiros, Defesa Civil e Polícia Militar de Pernambuco
 
 ## 📌 Módulos do Sistema
-✅ Cadastro e Login → Criar conta, fazer login e recuperar senha
-✅ Mapa Interativo → Exibição de zonas de risco e alertas ativos
-✅ Alertas em Tempo Real → Notificações sobre chuvas fortes e alagamentos
-✅ Orientações de Segurança → O que fazer antes, durante e depois de um evento extremo
+- ✅ Cadastro e Login → Criar conta, fazer login e recuperar senha
+- ✅ Mapa Interativo → Exibição de zonas de risco e alertas ativos
+- ✅ Alertas em Tempo Real → Notificações sobre chuvas fortes e alagamentos
+- ✅ Orientações de Segurança → O que fazer antes, durante e depois de um evento extremo
 
 ## Instalação
 
