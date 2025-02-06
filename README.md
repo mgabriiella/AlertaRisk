@@ -6,14 +6,14 @@ O AlertaRisk é uma plataforma desenvolvida para prever e alertar sobre possíve
 
 Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam o que fazer antes, durante e depois de uma emergência.
 
-## ⚙️ Funcionalidades
-## 🖥️ Página Inicial
+### ⚙️ Funcionalidades
+### 🖥️ Página Inicial
 - ✔️ Cadastro de usuários em áreas de risco
 - ✔️ Envio de alertas via WhatsApp e SMS
 - ✔️ Medidas preventivas e orientações de segurança
 - ✔️ Contatos de emergência: SAMU, Bombeiros, Defesa Civil e Polícia Militar de Pernambuco
 
-## 📌 Módulos do Sistema
+### 📌 Módulos do Sistema
 - ✅ Cadastro e Login → Criar conta, fazer login e recuperar senha
 - ✅ Mapa Interativo → Exibição de zonas de risco e alertas ativos
 - ✅ Alertas em Tempo Real → Notificações sobre chuvas fortes e alagamentos
