@@ -1,10 +1,23 @@
-# ALERTARISK
+# 🌧️ AlertaRisk – Plataforma de Prevenção a Alagamentos
+🚨 Monitoramento de zonas de risco e alertas para prevenir catástrofes causadas pelas chuvas.
 
-Uma plataforma de alerta para possíveis catástrofes relacionadas as chuvas.
+## 📌 Introdução
+O AlertaRisk é uma plataforma desenvolvida para prever e alertar sobre possíveis alagamentos em áreas de risco. Com base no volume de chuvas e dados geográficos, o sistema informa a população por WhatsApp e SMS, além de fornecer medidas preventivas e orientações de segurança.
 
-## Sobre
+Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam o que fazer antes, durante e depois de uma emergência.
 
-Mapeando as zonas de risco e verificando o volume da chuva, o AlertaRisk consegue prever e informar sobre possíveis alagamentos e as medidas a serem tomadas antes e depois das possíveis catástrofes.
+## ⚙️ Funcionalidades
+## 🖥️ Página Inicial
+✔️ Cadastro de usuários em áreas de risco
+✔️ Envio de alertas via WhatsApp e SMS
+✔️ Medidas preventivas e orientações de segurança
+✔️ Contatos de emergência: SAMU, Bombeiros, Defesa Civil e Polícia Militar de Pernambuco
+
+## 📌 Módulos do Sistema
+✅ Cadastro e Login → Criar conta, fazer login e recuperar senha
+✅ Mapa Interativo → Exibição de zonas de risco e alertas ativos
+✅ Alertas em Tempo Real → Notificações sobre chuvas fortes e alagamentos
+✅ Orientações de Segurança → O que fazer antes, durante e depois de um evento extremo
 
 ## Instalação
 
