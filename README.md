@@ -25,7 +25,7 @@ Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam
 - Java
 - Node.js
 
-###🎨 Front-end:
+### 🎨 Front-end:
 
 - React.js
 
