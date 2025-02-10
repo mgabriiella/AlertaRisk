@@ -27,7 +27,9 @@ Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam
 
 ### 🎨 Front-end:
 
-- React.js
+- HTML E CSS
+- Javascript
+-  React.js
 
 ## Instalação
 
