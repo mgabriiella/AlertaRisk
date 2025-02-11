@@ -69,8 +69,8 @@ Back-end:
 
 Front-end:
 
-- [Cláudia Ribeiro]()
-- [Evelyn Karoline]()
+- [Cláudia Ribeiro](https://github.com/GabrielBielFerreira)
+- [Evelyn Karoline](https://github.com/Evelynkaroline1)
 - [Gabriel de Figueiredo](https://github.com/Abell29)
-- [Gabriel Ferreira]()
+- [Gabriel Ferreira](https://github.com/GabrielBielFerreira)
 - [Maria Gabriella](https://github.com/mgabriiella)
