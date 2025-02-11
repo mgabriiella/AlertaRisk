@@ -61,16 +61,16 @@ http://localhost:3006
 
 Back-end:
 
-- Jorge Falcão
-- Luana Marques
-- Matheus Alves
-- Tarcilla Almeida
-- Victor Melo
+- [Jorge Falcão](https://github.com/JorgeFalcao47)
+- [Luana Marques](https://github.com/luanamarques0)
+- [Matheus Alves](https://github.com/theualves)
+- [Tarcilla Almeida]()
+- [Victor Melo](https://github.com/victorhpmelo)
 
 Front-end:
 
-- Cláudia Ribeiro
-- Evelyn Karoline
-- Gabriel de Figueiredo
-- Gabriel Ferreira
-- Maria Gabriella
+- [Cláudia Ribeiro]()
+- [Evelyn Karoline]()
+- [Gabriel de Figueiredo](https://github.com/Abell29)
+- [Gabriel Ferreira]()
+- [Maria Gabriella](https://github.com/mgabriiella)
