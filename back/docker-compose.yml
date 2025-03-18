@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:17.4
+    container_name: alertarisk-db
+    restart: always
+    environment:
+      POSTGRES_DB: alertarisk
+      POSTGRES_USER: alertarisk
+      POSTGRES_PASSWORD: alertarisk
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/z
+    networks:
+      - alerta-risk-net
+
+  backend:
+    build:
+      context: .
+    command: bash start-dev.sh
+    container_name: alertarisk-api
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/alertarisk
+      SPRING_DATASOURCE_USERNAME: alertarisk
+      SPRING_DATASOURCE_PASSWORD: alertarisk
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: dev
+      APP_FRONTEND_URL: http://localhost:3000
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    networks:
+      - alerta-risk-net
+
+networks:
+  alerta-risk-net:
+    name: alerta-risk-net
+
+volumes:
+  postgres:
