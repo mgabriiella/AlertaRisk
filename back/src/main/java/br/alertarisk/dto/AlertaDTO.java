@@ -1,4 +1,4 @@
 package br.alertarisk.dto;
 
-public class AlertDTO {
+public class AlertaDTO {
 }

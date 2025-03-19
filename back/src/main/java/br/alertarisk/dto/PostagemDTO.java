@@ -1,4 +1,4 @@
 package br.alertarisk.dto;
 
-public class PostDTO {
+public class PostagemDTO {
 }

@@ -1,4 +1,4 @@
 package br.alertarisk.services;
 
-public class PostService {
+public class ForumPostService {
 }

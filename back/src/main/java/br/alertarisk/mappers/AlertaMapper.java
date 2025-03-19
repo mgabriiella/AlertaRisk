@@ -1,4 +1,4 @@
 package br.alertarisk.mappers;
 
-public interface AlertMapper {
+public interface AlertaMapper {
 }
