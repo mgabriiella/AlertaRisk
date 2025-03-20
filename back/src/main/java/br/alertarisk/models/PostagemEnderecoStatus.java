@@ -14,7 +14,7 @@ public class PostagemEnderecoStatus {
     @ManyToOne
     @MapsId("idPost")
     @JoinColumn(name = "id_post", nullable = false)
-    private Postagem postagem;
+    private Postagem posts;
 
     @ManyToOne
     @MapsId("idEndereco")

@@ -10,7 +10,7 @@ import java.util.UUID;
 public class IdPostagemEnderecoStatus implements Serializable {
 
     @Column(name = "id_post", nullable = false)
-    private UUID idPost;
+    private Long idPost;
 
     @Column(name = "id_endereco", nullable = false)
     private Long idEndereco;

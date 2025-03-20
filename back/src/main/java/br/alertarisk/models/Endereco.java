@@ -2,11 +2,18 @@ package br.alertarisk.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.Set;
 
 @Entity
 @Data
 @Table(name = "ENDERECO")
+@Getter
+@Setter
+@ToString
 public class Endereco {
 
     @Id
@@ -25,7 +32,7 @@ public class Endereco {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private User user;
+    private UserModel usuario;
 
     @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Postagem> posts;

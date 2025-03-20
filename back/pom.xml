@@ -54,6 +54,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--Dependência para validação de Beans-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<!-- MapStruct para mapeamento entre DTOs e entidades -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -72,7 +78,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>1.6.3</version>
+			<version>${org.mapstruct.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
@@ -90,6 +96,11 @@
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 							<version>1.18.36</version>
+						</path>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${org.mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
 					<source>21</source>

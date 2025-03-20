@@ -2,11 +2,16 @@ package br.alertarisk.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Data
+@Getter
+@Setter
 @Table(
         name = "TAB_USER",
         uniqueConstraints = {
@@ -15,7 +20,7 @@ import java.util.UUID;
                 @UniqueConstraint(columnNames = "phone")
         }
 )
-public class User {
+public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,19 +32,19 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String password;
 
     @Column(unique = true, length = 11, columnDefinition = "bpchar(11)")
     private String phone;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true,length = 11, columnDefinition = "bpchar(11)")
     private String cpf;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Endereco> enderecos;
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PostagensFeitas> postagens;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Postagem> posts;
 }
