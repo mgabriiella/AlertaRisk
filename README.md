@@ -2,7 +2,7 @@
 🚨 Monitoramento de zonas de risco e alertas para prevenir catástrofes causadas pelas chuvas.
 
 ## 📌 Introdução
-O AlertaRisk é uma plataforma desenvolvida para prever e alertar sobre possíveis alagamentos em áreas de risco. Com base no volume de chuvas e dados geográficos, o sistema informa a população[...]
+O AlertaRisk é uma plataforma desenvolvida para prever e alertar sobre possíveis alagamentos em áreas de risco. Com base no volume de chuvas e dados geográficos.
 
 Nosso objetivo é reduzir danos e salvar vidas, garantindo que as pessoas saibam o que fazer antes, durante e depois de uma emergência.
 
@@ -126,10 +126,6 @@ classDiagram
         +id_endereco: PK, FK
     }
 
-    class publicacoes_feitas {
-        +id_usuario: PK, FK
-        +id_publicacao: PK, FK
-    }
 
     %% Definição dos relacionamentos
     alertas --> alerta_publicacao_status : "1,1 - 0,N"
@@ -139,7 +135,6 @@ classDiagram
 
     usuario --> alerta_ativo : "1,1 - 0,N"
     usuario --> id_monitorar : "1,1 - 0,N"
-    usuario --> publicacoes_feitas : "1,1 - 0,N"
     usuario --> endereco : "1,1 - 0,N"
 
     administrador --> id_monitorar : "1,1 - 0,N"
@@ -149,7 +144,6 @@ classDiagram
 
     publicacoes --> alerta_publicacao_status : "1,1 - 0,N"
     publicacoes --> id_monitorar : "1,1 - 0,N"
-    publicacoes --> publicacoes_feitas : "1,1 - 0,N"
     publicacoes --> publicacao_endereco_status : "1,1 - 0,N"
 ```
 
@@ -165,8 +159,7 @@ Back-end:
 
 Front-end:
 
-- [Cláudia Ribeiro](https://github.com/GabrielBielFerreira)
+- [Cláudia Ribeiro](https://github.com/ClaudiaKRibeiro)
 - [Evelyn Karoline](https://github.com/Evelynkaroline1)
-- [Gabriel de Figueiredo](https://github.com/Abell29)
 - [Gabriel Ferreira](https://github.com/GabrielBielFerreira)
 - [Maria Gabriella](https://github.com/mgabriiella)
