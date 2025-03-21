@@ -15,8 +15,15 @@ public class EnderecoService {
 
     private final EnderecoRepository repository;
 
-    public List<Endereco> findAll() {
+    public List<Endereco> list() {
         return repository.findAll();
+    }
+
+    public Endereco findById(final Long id) {
+        return repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Endereco não encontrado")
+        );
+
     }
     public Endereco save(final Endereco endereco) {
         return repository.save(endereco);
@@ -24,11 +31,17 @@ public class EnderecoService {
     public Endereco update(final Endereco endereco) {
         Endereco existEndereco = repository.findById(endereco.getId()).orElseThrow(
                 () -> new NotFoundException("Endereço não encontrado"));
+
+        existEndereco.setName(endereco.getName());
         existEndereco.setCep(endereco.getCep());
-        existEndereco.setNome(endereco.getNome());
+        existEndereco.setNumero(endereco.getNumero());
 
         return repository.save(existEndereco);
     }
-    
+
+    public void delete(final Long id) {
+        repository.findById(id);
+        repository.deleteById(id);
+    }
 
 }

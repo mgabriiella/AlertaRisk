@@ -1,20 +1,16 @@
-package br.alertarisk.controllers.request;
+package br.alertarisk.controllers.request.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
-
-public record SaveUserRequest(
+public record UpdateUserRequest(
         @NotNull
         @JsonProperty("name")
         String name,
         @NotNull
-        @Email
         @JsonProperty("email")
         String email,
         @NotNull
         @JsonProperty("phone")
         String phone
-        ){ }
+){}

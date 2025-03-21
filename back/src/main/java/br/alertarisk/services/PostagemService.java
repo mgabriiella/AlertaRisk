@@ -24,7 +24,22 @@ public class PostagemService {
         );
     }
 
-    public Postagem save(Postagem postagem) {
+    public Postagem save(final Postagem postagem) {
     return repository.save(postagem);
+    }
+
+    public Postagem update(final Postagem postagem) {
+        Postagem existPost = repository.findById(postagem.getId()).orElseThrow(
+                () -> new NotFoundException("Post não encontrado")
+        );
+
+        existPost.setComment(postagem.getComment());
+
+        return repository.save(existPost);
+    }
+
+    public void delete(final Long id) {
+        repository.findById(id);
+        repository.deleteById(id);
     }
 }

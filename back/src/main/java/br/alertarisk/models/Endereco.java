@@ -22,13 +22,13 @@ public class Endereco {
     private Long id;
 
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
-    @Column(nullable = false)
-    private String cep;
+    @Column(nullable = false,columnDefinition = "bpchar(8)")
+    private Long cep;
 
     @Column
-    private String numero;
+    private Long numero;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")

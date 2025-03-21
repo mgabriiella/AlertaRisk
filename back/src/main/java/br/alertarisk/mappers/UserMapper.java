@@ -1,11 +1,11 @@
 package br.alertarisk.mappers;
 
-import br.alertarisk.controllers.request.SaveUserRequest;
-import br.alertarisk.controllers.request.UpdateUserRequest;
-import br.alertarisk.controllers.response.ListUserResponse;
-import br.alertarisk.controllers.response.SaveUserResponse;
-import br.alertarisk.controllers.response.UpdateUserResponse;
-import br.alertarisk.controllers.response.UserDetailResponse;
+import br.alertarisk.controllers.request.user.SaveUserRequest;
+import br.alertarisk.controllers.request.user.UpdateUserRequest;
+import br.alertarisk.controllers.response.user.ListUserResponse;
+import br.alertarisk.controllers.response.user.SaveUserResponse;
+import br.alertarisk.controllers.response.user.UpdateUserResponse;
+import br.alertarisk.controllers.response.user.UserDetailResponse;
 import br.alertarisk.models.UserModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

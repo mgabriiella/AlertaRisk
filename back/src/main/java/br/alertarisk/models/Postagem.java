@@ -20,7 +20,7 @@ public class Postagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_post")
-    private Long idPost;
+    private Long id;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

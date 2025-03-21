@@ -12,7 +12,7 @@ public class AlertaAtivo {
         private AlertaAtivoId id;
 
         @ManyToOne
-        @MapsId("idAlerta")
+        @MapsId("id")
         @JoinColumn(name = "id_alerta", nullable = false)
         private Alerta alerta;
 }

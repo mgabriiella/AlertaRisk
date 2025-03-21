@@ -12,7 +12,7 @@ public class Alerta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_alerta")
-    private Long idAlerta;
+    private Long id;
 
     // Relação com AlertaAtivo
     @OneToMany(mappedBy = "alerta", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -20,9 +20,9 @@ public class Alerta {
 
     // Relação com AlertaEnderecoStatus
     @OneToMany(mappedBy = "alerta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<AlertaEnderecoStatus> alertaEnderecoStatuses;
+    private Set<AlertaEnderecoStatus> alertaEnderecoStatus;
 
     // Relação com AlertaPostagemStatus
     @OneToMany(mappedBy = "alerta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<AlertaPostagemStatus> alertaPostagemStatuses;
+    private Set<AlertaPostagemStatus> alertaPostagemStatus;
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class AlertaAtivoId implements Serializable {
 
     @Column(name = "id_alerta", nullable = false)
-    private Long idAlerta;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

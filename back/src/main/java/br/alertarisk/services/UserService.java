@@ -14,8 +14,12 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class UserService {
+
     private final UserRepository repository;
 
+    public List<UserModel> list() {
+        return repository.findAll();
+    }
 
     public UserModel findById(final UUID id) {
         return repository.findById(id).orElseThrow(
@@ -23,9 +27,6 @@ public class UserService {
         );
     }
 
-    public List<UserModel> list() {
-        return repository.findAll();
-    }
 
     public void verifyPhone(final String phone) {
         if (repository.existsByPhone(phone)) {
