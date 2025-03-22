@@ -2,18 +2,11 @@ package br.alertarisk.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @Table(name = "POSTAGEM")
-@Getter
-@Setter
-@ToString
 public class Postagem {
 
     @Id
@@ -22,7 +15,7 @@ public class Postagem {
     private Long id;
 
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column
     private String comment;
@@ -36,5 +29,5 @@ public class Postagem {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario",nullable = false)
-    private UserModel usuario;
+    private UserModel user;
 }

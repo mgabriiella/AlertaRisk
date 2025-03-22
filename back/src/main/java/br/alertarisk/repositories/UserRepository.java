@@ -1,16 +1,17 @@
 package br.alertarisk.repositories;
 
 import br.alertarisk.models.UserModel;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+@Repository
 public interface UserRepository extends JpaRepository<UserModel, UUID> {
 
 
-    List<UserModel> findByCpf(String cpf);
 
     boolean existsByPhone(String phone);
 
@@ -18,5 +19,10 @@ public interface UserRepository extends JpaRepository<UserModel, UUID> {
 
     boolean existsByEmail(String email);
 
-    Optional<UserModel> findByEmail(String phone);
+    Optional<UserModel> findByEmail(String email);
+
+    Object findByPassword(String password);
+
+    @EntityGraph(attributePaths = "enderecos")
+    Optional<UserModel> findById(UUID id);
 }

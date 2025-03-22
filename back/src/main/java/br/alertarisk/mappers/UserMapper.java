@@ -19,14 +19,12 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "password",ignore = true)
     @Mapping(target = "cpf", ignore = true)
     @Mapping(target = "posts", ignore = true)
     UserModel toModel(final SaveUserRequest request);
 
     SaveUserResponse toSaveResponse(final UserModel user);
 
-    @Mapping(target = "password",ignore = true)
     @Mapping(target = "cpf", ignore = true)
     UserModel toModel(final UUID id, final UpdateUserRequest request);
 

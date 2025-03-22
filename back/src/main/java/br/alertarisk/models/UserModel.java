@@ -1,17 +1,15 @@
 package br.alertarisk.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Data
 @Getter
 @Setter
 @Table(
@@ -34,7 +32,7 @@ public class UserModel {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String password;
 
     @Column(unique = true, length = 11, columnDefinition = "bpchar(11)")
@@ -43,9 +41,23 @@ public class UserModel {
     @Column(unique = true,length = 11, columnDefinition = "bpchar(11)")
     private String cpf;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Endereco> enderecos;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Postagem> posts;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserModel user = (UserModel) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
+

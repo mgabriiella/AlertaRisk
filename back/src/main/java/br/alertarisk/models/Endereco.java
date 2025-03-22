@@ -2,19 +2,12 @@ package br.alertarisk.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
 
 @Entity
 @Data
 @Table(name = "ENDERECO")
-@Getter
-@Setter
-@ToString
 public class Endereco {
 
     @Id
@@ -26,14 +19,14 @@ public class Endereco {
     private String name;
 
     @Column(nullable = false,columnDefinition = "bpchar(8)")
-    private Long cep;
+    private String cep;
 
     @Column
-    private Long numero;
+    private String numero;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private UserModel usuario;
+    private UserModel user;
 
     @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Postagem> posts;
