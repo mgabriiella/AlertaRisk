@@ -35,8 +35,8 @@ Nosso propósito é salvar vidas e minimizar danos, garantindo que a população
 
 - Java
 - Node.js
-- 
-Equipe de Desenvolvimento Front:
+  
+## Equipe de Desenvolvimento Front:
 **Maria Gabriella
 Cláudia Ribeiro
 Gabriel Ferreira**
