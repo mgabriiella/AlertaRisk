@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @Setter
@@ -32,7 +34,7 @@ public class UserModel {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(unique = true, length = 11, columnDefinition = "bpchar(11)")
@@ -41,10 +43,10 @@ public class UserModel {
     @Column(unique = true,length = 11, columnDefinition = "bpchar(11)")
     private String cpf;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = LAZY)
     private Set<Endereco> enderecos;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = LAZY)
     private Set<Postagem> posts;
 
     @Override

@@ -1,5 +1,11 @@
 package br.alertarisk.controllers;
 
+import br.alertarisk.controllers.request.postagem.SavePostagemRequest;
+import br.alertarisk.controllers.request.postagem.UpdatePostagemRequest;
+import br.alertarisk.controllers.response.postagem.ListPostagemResponse;
+import br.alertarisk.controllers.response.postagem.PostagemDetailResponse;
+import br.alertarisk.controllers.response.postagem.SavePostagemResponse;
+import br.alertarisk.controllers.response.postagem.UpdatePostagemResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +26,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("postagens")
+@RequestMapping("posts")
 @AllArgsConstructor
 public class PostagemController {
 
@@ -42,8 +48,7 @@ public class PostagemController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SavePostagemResponse save(@RequestBody @Valid SavePostagemRequest request) {
-        var postagem = postagemMapper.toModel(request);
-        postagemService.save(postagem);
+        var postagem = postagemService.save(request);
         return postagemMapper.toSaveResponse(postagem);
     }
 
@@ -59,4 +64,6 @@ public class PostagemController {
     public void delete(@PathVariable Long id) {
         postagemService.delete(id);
     }
+
+
 }

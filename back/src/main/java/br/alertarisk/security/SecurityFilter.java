@@ -7,10 +7,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.aspectj.apache.bcel.generic.RET;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -34,6 +38,10 @@ public class SecurityFilter extends OncePerRequestFilter {
                 response.setStatus(SC_UNAUTHORIZED);
                 return;
             }
+            UsernamePasswordAuthenticationToken auth =
+                    new UsernamePasswordAuthenticationToken(subjectToken,null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
         }
 
         filterChain.doFilter(request,response);

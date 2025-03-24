@@ -1,28 +1,24 @@
 package br.alertarisk.controllers.request.postagem;
 
+import br.alertarisk.controllers.request.endereco.SaveEnderecoRequest;
+import br.alertarisk.models.Endereco;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
-public record UpdatePostagemRequest(
-        @NotNull
-        @JsonProperty("id")
-        Long id,
+import java.time.LocalDateTime;
+import java.util.UUID;
 
-        @JsonProperty("created_at")
-        LocalDateTime createdAt,
+public record UpdatePostagemRequest(
+//        @JsonProperty("created_at")
+//        LocalDateTime createdAt,
 
         @NotNull
         @JsonProperty("comment")
-        String comment,
+        String comment
 
-        @JsonProperty("media")
-        String media, //Mudança prevista para um outro DB
+//        @JsonProperty("media")
+//        String media, /
 
-        @NotNull
-        @JsonProperty("id_endereco")
-        Long idEndereco,
 
-        @NotNull
-        @JsonProperty("id_usuario")
-        Long idUsuario
 ) { }

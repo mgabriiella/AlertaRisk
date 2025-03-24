@@ -2,7 +2,12 @@ package br.alertarisk.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Data
@@ -15,7 +20,12 @@ public class Postagem {
     private Long id;
 
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Column
     private String comment;
@@ -23,11 +33,12 @@ public class Postagem {
     @Column
     private String media;
 
-    @ManyToOne
-    @JoinColumn(name = "id_endereco", nullable = false)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "usuario_id",nullable = false)
+    private UserModel user;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario",nullable = false)
-    private UserModel user;
 }

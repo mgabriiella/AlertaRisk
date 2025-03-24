@@ -29,7 +29,7 @@ public class SecurityConfig {
                             .requestMatchers("/auth").permitAll()
                             .anyRequest().authenticated();
             })
-                            .addFilterBefore(securityFilter, BasicAuthenticationFilter.class  )
+                            .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
             ;
             return http.build();
 

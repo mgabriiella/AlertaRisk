@@ -46,7 +46,6 @@ public class UserService {
             var message = String.format("Número de telefone %s Já está em uso", phone);
             throw new InUseException(message);
         }
-
     }
 
     public void verifyEmail(final String email) {
@@ -58,7 +57,7 @@ public class UserService {
 
     public void verifyEmail(final UUID id,final String email) {
         var optional = repository.findByEmail(email);
-        if (optional.isPresent() && !Objects.equals(optional.get().getPhone(),email)) {
+        if (optional.isPresent() && !Objects.equals(optional.get().getEmail(),email)) {
             var message = String.format("O Endereço de email %s Já está em uso", email);
             throw new InUseException(message);
         }
