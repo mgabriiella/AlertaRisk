@@ -14,7 +14,9 @@ public record SaveUserResponse(
         String name,
         @JsonProperty("email")
         String email,
+        @JsonProperty("password")
+        String password,
         @JsonProperty("phone")
         String phone,
-        List<SaveEnderecoResponse> enderecoResponse
+        List<SaveEnderecoResponse> enderecos
 ){}

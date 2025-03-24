@@ -1,5 +1,6 @@
 package br.alertarisk.controllers.request.user;
 
+import br.alertarisk.controllers.request.endereco.SaveEnderecoRequest;
 import br.alertarisk.controllers.response.endereco.ListEnderecoResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
@@ -17,7 +18,12 @@ public record SaveUserRequest(
         @JsonProperty("email")
         String email,
         @NotNull
+        @JsonProperty("password")
+        String password,
+        @NotNull
         @JsonProperty("phone")
         @Length(min = 11, max = 11,message = "O campo [phone] deve conter 11 caracteres")
-        String phone
+        String phone,
+        @NotNull
+        List<SaveEnderecoRequest> enderecos
         ){ }

@@ -4,7 +4,9 @@ import br.alertarisk.exception.InUseException;
 import br.alertarisk.exception.NotFoundException;
 import br.alertarisk.models.UserModel;
 import br.alertarisk.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repository;
+
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserModel> list() {
         return repository.findAll();
@@ -60,9 +64,19 @@ public class UserService {
         }
     }
 
+    @Transactional
     public UserModel save(final UserModel user) {
         verifyEmail(user.getEmail());
         verifyPhone(user.getPhone());
+
+        if(user.getEnderecos() == null || user.getEnderecos().isEmpty()) {
+            throw new NotFoundException("O usuário precisa conter um Endereço válido");
+        }
+
+        user.getEnderecos().forEach(endereco -> endereco.setUser(user));
+
+        var pass = passwordEncoder.encode(user.getPassword());
+        user.setPassword(pass);
 
         return repository.save(user);
     }
@@ -74,9 +88,17 @@ public class UserService {
         verifyEmail(user.getId(), user.getEmail());
         verifyPhone(user.getId(), user.getPhone());
 
+        if(user.getEnderecos() == null || user.getEnderecos().isEmpty()) {
+            throw new NotFoundException("O usuário precisa conter um Endereço válido");
+        }
+
         existUser.setName(user.getName());
         existUser.setEmail(user.getEmail());
         existUser.setPhone(user.getPhone());
+
+        existUser.getEnderecos().clear();
+        existUser.getEnderecos().addAll(user.getEnderecos());
+        existUser.getEnderecos().forEach(endereco -> endereco.setUser(user));
 
         return repository.save(existUser);
     }
