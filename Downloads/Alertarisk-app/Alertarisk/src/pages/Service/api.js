@@ -1,7 +1,7 @@
 // Coordenadas geográficas de Recife (centro)
 export const RECIFE_LAT = -8.0476;
 export const RECIFE_LON = -34.8770;
-export const API_KEY = 'ab53fc22a3ddc29331b85142118e074f'; // Substitua por sua chave real
+export const API_KEY = ''; 
 
 export const bairrosRecife = [
   "Aflitos", "Afogados", "Água Fria", "Alto José Bonifácio", 
