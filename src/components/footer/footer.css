@@ -1,0 +1,104 @@
+/* ESTILOS DO FOOTER */
+.footer {
+    background-color: #3F3F3F; 
+    padding: 40px 20px;
+}
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex; /* Muda para flex para melhor controle do layout */
+    justify-content: space-between; /* Espaça as seções */
+    gap: 40px;
+    flex-wrap: wrap; /* Permite que as seções quebrem em telas menores */
+}
+
+.footer-brand {
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 150px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+.footer-section {
+    margin-bottom: 30px;
+}
+
+.footer-section h3 {
+    font-size: 18px;
+    color: #FFFFFF;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 16px;
+}
+
+.footer-links a:hover {
+    color: #FFB800; /* Muda para laranja ao passar o mouse */
+}
+
+.divider {
+    border-top: 1px solid #e2e8f0;
+    margin: 30px 0;
+}
+
+.copyright {
+    text-align: center;
+    color: #A0A0A0; /* Cinza claro para o texto de copyright */
+    font-size: 14px;
+    padding-top: 20px;
+}
+
+/* Responsividade para o footer */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column; /* Empilha as seções em telas menores */
+        align-items: center; /* Centraliza as seções */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .footer-brand {
+        text-align: center;
+    }
+
+    .footer-section {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer {
+        padding: 15px 10px; /* Reduz o padding em telas muito pequenas */
+    }
+
+    .logo {
+        width: 120px; /* Reduz o tamanho da imagem em telas menores */
+    }
+
+    .footer-section h3 {
+        font-size: 16px;
+    }
+
+    .footer-links a {
+        font-size: 14px;
+    }
+
+    .copyright {
+        font-size: 12px;
+    }
+}
