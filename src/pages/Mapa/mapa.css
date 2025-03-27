@@ -1,0 +1,439 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Lato:wght@400;700&display=swap');
+
+/* Estilos gerais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f4f4;
+}
+
+.mapa-container {
+  display: flex;
+  flex-direction: row; /* Sidebar e mapa lado a lado */
+  width: 100%; /* Garante que o container ocupe toda a largura disponível */
+  min-height: calc(100vh - 80px - 200px); /* Subtrai a altura do header e do footer */
+  background-color: #ffffff; /* Fundo branco para destacar o container */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+  border-radius: 0; /* Remove bordas arredondadas para um visual mais integrado */
+  margin: 0; /* Remove a margem para que o container fique colado às bordas */
+}
+
+.map-section {
+  flex: 1; /* O mapa ocupa o espaço restante */
+  position: relative;
+  display: flex; /* Adiciona flex para que o mapa se ajuste à altura */
+  flex-direction: column;
+  background: #ffffff; /* Remove o gradiente para um visual mais limpo */
+}
+
+.map {
+  width: 100%;
+  flex: 1; /* Faz o mapa crescer para ocupar todo o espaço disponível na seção */
+  min-height: 100%; /* Garante que o mapa ocupe toda a altura do map-section */
+}
+
+/* Ajuste para responsividade */
+@media (max-width: 768px) {
+  .mapa-container {
+    flex-direction: column; /* Empilha a sidebar e o mapa em telas menores */
+    min-height: 100vh; /* Garante que o container ocupe a altura total da tela */
+    height: 100vh; /* Define uma altura fixa para o container */
+  }
+
+  .sidebar {
+    width: 100% !important; /* Ocupa toda a largura */
+    position: static; /* Remove qualquer posicionamento fixo */
+    min-height: auto; /* Ajusta a altura para o conteúdo */
+  }
+
+  .map-section {
+    margin-left: 0; /* Remove a margem esquerda */
+    flex: 1; /* Garante que o map-section ocupe o espaço restante */
+    min-height: 400px; /* Define uma altura mínima para o map-section */
+  }
+
+  .map {
+    height: 400px; /* Define uma altura fixa para o mapa */
+    min-height: 400px; /* Garante que o mapa tenha altura mínima */
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    padding: 10px; /* Reduz ainda mais o padding */
+  }
+
+  .map-section {
+    min-height: 300px; /* Ajusta a altura mínima para telas ainda menores */
+  }
+
+  .map {
+    height: 300px; /* Ajusta a altura do mapa para telas menores */
+    min-height: 300px; /* Garante altura mínima */
+  }
+}
+
+/* Resto do CSS (mantido como está) */
+.sidebar {
+  background: #ffffff;
+  padding: 15px;
+  overflow-y: auto;
+  border-right: 1px solid #e5e7eb;
+  transition: width 0.3s ease;
+  width: 60px;
+  min-height: 100%;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar.expanded {
+  width: 350px;
+}
+
+.forum-posts-container {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #98CD64 #f8f9fa;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.forum-posts-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.forum-posts-container::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.forum-posts-container::-webkit-scrollbar-thumb {
+  background: #98CD64;
+  border-radius: 4px;
+}
+
+.forum-posts-container::-webkit-scrollbar-thumb:hover {
+  background: #85B856;
+}
+
+.forum-post {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+.forum-post:hover {
+  transform: translateY(-2px);
+}
+
+.post-content {
+  display: flex;
+  align-items: flex-start;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.post-details {
+  flex: 1;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.post-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-description {
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #6b7280;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.post-author {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.action-btn img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.user-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.forum-header {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forum-header span {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.toggle-forum-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #98CD64;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.toggle-forum-btn:hover {
+  background: #85B856;
+}
+
+.toggle-forum-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.forum-section {
+  margin-top: 15px;
+}
+
+.forum-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.no-posts {
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.legend {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.legend h4 {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.legend ul {
+  list-style: none;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.severe {
+  background-color: #ff4d4d;
+}
+
+.moderate {
+  background-color: #ffaa33;
+}
+
+.light {
+  background-color: #33cc33;
+}
+
+.weather-info-popup {
+  padding: 10px;
+}
+
+.weather-info-popup h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.weather-info-popup p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.weather-info-popup p strong {
+  font-weight: 600;
+}
+
+.weather-info-popup .rain-info {
+  color: #1e90ff;
+  font-weight: 600;
+}
+
+.post-info-popup {
+  padding: 10px;
+}
+
+.post-info-popup h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.post-info-popup p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #6b7280;
+}
+
+.post-info-popup p strong {
+  font-weight: 600;
+  color: #333;
+}
+
+.new-post-btn {
+  width: 100%;
+  padding: 10px;
+  background: #85B856;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.new-post-btn:hover {
+  background: #6c9645;
+}
+
+.filter-section h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.filter-section select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background: #f8f9fa;
+}
+
+.filter-btn,
+.new-post-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: #98CD64;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.filter-btn:hover,
+.new-post-btn:hover {
+  background: #85B856;
+}
+
+.leaflet-middleleft {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
