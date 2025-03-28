@@ -2,12 +2,17 @@ package br.alertarisk.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Data
 @Table(name = "ENDERECO")
+@Getter
+@Setter
 public class Endereco {
 
     @Id
@@ -30,4 +35,17 @@ public class Endereco {
 
     @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Postagem> posts;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Endereco endereco = (Endereco) obj;
+        return Objects.equals(id, endereco.id);
+    }
 }

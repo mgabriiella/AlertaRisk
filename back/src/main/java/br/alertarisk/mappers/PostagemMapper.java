@@ -1,6 +1,6 @@
 package br.alertarisk.mappers;
 
-import br.alertarisk.controllers.request.postagem.UpdatePostagemRequest;
+    import br.alertarisk.controllers.request.postagem.UpdatePostagemRequest;
 import br.alertarisk.controllers.response.endereco.UpdateEnderecoResponse;
 import br.alertarisk.controllers.response.postagem.ListPostagemResponse;
 import br.alertarisk.controllers.response.postagem.PostagemDetailResponse;
