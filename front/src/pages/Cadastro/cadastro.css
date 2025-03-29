@@ -1,0 +1,227 @@
+.cadastro {
+  min-height: calc(100vh - 80px - 200px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  background-image: url("./background.jpg");
+  background-repeat: no-repeat; 
+  background-size: cover;
+  background-position: center;
+  padding: 0;
+  margin: 0; 
+}
+
+
+.cadastro .container {
+
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.cadastro .auth-card {
+  margin: 20px 0;
+  background-color: white;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+
+
+.cadastro .logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.cadastro .logo {
+  max-width: 120px;
+  max-height: 40px;
+}
+
+.cadastro h2 {
+  text-align: center;
+  color: #1a2b3c;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.cadastro .divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 16px 0;
+  position: relative;
+  text-align: center;
+}
+
+.cadastro .divider::before {
+  content: "Ou continue com email";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 0 12px;
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+.cadastro .input-group {
+  margin-bottom: 16px;
+}
+
+.cadastro .input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.cadastro .input-group input,
+.cadastro .input-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #1a2b3c;
+  background-color: white;
+  -webkit-appearance: none; 
+  -moz-appearance: none; 
+  appearance: none; 
+}
+
+.cadastro .input-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231A2B3C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+}
+
+.cadastro .input-group input::placeholder,
+.cadastro .input-group select:invalid {
+  color: #9ca3af;
+}
+
+.cadastro .input-group input:focus,
+.cadastro .input-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.cadastro .auth-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ffd233;
+  color: #1a2b3c;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cadastro .auth-button:hover {
+  background-color: #fbbf24;
+}
+
+.cadastro .back-button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  cursor: pointer;
+}
+
+.cadastro .back-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.cadastro .instructions {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.cadastro .terms {
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.cadastro .terms a {
+  color: #ffd233;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cadastro .terms a:hover {
+  text-decoration: underline;
+}
+
+.cadastro .loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #ffd233;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 16px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  .cadastro .container {
+    max-width: 90%;
+  }
+
+  .cadastro .auth-card {
+    padding: 16px;
+  }
+
+  .cadastro .back-button {
+    top: 12px;
+    left: 12px;
+  }
+
+  .cadastro h2 {
+    font-size: 18px;
+  }
+
+  .cadastro .instructions {
+    font-size: 12px;
+  }
+
+  .cadastro .terms {
+    font-size: 10px;
+  }
+
+  .cadastro .input-group input,
+  .cadastro .input-group select {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .cadastro .auth-button {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+}
