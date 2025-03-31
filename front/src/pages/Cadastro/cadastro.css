@@ -1,5 +1,5 @@
 .cadastro {
-  min-height: calc(100vh - 80px - 200px); 
+  min-height: calc(100vh - 80px - 200px); /* Subtrai header e footer */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,11 +9,10 @@
   background-repeat: no-repeat; 
   background-size: cover;
   background-position: center;
-  padding: 0;
-  margin: 0; 
+  
 }
 
-
+/* Restante do CSS permanece o mesmo */
 .cadastro .container {
 
   width: 100%;
@@ -95,9 +94,9 @@
   font-size: 14px;
   color: #1a2b3c;
   background-color: white;
-  -webkit-appearance: none; 
-  -moz-appearance: none; 
-  appearance: none; 
+  -webkit-appearance: none; /* Remove o estilo padrão do select em navegadores WebKit */
+  -moz-appearance: none; /* Remove o estilo padrão do select no Firefox */
+  appearance: none; /* Remove o estilo padrão do select */
 }
 
 .cadastro .input-group select {
