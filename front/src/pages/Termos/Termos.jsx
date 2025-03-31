@@ -1,5 +1,5 @@
 import React from 'react';
-import './termos.css'; // Importe o arquivo CSS específico para a página de termos
+import './termos.css'; 
 
 const Termos = () => {
     

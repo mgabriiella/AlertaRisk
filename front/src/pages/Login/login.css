@@ -56,7 +56,7 @@
 .login .divider {
   border: none;
   border-top: 1px solid #e0e0e0;
-  margin: 20px 0; /* Reduzido de 24px */
+  margin: 20px 0; 
   position: relative;
   text-align: center;
 }
@@ -68,29 +68,29 @@
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
-  padding: 0 12px; /* Reduzido de 16px */
+  padding: 0 12px; 
   color: #6b7280;
-  font-size: 0.75rem; /* Reduzido de 0.875rem */
+  font-size: 0.75rem; 
 }
 
 .login .input-group {
-  margin-bottom: 20px; /* Reduzido de 24px */
+  margin-bottom: 20px; 
 }
 
 .login .input-group label {
   display: block;
-  margin-bottom: 6px; /* Reduzido de 8px */
+  margin-bottom: 6px; 
   font-weight: 600;
   color: #374151;
-  font-size: 14px; /* Adicionado para consistência */
+  font-size: 14px; 
 }
 
 .login .input-group input {
   width: 100%;
-  padding: 10px; /* Reduzido de 12px */
+  padding: 10px; 
   border: 1px solid #d1d5db;
   border-radius: 4px;
-  font-size: 14px; /* Reduzido de 16px */
+  font-size: 14px; 
   color: #1a2b3c;
 }
 
@@ -106,12 +106,12 @@
 
 .login .auth-button {
   width: 100%;
-  padding: 10px; /* Reduzido de 12px */
+  padding: 10px; 
   background-color: #ffd233;
   color: #1a2b3c;
   border: none;
   border-radius: 4px;
-  font-size: 14px; /* Reduzido de 16px */
+  font-size: 14px; 
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
@@ -131,7 +131,7 @@
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   background-color: white;
-  margin-bottom: 12px; /* Reduzido de 16px */
+  margin-bottom: 12px; 
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -141,20 +141,20 @@
 }
 
 .login .google-button img {
-  width: 20px; /* Reduzido de 24px */
+  width: 20px;
   height: 20px;
-  margin-right: 8px; /* Reduzido de 10px */
+  margin-right: 8px; 
 }
 
 .login .forgot-password {
   text-align: center;
-  margin-top: 6px; /* Reduzido de 8px */
+  margin-top: 6px; 
 }
 
 .login .forgot-password a {
   color: #edc525;
   text-decoration: none;
-  font-size: 12px; /* Reduzido de 14px */
+  font-size: 12px; 
 }
 
 .login .forgot-password a:hover {
@@ -163,7 +163,7 @@
 
 .login .signup-link {
   text-align: center;
-  margin-top: 12px; /* Reduzido de 16px */
+  margin-top: 12px; 
   color: #6b7280;
   font-size: 14px;
 }
@@ -179,33 +179,33 @@
 
 @media (max-width: 480px) {
   .login .container {
-    max-width: 90%; /* Ajusta para telas menores */
+    max-width: 90%; 
   }
 
   .login .auth-card {
-    padding: 16px; /* Reduzido de 24px */
+    padding: 16px; 
   }
 
   .login h2 {
-    font-size: 18px; /* Reduzido de 20px */
+    font-size: 18px; 
   }
 
   .login .input-group input {
-    padding: 8px; /* Reduzido de 10px */
-    font-size: 0.85rem; /* Ajustado */
+    padding: 8px; 
+    font-size: 0.85rem; 
   }
 
   .login .auth-button {
-    padding: 8px; /* Reduzido de 10px */
-    font-size: 0.85rem; /* Ajustado */
+    padding: 8px; 
+    font-size: 0.85rem; 
   }
 
   .login .google-button {
-    padding: 6px; /* Reduzido de 8px */
+    padding: 6px; 
   }
 
   .login .google-button img {
-    width: 18px; /* Reduzido de 20px */
+    width: 18px;
     height: 18px;
   }
 }
