@@ -6,37 +6,37 @@ const Sobre = () => {
   const desenvolvedores = [
     { 
       nome: "Cláudia Ribeiro",
-      imagem: "./icones/claudia.png",
+      imagem: "../equipe/claudia.png", // Caminho corrigido
       link: "https://www.linkedin.com/in/claudia-ribeiroo"
     },
     { 
       nome: "Gabriel Ferreira",
-      imagem: "./icones/slogan.png",
+      imagem: "../equipe/gabriel.png", // Caminho corrigido
       link: "https://www.linkedin.com/feed/update/urn:li:activity:7308638117350035456" 
     },
     { 
       nome: "Luana Marques",
-      imagem: "./icones/Luana.png",
-      link: "https://www.linkedin.com/in/luana-marques-b49521170/" // Adicionado o link aqui
+      imagem: "../equipe/luana.png", // Caminho corrigido
+      link: "https://www.linkedin.com/in/luana-marques-b49521170/"
     },
     { 
       nome: "Maria Gabriella",
-      imagem: "./icones/Gabriella.png",
+      imagem: "../equipe/gabriela.png", // Caminho corrigido
       link: "https://www.linkedin.com/in/maria-gabriella-a8a2a3211/" 
     },
     { 
       nome: "Matheus Alves",
-      imagem: "./icones/Matheus.png",
-      link: "https://www.linkedin.com/in/theualves/" // Adicionado o link aqui
+      imagem: "../equipe/matheus.png", // Caminho corrigido
+      link: "https://www.linkedin.com/in/theualves/"
     },
     { 
       nome: "Tarcillia Almeida",
-      imagem: "./Tarcila.png",
+      imagem: "../equipe/tarcila.png", // Caminho corrigido
       link: "https://www.linkedin.com/in/tarcilla-maria-0b22672bb/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
     },
     { 
       nome: "Victor Melo",
-      imagem: "./icones/Vitor.png",
+      imagem: "../equipe/vitor.png", // Caminho corrigido
       link: "https://www.linkedin.com/in/victor-hugomelo/"
     }
   ];
@@ -75,7 +75,7 @@ const Sobre = () => {
         {/* Imagem representando o projeto */}
         <div className="sobre-nos__image">
           <img
-            src="./imagem.png"
+            src="./Rectangle 168 (1).png" 
             alt="Comunidade protegida"
           />
         </div>
@@ -101,7 +101,7 @@ const Sobre = () => {
         </div>
         <div className="team-photo">
           <img 
-            src="../WhatsApp Image 2025-03-26 at 22.19.46.jpeg" 
+            src="../equipe/equipe.png" 
             alt="Equipe AlertaRisk" 
           />
         </div>
@@ -125,7 +125,7 @@ const Sobre = () => {
               >
                 <img 
                   src={dev.imagem} 
-                  alt={`${dev.nome} - Desenvolvedor AlertaRisk`}
+                  alt={`${dev.nome} - Desenvolvedor AlertaRisk`} // Corrigido
                   className="dev-avatar"
                 />
                 <h4 className="dev-name">{dev.nome}</h4>
@@ -134,7 +134,7 @@ const Sobre = () => {
               <div className="dev-card" key={index}>
                 <img 
                   src={dev.imagem} 
-                  alt={`${dev.nome} - Desenvolvedor AlertaRisk`}
+                  alt={`${dev.nome} - Desenvolvedor AlertaRisk`} // Corrigido
                   className="dev-avatar"
                 />
                 <h4 className="dev-name">{dev.nome}</h4>
@@ -147,12 +147,11 @@ const Sobre = () => {
       {/* Linha divisória com degradê de cores */}
       <div className="gradient-divider"></div>
 
-       {/* Seção Call to Action */}
-       <section className="cta">
+      {/* Seção Call to Action */}
+      <section className="cta">
         <h3>Ainda não ativou o <span className="highlight">AlertaRisk</span>?</h3>
         <p>Por que esperar?</p>
-        <button className="register-button">
-          CADASTRE-SE AGORA</button>
+        <button className="register-button">CADASTRE-SE AGORA</button>
       </section>
     </section>
   );
