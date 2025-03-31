@@ -21,7 +21,7 @@ const ForumCreatePost = () => {
   // Verifica autenticação ao carregar a página
   useEffect(() => {
     console.log("Verificando autenticação..."); // Debug
-    console.log("userId no localStorage:", localStorage.getItem('userId')); // Debug
+    console.log("userId no localStorage:", localStorage.getItem('userId')); 
     if (!isAuthenticated) {
       console.log("Usuário não autenticado, redirecionando para /login"); // Debug
       alert("Você precisa fazer login para criar uma postagem!");

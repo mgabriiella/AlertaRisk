@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Lato:wght@400;700&display=swap');
 
+/* Estilos gerais */
 * {
   margin: 0;
   padding: 0;
@@ -13,69 +14,71 @@ body {
 
 .mapa-container {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: calc(100vh - 80px - 200px);
-  background-color: #ffffff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 0;
-  margin: 0;
+  flex-direction: row; /* Sidebar e mapa lado a lado */
+  width: 100%; /* Garante que o container ocupe toda a largura disponível */
+  min-height: calc(100vh - 80px - 200px); /* Subtrai a altura do header e do footer */
+  background-color: #ffffff; /* Fundo branco para destacar o container */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+  border-radius: 0; /* Remove bordas arredondadas para um visual mais integrado */
+  margin: 0; /* Remove a margem para que o container fique colado às bordas */
 }
 
 .map-section {
-  flex: 1;
+  flex: 1; /* O mapa ocupa o espaço restante */
   position: relative;
-  display: flex;
+  display: flex; /* Adiciona flex para que o mapa se ajuste à altura */
   flex-direction: column;
-  background: #ffffff;
+  background: #ffffff; /* Remove o gradiente para um visual mais limpo */
 }
 
 .map {
   width: 100%;
-  flex: 1;
-  min-height: 100%;
+  flex: 1; /* Faz o mapa crescer para ocupar todo o espaço disponível na seção */
+  min-height: 100%; /* Garante que o mapa ocupe toda a altura do map-section */
 }
 
+/* Ajuste para responsividade */
 @media (max-width: 768px) {
   .mapa-container {
-    flex-direction: column;
-    min-height: 100vh;
-    height: 100vh;
+    flex-direction: column; /* Empilha a sidebar e o mapa em telas menores */
+    min-height: 100vh; /* Garante que o container ocupe a altura total da tela */
+    height: 100vh; /* Define uma altura fixa para o container */
   }
 
   .sidebar {
-    width: 100% !important;
-    position: static;
-    min-height: auto;
+    width: 100% !important; /* Ocupa toda a largura */
+    position: static; /* Remove qualquer posicionamento fixo */
+    min-height: auto; /* Ajusta a altura para o conteúdo */
   }
 
   .map-section {
-    margin-left: 0;
-    flex: 1;
-    min-height: 400px;
+    margin-left: 0; /* Remove a margem esquerda */
+    flex: 1; /* Garante que o map-section ocupe o espaço restante */
+    min-height: 400px; /* Define uma altura mínima para o map-section */
   }
 
   .map {
-    height: 400px;
-    min-height: 400px;
+    height: 400px; /* Define uma altura fixa para o mapa */
+    min-height: 400px; /* Garante que o mapa tenha altura mínima */
   }
 }
 
 @media (max-width: 600px) {
   .sidebar {
-    padding: 10px;
+    padding: 10px; /* Reduz ainda mais o padding */
   }
 
   .map-section {
-    min-height: 300px;
+    min-height: 300px; /* Ajusta a altura mínima para telas ainda menores */
   }
 
   .map {
-    height: 300px;
-    min-height: 300px;
+    height: 300px; /* Ajusta a altura do mapa para telas menores */
+    min-height: 300px; /* Garante altura mínima */
   }
 }
 
+/* Resto do CSS (mantido como está) */
 .sidebar {
   background: #ffffff;
   padding: 15px;

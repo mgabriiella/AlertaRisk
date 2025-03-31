@@ -1,15 +1,17 @@
 .forum-create-post-container {
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 80px - 200px); /* Subtrai header e footer */
+  position: relative;
   width: 100%;
-  background-repeat: no-repeat;
+  background-image: url("./background.jpg");
+  background-repeat: no-repeat; 
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  padding: 20px 0;
 }
 
 .forum-create-post-container::before {

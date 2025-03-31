@@ -130,7 +130,7 @@ const Mapa = () => {
       localStorage.removeItem('newPost'); // Limpa após carregar
     }
   }, []);
-
+// Busca posts filtrados do backend
   const fetchPostsFromBackend = async () => {
     try {
       let filteredPosts = [...posts];
