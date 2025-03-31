@@ -1,11 +1,12 @@
 import React from "react"; 
+
 const ForumFilter = ({ category, setCategory, order, setOrder, onFilter }) => { // Componente de filtro
-  const handleFilterClick = () => { // Dispara filtro ao clicar no botão
+  const handleFilterClick = () => { 
     onFilter();
   };
 
   return (
-    <div className="filter-section"> {/* Container do filtro */}
+    <div className="filter-section"> 
       <h3>Categoria</h3>
       <select value={category} onChange={(e) => setCategory(e.target.value)}> {/* Seleção de categoria */}
         <option value="">Todas as categorias</option>
@@ -20,7 +21,7 @@ const ForumFilter = ({ category, setCategory, order, setOrder, onFilter }) => { 
         <option value="recent">Mais recentes</option>
         <option value="oldest">Mais antigos</option>
       </select>
-      <button className="filter-btn" onClick={handleFilterClick}>FILTRAR</button> {/* Botão de filtragem */}
+      <button className="filter-btn" onClick={handleFilterClick}>FILTRAR</button> 
     </div>
   );
 };

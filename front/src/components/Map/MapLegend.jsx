@@ -1,3 +1,4 @@
+// src/components/Map/MapLegend.jsx
 import React from 'react';
 
 const MapLegend = () => {
