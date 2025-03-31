@@ -1,3 +1,5 @@
+/* Arquivo: App.css */
+/* App.css */
 .app-wrapper {
   display: flex;
   flex-direction: column;
@@ -5,8 +7,8 @@
 }
 
 main {
-  padding-top: 80px; 
-  padding-bottom: 0; 
+  padding-top: 80px; /* Mantém para compensar o header */
+  padding-bottom: 0; /* Remove o padding inferior */
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
@@ -23,10 +25,10 @@ header {
 }
 
 .footer {
-  background-color: #2A2A2A; 
-  padding: 30px 20px; 
+  background-color: #2A2A2A; /* Escurece o fundo para maior contraste */
+  padding: 30px 20px; /* Reduz o padding para um visual mais compacto */
   min-height: 200px;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2); /* Adiciona sombra superior */
 }
 
 .footer-container {
@@ -76,7 +78,7 @@ header {
 }
 
 .footer-links a:hover {
-  color: #FFB800;
+  color: #FFB800; /* Muda para laranja ao passar o mouse */
 }
 
 .divider {
@@ -91,6 +93,7 @@ header {
   padding-top: 20px;
 }
 
+/* Responsividade para o footer */
 @media (max-width: 768px) {
   .footer-container {
     flex-direction: column;

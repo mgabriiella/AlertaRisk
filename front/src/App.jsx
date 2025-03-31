@@ -6,6 +6,7 @@ import Cadastro from "./pages/Cadastro/Cadastro";
 import Orientacoes from "./pages/Orientacoes/Orientacoes";
 import Termos from "./pages/Termos/Termos";
 import Sobre from "./pages/Sobre/Sobre";
+import Perfil from "./pages/Perfil/Perfil";
 import { AuthProvider } from "./components/context/AuthContext";
 import RecuperarSenha from "./components/RecuperarSenha/RecuperarSenha";
 import ForumCreatePost from "./pages/Mapa/Postagem/ForumCreatePost"; // Importar o componente de nova postagem
