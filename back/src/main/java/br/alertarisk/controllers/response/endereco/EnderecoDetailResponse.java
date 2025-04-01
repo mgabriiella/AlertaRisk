@@ -6,10 +6,16 @@ import jakarta.validation.constraints.NotNull;
 public record EnderecoDetailResponse(
         @JsonProperty("id")
         Long id,
-        @JsonProperty("name")
-        String name,
+
         @JsonProperty("cep")
         String cep,
-        @JsonProperty("numero")
-        String numero
+
+        @JsonProperty("rua")
+        String rua,
+
+        @JsonProperty("bairro")
+        String bairro,
+
+        @JsonProperty("estado")
+        String estado
 ){ }
