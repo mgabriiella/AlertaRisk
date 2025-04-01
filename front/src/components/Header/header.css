@@ -40,7 +40,7 @@
 }
 
 .app-header nav a:hover {
-  color: #FFB246; /* Cor de hover conforme o original */
+background-color: #e6a600;
 }
 
 .app-header .btn-alerta {
