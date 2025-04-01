@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ChevronDown, House, Heart, Utensils, Bug, Trash2, ShieldCheck, GlassWater, Bone, Phone, TriangleAlert } from "lucide-react";
+import { House, Heart, Utensils, Bug, Trash2, ShieldCheck, GlassWater, Bone, Phone, TriangleAlert, ChevronRight } from "lucide-react";
+import CallToAction from '../../components/CallToAction/CallToAction';
 import "./orientacoes.css";
 
 function Orientacoes () {
@@ -16,21 +17,21 @@ function Orientacoes () {
         </p>
 
         <div className="button-container">
-          <button className="btn btn-verde" onClick={() => document.getElementById('antes-enchente').scrollIntoView({ behavior: 'smooth' })}>ANTES DA ENCHENTE <ChevronDown /></button>
-          <button className="btn btn-laranja" onClick={() => document.getElementById('durante-enchente').scrollIntoView({ behavior: 'smooth' })}>DURANTE A ENCHENTE <ChevronDown /></button>
-          <button className="btn btn-azul" onClick={() => document.getElementById('depois-enchente').scrollIntoView({ behavior: 'smooth' })}>DEPOIS DA ENCHENTE <ChevronDown /></button>
+          <button className="btn btn-amarelo" onClick={() => document.getElementById('antes-enchente').scrollIntoView({ behavior: 'smooth' })}>ANTES DA ENCHENTE <ChevronRight /></button>
+          <button className="btn btn-laranja" onClick={() => document.getElementById('durante-enchente').scrollIntoView({ behavior: 'smooth' })}>DURANTE A ENCHENTE <ChevronRight /></button>
+          <button className="btn btn-azul" onClick={() => document.getElementById('depois-enchente').scrollIntoView({ behavior: 'smooth' })}>DEPOIS DA ENCHENTE <ChevronRight /></button>
         </div>
       </div>
 
       {/* Antes da enchente */}
       <div>
         {/* Preparação da Casa */}
-        <div className="section-header-verde" id="antes-enchente">
+        <div className="section-header-amarelo" id="antes-enchente">
           <h2>Preparação e Prevenção</h2>
         </div>
         <div className="content-preparacao">
           <h2>
-            <House className="icon-verde" />
+            <House className="icon-amarelo" />
             Preparação da Casa
           </h2>
           <div className="section-content">
@@ -42,11 +43,10 @@ function Orientacoes () {
             </ul>
           </div>
         
-
         {/* Saúde */}
         <div className="section">
           <h2>
-            <Heart className="icon-verde" />
+            <Heart className="icon-amarelo" />
             Saúde
           </h2>
           <div className="section-content">
@@ -62,7 +62,7 @@ function Orientacoes () {
         {/* Alimentos */}
         <div className="section">
           <h2>
-            <Utensils className="icon-verde" />
+            <Utensils className="icon-amarelo" />
             Alimentos
           </h2>
           <div className="section-content">
@@ -78,7 +78,7 @@ function Orientacoes () {
         {/* Prevenção de Pragas */}
         <div className="section">
           <h2>
-            <Bug className="icon-verde" />
+            <Bug className="icon-amarelo" />
             Prevenção de Pragas
           </h2>
           <div className="section-content">
@@ -93,7 +93,7 @@ function Orientacoes () {
         {/* Gerenciamento de Lixo */}
         <div className="section">
           <h2>
-            <Trash2 className="icon-verde" />
+            <Trash2 className="icon-amarelo" />
             Gerenciamento de Lixo
           </h2>
           <div className="section-content">
@@ -108,7 +108,7 @@ function Orientacoes () {
         {/* Preparação Geral */}
         <div className="section">
           <h2>
-            <ShieldCheck className="icon-verde" />
+            <ShieldCheck className="icon-amarelo" />
             Preparação Geral
           </h2>
           <div className="section-content">
@@ -127,19 +127,19 @@ function Orientacoes () {
           <div className="contacts-grid">
             <div className="contact-item">
               <h3>Defesa Civil</h3>
-              <p className="contact-number">199</p>
+              <a href="tell:199" className="contact-number">199</a>
             </div>
             <div className="contact-item">
               <h3>SAMU</h3>
-              <p className="contact-number">192</p>
+              <a href="tell:192" className="contact-number">192</a>
             </div>
             <div className="contact-item">
               <h3>Bombeiros</h3>
-              <p className="contact-number">193</p>
+              <a href="tell:193" className="contact-number">193</a>
             </div>
             <div className="contact-item">
               <h3>Polícia</h3>
-              <p className="contact-number">190</p>
+              <a href="tell:190" className="contact-number">190</a>
             </div>
           </div>
         </div>
@@ -292,9 +292,10 @@ function Orientacoes () {
           </div>
         </div>
       </div>
+      </div>
 
+      <CallToAction />
 
-    </div>
     </>
 )
 }
