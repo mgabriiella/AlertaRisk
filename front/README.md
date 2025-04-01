@@ -7,6 +7,7 @@ Este repositório contém a interface frontend do projeto **AlertaRisk**, desenv
 - [React](https://react.dev/)
 - [Vite](https://vitejs.dev/)
 - [Lucide React](https://lucide.dev/)
+- [Leaflet](https://leafletjs.com/)
 
 ## 📦 Instalação
 
@@ -28,9 +29,9 @@ Antes de iniciar o projeto, certifique-se de ter o [Node.js](https://nodejs.org/
    npm install -g vite
    ```
 
-4. Instale o Lucide React:
+4. Instale as bibliotecas necessárias:
    ```sh
-   npm install lucide-react
+   npm install lucide-react react react-dom leaflet
    ```
 
 ## ▶️ Executando o Projeto
