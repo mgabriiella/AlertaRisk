@@ -1,5 +1,6 @@
 import React from 'react';
 import './sobre.css';
+import CallToAction from '../../components/CallToAction/CallToAction';
 
 const Sobre = () => {
   // Lista completa de desenvolvedores com caminhos das imagens
@@ -148,11 +149,9 @@ const Sobre = () => {
       <div className="gradient-divider"></div>
 
       {/* Seção Call to Action */}
-      <section className="cta">
-        <h3>Ainda não ativou o <span className="highlight">AlertaRisk</span>?</h3>
-        <p>Por que esperar?</p>
-        <button className="register-button">CADASTRE-SE AGORA</button>
-      </section>
+      <CallToAction />
+
+     
     </section>
   );
 };
