@@ -15,15 +15,16 @@ public record ListPostagemResponse(
         @JsonProperty("created_at")
         LocalDateTime createdAt,
 
-        @JsonProperty("comment")
-        String comment,
+        @JsonProperty("titulo")
+        String titulo,
 
-//        @JsonProperty("media")
-//        String media, // Mudança prevista para um outro DB
+        @JsonProperty("conteudo")
+        String conteudo,
 
         @JsonProperty("endereco")
         SaveEnderecoRequest endereco ,
-        @JsonProperty("email_usuario")
-        String emailUsuario
+
+        @JsonProperty("id_usuario")
+        Long idUsuario
 
 ) {}

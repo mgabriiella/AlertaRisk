@@ -13,17 +13,17 @@ public record SavePostagemResponse(
         @JsonProperty("created_at")
         LocalDateTime createdAt,
 
-        @JsonProperty("comment")
-        String comment,
+        @JsonProperty("titulo")
+        String titulo,
 
-//        @JsonProperty("media")
-//        String media, // Mudança prevista para um outro DB
-
-        @JsonProperty("email_usuario")
-        UserDetailResponse emailUsuario,
+        @JsonProperty("conteudo")
+        String conteudo,
 
         @JsonProperty("endereco")
-        SaveEnderecoRequest endereco
+        SaveEnderecoRequest endereco ,
+
+        @JsonProperty("id_usuario")
+        Long idUsuario
 
 
 ) {

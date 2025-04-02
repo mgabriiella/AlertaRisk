@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record UpdatePostagemRequest(
-//        @JsonProperty("created_at")
-//        LocalDateTime createdAt,
 
         @NotNull
-        @JsonProperty("comment")
-        String comment
+        @JsonProperty("titulo")
+        String titulo,
 
-//        @JsonProperty("media")
-//        String media, /
+        @NotNull
+        @JsonProperty("conteudo")
+        String conteudo
 
 
-) { }
+
+) {}
