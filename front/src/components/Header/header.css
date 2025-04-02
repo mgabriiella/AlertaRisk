@@ -1,59 +1,58 @@
-/* header.css */
 .app-header {
-  background-color: white; /* Mantém o fundo branco */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra conforme o original */
-  height: 80px; /* Altura fixa de 80px */
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 80px;
   display: flex;
   align-items: center;
-  position: fixed; /* Mantém o header fixo no topo */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; /* Garante que o header fique acima de outros elementos */
+  z-index: 1000;
 }
 
 .app-header .header-container {
   display: flex;
-  justify-content: space-between; /* Espaça o logo e a navegação */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px; /* Limita a largura máxima para centralizar o conteúdo */
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px; /* Adiciona padding lateral para melhor espaçamento */
+  padding: 0 20px;
 }
 
 .app-header .logo {
-  height: 40px; /* Altura do logo conforme o original */
-  width: auto; /* Mantém a proporção */
+  height: 40px;
+  width: auto;
 }
 
 .app-header nav {
   display: flex;
   align-items: center;
-  gap: 30px; /* Espaçamento entre os links da navegação */
+  gap: 30px;
 }
 
 .app-header nav a {
   text-decoration: none;
-  color: #3b3b3b; /* Cor dos links conforme o original */
-  font-weight: 500; /* Peso da fonte conforme o original */
+  color: #3b3b3b;
+  font-weight: 500;
 }
 
 .app-header nav a:hover {
-background-color: #e6a600;
+  color: #e6a600;
 }
 
 .app-header .btn-alerta {
-  background-color: #ffb800; /* Cor de fundo do botão conforme o original */
-  color: black; /* Cor do texto do botão conforme o original */
-  padding: 10px 20px; /* Padding conforme o original */
-  border-radius: 5px; /* Border-radius conforme o original */
-  font-weight: bold; /* Peso da fonte conforme o original */
-  text-decoration: none; /* Garante que o link não tenha sublinhado */
+  background-color: #ffb800;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {
   .app-header nav {
-    display: none; /* Esconde a navegação em telas menores, conforme o original */
+    display: none;
   }
 }
