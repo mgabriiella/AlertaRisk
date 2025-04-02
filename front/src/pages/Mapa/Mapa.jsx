@@ -117,20 +117,21 @@ const Mapa = () => {
       lon: -34.9045,
     },
   ]);
+  const [selectedPost, setSelectedPost] = useState(null); // Estado para o post selecionado
+  const [showConfirmation, setShowConfirmation] = useState(false); // Estado para o pop-up de confirmação
 
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem('userId');
 
-  // Carrega nova postagem do localStorage ao montar o componente
   useEffect(() => {
     const newPost = localStorage.getItem('newPost');
     if (newPost) {
       const parsedPost = JSON.parse(newPost);
       setPosts((prevPosts) => [...prevPosts, parsedPost]);
-      localStorage.removeItem('newPost'); // Limpa após carregar
+      localStorage.removeItem('newPost');
     }
   }, []);
-// Busca posts filtrados do backend
+
   const fetchPostsFromBackend = async () => {
     try {
       let filteredPosts = [...posts];
@@ -208,6 +209,24 @@ const Mapa = () => {
     } catch (error) {
       console.error('Erro ao descurtir o post:', error);
     }
+  };
+
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmation = (confirmed) => {
+    if (!isAuthenticated) {
+      alert('Faça login para confirmar informações!');
+      navigate('/login');
+      setShowConfirmation(false);
+      return;
+    }
+    console.log(`Usuário confirmou: ${confirmed} para o post ${selectedPost.id}`);
+    // Aqui você pode adicionar lógica para enviar a confirmação ao backend
+    setShowConfirmation(false);
+    setSelectedPost(null);
   };
 
   const getColor = (intensity) => {
@@ -331,6 +350,9 @@ const Mapa = () => {
                 key={post.id}
                 position={[post.lat, post.lon]}
                 icon={postMarkerIcon}
+                eventHandlers={{
+                  click: () => handlePostClick(post),
+                }}
               >
                 <Popup>
                   <div className="post-info-popup">
@@ -366,6 +388,23 @@ const Mapa = () => {
           )}
           <MapLegend />
         </MapContainer>
+
+        {showConfirmation && selectedPost && (
+          <div className="confirmation-modal">
+            <div className="confirmation-content">
+              <h3>Confirmação</h3>
+              <p>Você confirma a informação da postagem "{selectedPost.title}"?</p>
+              <div className="confirmation-buttons">
+                <button className="confirm-btn" onClick={() => handleConfirmation(true)}>
+                  Sim
+                </button>
+                <button className="deny-btn" onClick={() => handleConfirmation(false)}>
+                  Não
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </div>
   );
