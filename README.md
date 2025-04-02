@@ -154,12 +154,11 @@ Back-end:
 - [Jorge Falcão](https://github.com/JorgeFalcao47)
 - [Luana Marques](https://github.com/luanamarques0)
 - [Matheus Alves](https://github.com/theualves)
-- [Tarcilla Almeida]()
+- [Tarcilla Almeida](https://github.com/Tarcilla6)
 - [Victor Melo](https://github.com/victorhpmelo)
 
 Front-end:
 
 - [Cláudia Ribeiro](https://github.com/ClaudiaKRibeiro)
-- [Evelyn Karoline](https://github.com/Evelynkaroline1)
 - [Gabriel Ferreira](https://github.com/GabrielBielFerreira)
 - [Maria Gabriella](https://github.com/mgabriiella)
