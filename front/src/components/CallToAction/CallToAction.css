@@ -1,35 +1,50 @@
 .cta {
-    text-align: center;
-    padding: 60px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .cta h3 {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #1E293B;
-  }
-  
-  .cta p {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #555;
-  }
-  
-  .cta .highlight {
-    font-weight: bold;
-  }
-  
-  .register-button {
-    background-color: #FAC715;
-    color: #edc525; 
-    padding: 12px 24px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 600;
+  text-align: center;
+  padding: 3.75rem 1.25rem;
+  max-width: 75rem;
+  margin: 0 auto;
+}
 
-  }
-  
- 
+.cta h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.625rem;
+  color: #1E293B;
+}
+
+.cta p {
+  font-size: 1.125rem;
+  margin-bottom: 1.25rem;
+  color: #555;
+}
+
+.cta .highlight {
+  font-weight: bold;
+}
+
+.register-button {
+  background-color: #FAC715;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.3125rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #E0B012;
+}
+
+.register-button a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.register-button a:hover,
+.register-button a:visited,
+.register-button a:active,
+.register-button a:focus {
+  color: #FFFFFF;
+}
