@@ -28,6 +28,7 @@ public class EnderecoService {
     public Endereco save(final Endereco endereco) {
         return repository.save(endereco);
     }
+
     public Endereco update(final Endereco endereco) {
         Endereco existEndereco = repository.findById(endereco.getId()).orElseThrow(
                 () -> new NotFoundException("Endereço não encontrado"));

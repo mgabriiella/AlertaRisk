@@ -4,6 +4,7 @@
     import br.alertarisk.exception.NotFoundException;
     import br.alertarisk.exception.ValidationException;
     import br.alertarisk.mappers.PostagemMapper;
+    import br.alertarisk.mappers.PostagemMapperImpl;
     import br.alertarisk.models.Endereco;
     import br.alertarisk.models.Postagem;
     import br.alertarisk.models.UserModel;
@@ -21,7 +22,6 @@
     public class PostagemService {
 
         private final PostagemRepository repository;
-        private final PostagemMapper mapper;
 
         private final EnderecoRepository enderecoRepository;
         private final UserRepository userRepository;

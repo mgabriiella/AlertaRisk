@@ -36,6 +36,9 @@ public class Endereco {
     @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Postagem> posts;
 
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Alerta> alertas;
+
     @Override
     public int hashCode() {
         return Objects.hash(id);

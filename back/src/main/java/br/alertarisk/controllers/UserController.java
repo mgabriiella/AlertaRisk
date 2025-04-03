@@ -7,11 +7,8 @@ import br.alertarisk.controllers.response.user.SaveUserResponse;
 import br.alertarisk.controllers.response.user.UpdateUserResponse;
 import br.alertarisk.controllers.response.user.UserDetailResponse;
 import br.alertarisk.mappers.UserMapper;
-import br.alertarisk.models.UserModel;
 import br.alertarisk.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -36,6 +33,7 @@ import static org.springframework.http.HttpStatus.*;
 public class UserController {
 
     private final UserService service;
+
     private final UserMapper mapper;
 
     @Operation(summary = "Veja uma lista com todos os usuários cadastrados no sistema")

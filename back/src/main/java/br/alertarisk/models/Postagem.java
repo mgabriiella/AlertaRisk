@@ -37,8 +37,13 @@ public class Postagem {
     @JoinColumn(name = "usuario_id",nullable = false)
     private UserModel user;
 
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "id_alerta")
+    private Alerta alerta;
 
 }

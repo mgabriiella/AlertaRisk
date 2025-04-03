@@ -36,12 +36,11 @@ public class UserModel {
 
     @Column(nullable = false)
     private String password;
-
+    @Column
+    private String cpf;
+    
     @Column(unique = true, length = 11, columnDefinition = "bpchar(11)")
     private String phone;
-
-    @Column(unique = true,length = 11, columnDefinition = "bpchar(11)")
-    private String cpf;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = LAZY)
     private Set<Endereco> enderecos;
