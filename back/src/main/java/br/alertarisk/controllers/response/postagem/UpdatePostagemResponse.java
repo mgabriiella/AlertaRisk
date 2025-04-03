@@ -11,17 +11,20 @@ public record UpdatePostagemResponse(
         @JsonProperty("id")
         Long id,
 
-        @JsonProperty("created_at") //Talvez não seja mais necessaria
+        @JsonProperty("created_at")
         LocalDateTime createdAt,
 
-//        @JsonProperty("update_at") // Atualiza a data para o momento da alteração
-//        LocalDateTime updateAt,
+        @JsonProperty("titulo")
+        String titulo,
 
-        @JsonProperty("comment")
-        String comment
+        @JsonProperty("conteudo")
+        String conteudo,
 
-//        @JsonProperty("media")
-//        String media,
+        @JsonProperty("endereco")
+        SaveEnderecoRequest endereco ,
+
+        @JsonProperty("id_usuario")
+        Long idUsuario
 
 
 ){

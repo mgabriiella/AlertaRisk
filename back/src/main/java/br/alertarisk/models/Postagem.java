@@ -1,5 +1,6 @@
 package br.alertarisk.models;
 
+import br.alertarisk.enums.CategoriaPostagem;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,11 +28,24 @@ public class Postagem {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column
-    private String comment;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria", nullable = false)
+    private CategoriaPostagem categoria;
+
+    @Column(name = "titulo", nullable = false)
+    private String titulo;
+
+    @Column(name = "conteudo", nullable = false)
+    private String conteudo;
 
     @Column
     private String media;
+
+    @Column(name = "likes", nullable = false)
+    private Long likes = 0L;
+
+    @Column(name = "dislikes", nullable = false)
+    private Long dislikes = 0L;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "usuario_id",nullable = false)

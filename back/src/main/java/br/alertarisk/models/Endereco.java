@@ -1,9 +1,12 @@
 package br.alertarisk.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.Set;
@@ -20,14 +23,21 @@ public class Endereco {
     @Column(name = "id_endereco")
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
+    @NotNull
     @Column(nullable = false,columnDefinition = "bpchar(8)")
     private String cep;
 
-    @Column
-    private String numero;
+    @Column(nullable = false)
+    private String rua;
+
+    @Column(nullable = false)
+    private String bairro;
+
+    @Column(nullable = false)
+    private String cidade;
+
+    @Column(nullable = false)
+    private String estado;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")

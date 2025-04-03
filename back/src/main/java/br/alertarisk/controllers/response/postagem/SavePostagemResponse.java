@@ -1,8 +1,6 @@
 package br.alertarisk.controllers.response.postagem;
 
 import br.alertarisk.controllers.request.endereco.SaveEnderecoRequest;
-import br.alertarisk.controllers.response.user.UserDetailResponse;
-import br.alertarisk.models.UserModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 
@@ -15,8 +13,11 @@ public record SavePostagemResponse(
         @JsonProperty("created_at")
         LocalDateTime createdAt,
 
-        @JsonProperty("comment")
-        String comment,
+        @JsonProperty("titulo")
+        String titulo,
+
+        @JsonProperty("conteudo")
+        String conteudo,
 
 //        @JsonProperty("media")
 //        String media, // Mudança prevista para um outro DB
@@ -26,7 +27,10 @@ public record SavePostagemResponse(
         String emailUsuario,
 
         @JsonProperty("endereco")
-        SaveEnderecoRequest endereco
+        SaveEnderecoRequest endereco ,
+
+        @JsonProperty("id_usuario")
+        Long idUsuario
 
 
 ) {
