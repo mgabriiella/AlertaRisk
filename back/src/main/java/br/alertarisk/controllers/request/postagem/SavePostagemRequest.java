@@ -2,9 +2,12 @@ package br.alertarisk.controllers.request.postagem;
 
 import br.alertarisk.controllers.request.endereco.SaveEnderecoRequest;
 import br.alertarisk.enums.CategoriaPostagem;
+import br.alertarisk.models.Alerta;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.UUID;
 
 public record SavePostagemRequest(
         @NotNull
@@ -24,11 +27,15 @@ public record SavePostagemRequest(
 
         @NotNull
         @JsonProperty("id_usuario")
-        Long idUsuario,
+        UUID idUsuario,
 
         @NotNull
         @JsonProperty("id_endereco")
-        Long idEndereco
+        Long idEndereco,
+
+        @NotNull
+        @JsonProperty("alerta")
+        Alerta alerta
 
 
 ) { }

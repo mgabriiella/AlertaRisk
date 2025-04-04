@@ -16,5 +16,9 @@ public record SaveEnderecoResponse(
         String bairro,
 
         @JsonProperty("estado")
-        String estado
+        String estado,
+
+        @JsonProperty("cidade")
+        String cidade
+
         ){ }

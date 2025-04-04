@@ -17,5 +17,8 @@ public record EnderecoDetailResponse(
         String bairro,
 
         @JsonProperty("estado")
-        String estado
+        String estado,
+
+        @JsonProperty("cidade")
+        String cidade
 ){ }

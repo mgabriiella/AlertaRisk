@@ -2,6 +2,7 @@ package br.alertarisk.services;
 
 import br.alertarisk.exception.InUseException;
 import br.alertarisk.exception.NotFoundException;
+import br.alertarisk.exception.ValidationException;
 import br.alertarisk.models.UserModel;
 import br.alertarisk.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -69,7 +70,7 @@ public class UserService {
         verifyPhone(user.getPhone());
 
         if(user.getEnderecos() == null || user.getEnderecos().isEmpty()) {
-            throw new NotFoundException("O usuário precisa conter um Endereço válido");
+            throw new ValidationException("O usuário precisa conter um Endereço válido");
         }
 
         user.getEnderecos().forEach(endereco -> endereco.setUser(user));

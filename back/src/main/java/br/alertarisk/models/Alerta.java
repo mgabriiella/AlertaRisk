@@ -5,6 +5,8 @@ import br.alertarisk.enums.AlertaStatus;
 import br.alertarisk.enums.CategoriaPostagem;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -37,15 +39,25 @@ public class Alerta {
     @ManyToOne(cascade = CascadeType.ALL, fetch = LAZY)
     private Postagem post;
 
-    // Relação com AlertaAtivo
     @OneToMany(mappedBy = "alerta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<AlertaAtivo> alertaAtivos;
 
-    // Relação com AlertaEnderecoStatus
     @OneToMany(mappedBy = "alerta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<AlertaEnderecoStatus> alertaEnderecoStatus;
 
-    // Relação com AlertaPostagemStatus
     @OneToMany(mappedBy = "alerta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<AlertaPostagemStatus> alertaPostagemStatus;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "rain_volume")
+    private Double rainVolume;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 }
