@@ -20,6 +20,7 @@ public interface AlertaMapper {
     @Mapping(target = "alertaAtivos",ignore = true)
     @Mapping(target = "alertaEnderecoStatus",ignore = true)
     @Mapping(target = "alertaPostagemStatus",ignore = true)
+    @Mapping(target = "user",ignore = true)
     Alerta toModel(final SaveAlertaRequest request );
 
     ListAlertaResponse toSaveResponse(final Alerta alerta);

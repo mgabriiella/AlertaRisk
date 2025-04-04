@@ -20,6 +20,10 @@ public record UpdateEnderecoRequest(
 
         @NotNull
         @JsonProperty("estado")
-        String estado
+        String estado,
+
+        @NotNull
+        @JsonProperty("cidade")
+        String cidade
 
 ){ }

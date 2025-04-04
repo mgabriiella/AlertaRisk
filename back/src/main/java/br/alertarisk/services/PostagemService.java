@@ -3,8 +3,6 @@
     import br.alertarisk.controllers.request.postagem.SavePostagemRequest;
     import br.alertarisk.exception.NotFoundException;
     import br.alertarisk.exception.ValidationException;
-    import br.alertarisk.mappers.PostagemMapper;
-    import br.alertarisk.mappers.PostagemMapperImpl;
     import br.alertarisk.models.Endereco;
     import br.alertarisk.models.Postagem;
     import br.alertarisk.models.UserModel;
@@ -24,7 +22,11 @@
         private final PostagemRepository repository;
 
         private final EnderecoRepository enderecoRepository;
+
         private final UserRepository userRepository;
+
+
+        private final AlertaService alertaService;
 
         public List<Postagem> list() {
             return repository.findAll();
@@ -39,8 +41,8 @@
         @Transactional
         public Postagem save(final SavePostagemRequest request) {
 
-            UserModel user = userRepository.findByEmail(request.emailUsuario())
-                    .orElseThrow(() -> new NotFoundException("Usuário não encontrado com o e-mail " + request.emailUsuario()));
+            UserModel user = userRepository.findById(request.idUsuario())
+                    .orElseThrow(() -> new NotFoundException("Usuário não encontrado com o ID " + request.idUsuario()));
 
             Endereco endereco = enderecoRepository.findById(request.idEndereco())
                     .orElseThrow(() -> new NotFoundException("Endereço não encontrado com ID: " + request.idEndereco()));
@@ -49,9 +51,10 @@
                 throw new ValidationException("O endereço informado não pertence ao usuário.");
             }
 
-            // Map request to entity
             Postagem postagem = new Postagem();
-            postagem.setComment(request.comment());
+            postagem.setCategoria(request.categoria());
+            postagem.setTitulo(request.titulo());
+            postagem.setConteudo(request.conteudo());
             postagem.setUser(user);
             postagem.setEndereco(endereco);
 
@@ -65,7 +68,11 @@
                     () -> new NotFoundException("Post não encontrado")
             );
 
-            existPost.setComment(postagem.getComment());
+            existPost.setConteudo(postagem.getConteudo());
+            existPost.setTitulo(postagem.getTitulo());
+            existPost.setCategoria(postagem.getCategoria());
+            existPost.setEndereco(postagem.getEndereco());
+
 
             return repository.save(existPost);
         }

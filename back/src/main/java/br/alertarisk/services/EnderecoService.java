@@ -2,11 +2,14 @@ package br.alertarisk.services;
 
 import br.alertarisk.exception.NotFoundException;
 import br.alertarisk.models.Endereco;
+import br.alertarisk.models.UserModel;
 import br.alertarisk.repositories.EnderecoRepository;
+import br.alertarisk.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -14,6 +17,8 @@ import java.util.UUID;
 public class EnderecoService {
 
     private final EnderecoRepository repository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     public List<Endereco> list() {
         return repository.findAll();
@@ -25,7 +30,12 @@ public class EnderecoService {
         );
 
     }
-    public Endereco save(final Endereco endereco) {
+    public Endereco save(final Endereco endereco)
+    {
+        boolean userExists = userRepository.existsByEmail(endereco.getUser().getEmail());
+        if (!userExists) {
+            throw new NotFoundException("Usuário não encontrado");
+        }
         return repository.save(endereco);
     }
 
@@ -33,9 +43,11 @@ public class EnderecoService {
         Endereco existEndereco = repository.findById(endereco.getId()).orElseThrow(
                 () -> new NotFoundException("Endereço não encontrado"));
 
-        existEndereco.setName(endereco.getName());
         existEndereco.setCep(endereco.getCep());
-        existEndereco.setNumero(endereco.getNumero());
+        existEndereco.setRua(endereco.getRua());
+        existEndereco.setBairro(endereco.getBairro());
+        existEndereco.setEstado(endereco.getEstado());
+        existEndereco.setCidade(endereco.getCidade());
 
         return repository.save(existEndereco);
     }
