@@ -76,7 +76,7 @@ const Sobre = () => {
         {/* Imagem representando o projeto */}
         <div className="sobre-nos__image">
           <img
-            src="./Rectangle 168 (1).png" 
+            src="./enchente.png" 
             alt="Comunidade protegida"
           />
         </div>

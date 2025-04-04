@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Lato:wght@400;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -8,6 +9,7 @@
 
 body {
   background-color: #f4f4f4;
+  font-size: 1rem; /* Define uma base de 16px para rem */
 }
 
 .mapa-container {
@@ -33,46 +35,6 @@ body {
   width: 100%;
   flex: 1;
   min-height: 100%;
-}
-
-@media (max-width: 48rem) {
-  .mapa-container {
-    flex-direction: column;
-    min-height: 100vh;
-    height: 100vh;
-  }
-
-  .sidebar {
-    width: 100% !important;
-    position: static;
-    min-height: auto;
-  }
-
-  .map-section {
-    margin-left: 0;
-    flex: 1;
-    min-height: 25rem;
-  }
-
-  .map {
-    height: 25rem;
-    min-height: 25rem;
-  }
-}
-
-@media (max-width: 37.5rem) {
-  .sidebar {
-    padding: 0.625rem;
-  }
-
-  .map-section {
-    min-height: 18.75rem;
-  }
-
-  .map {
-    height: 18.75rem;
-    min-height: 18.75rem;
-  }
 }
 
 .sidebar {
@@ -107,6 +69,7 @@ body {
   scrollbar-color: #98CD64 #f8f9fa;
   width: 100%;
   box-sizing: border-box;
+  margin-top: 0.5rem;
 }
 
 .forum-posts-container::-webkit-scrollbar {
@@ -406,8 +369,7 @@ body {
   background: #f8f9fa;
 }
 
-.filter-btn,
-.new-post-btn {
+.filter-btn {
   width: 100%;
   padding: 0.625rem;
   border: none;
@@ -422,16 +384,8 @@ body {
   transition: background 0.3s ease;
 }
 
-.filter-btn:hover,
-.new-post-btn:hover {
+.filter-btn:hover {
   background: #85B856;
-}
-
-.leaflet-middleleft {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0.625rem;
 }
 
 .confirmation-modal {
@@ -441,6 +395,7 @@ body {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2000;
@@ -452,7 +407,7 @@ body {
   border-radius: 0.5rem;
   box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2);
   max-width: 25rem;
-  width: 100%;
+  width: 90%; /* Ajustado para ser mais responsivo */
   text-align: center;
 }
 
@@ -502,4 +457,177 @@ body {
 
 .deny-btn:hover {
   background: #e63939;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 48rem) { /* 768px */
+  .mapa-container {
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+    min-height: auto;
+    padding: 0.625rem;
+  }
+
+  .sidebar.expanded {
+    width: 100%;
+  }
+
+  .map-section {
+    margin-left: 0;
+    flex: 1;
+    min-height: 25rem;
+  }
+
+  .map {
+    height: 25rem;
+    min-height: 25rem;
+  }
+
+  .forum-posts-container {
+    max-height: 20rem;
+  }
+
+  .new-post-btn {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+
+  .filter-section select {
+    font-size: 0.75rem;
+    padding: 0.375rem;
+  }
+
+  .filter-btn {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .toggle-forum-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .toggle-forum-btn img {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+@media (max-width: 37.5rem) { /* 600px */
+  .sidebar {
+    padding: 0.5rem;
+  }
+
+  .map-section {
+    min-height: 18.75rem;
+  }
+
+  .map {
+    height: 18.75rem;
+    min-height: 18.75rem;
+  }
+
+  .forum-posts-container {
+    max-height: 15rem;
+  }
+
+  .forum-post {
+    padding: 0.5rem;
+  }
+
+  .post-title {
+    font-size: 0.75rem;
+  }
+
+  .post-description {
+    font-size: 0.625rem;
+  }
+
+  .post-meta {
+    font-size: 0.625rem;
+  }
+
+  .action-btn img {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .user-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .forum-header span {
+    font-size: 0.875rem;
+  }
+
+  .forum-title {
+    font-size: 0.875rem;
+  }
+
+  .confirmation-content {
+    padding: 1rem;
+  }
+
+  .confirmation-content h3 {
+    font-size: 1rem;
+  }
+
+  .confirmation-content p {
+    font-size: 0.75rem;
+  }
+
+  .confirm-btn,
+  .deny-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 23.4375rem) { /* 375px - Telas muito pequenas */
+  .map-section {
+    min-height: 15rem;
+  }
+
+  .map {
+    height: 15rem;
+    min-height: 15rem;
+  }
+
+  .forum-posts-container {
+    max-height: 12rem;
+  }
+
+  .post-title {
+    font-size: 0.6875rem;
+  }
+
+  .post-description {
+    font-size: 0.5625rem;
+  }
+
+  .post-meta {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .action-btn {
+    font-size: 0.625rem;
+  }
+
+  .action-btn img {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .user-icon {
+    width: 1rem;
+    height: 1rem;
+  }
 }

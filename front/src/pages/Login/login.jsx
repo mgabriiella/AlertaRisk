@@ -14,24 +14,24 @@ const Login = () => {
     const senha = e.target.querySelector("#password").value;
 
     try {
-      // Simulação de resposta do backend (mock)
-      const mockResponse = {
-        ok: true,
-        json: async () => ({
-          userId: "12345", // Simula um userId retornado pelo backend
-          token: "mock-token",
-          user: { email },
-        }),
-      };
-
-      const response = mockResponse;
+      // Requisição real para o backend
+      const response = await fetch("URL_DO_BACKEND/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password: senha }),
+      });
 
       if (response.ok) {
         const data = await response.json();
-        const userData = { email, ...data.user };
+        // O backend deve retornar userId, token e dados do usuário
+        const userData = {
+          userId: data.userId,
+          token: data.token,
+          email: data.email // ou outros dados que o backend fornecer
+        };
         login(userData);
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("token", data.token);
         navigate("/");
       } else {
         const errorData = await response.json();
