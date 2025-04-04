@@ -117,8 +117,8 @@ const Mapa = () => {
       lon: -34.9045,
     },
   ]);
-  const [selectedPost, setSelectedPost] = useState(null); // Estado para o post selecionado
-  const [showConfirmation, setShowConfirmation] = useState(false); // Estado para o pop-up de confirmação
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem('userId');
@@ -175,8 +175,8 @@ const Mapa = () => {
         body: JSON.stringify({ userId }),
       });
       if (response.ok) {
-        setPosts(prevPosts =>
-          prevPosts.map(post =>
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
             post.id === postId ? { ...post, likes: post.likes + 1 } : post
           )
         );
@@ -200,8 +200,8 @@ const Mapa = () => {
         body: JSON.stringify({ userId }),
       });
       if (response.ok) {
-        setPosts(prevPosts =>
-          prevPosts.map(post =>
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
             post.id === postId ? { ...post, dislikes: post.dislikes + 1 } : post
           )
         );
@@ -212,17 +212,16 @@ const Mapa = () => {
   };
 
   const handlePostClick = (post) => {
+    if (!isAuthenticated) {
+      alert('Faça login para confirmar informações!');
+      navigate('/login');
+      return;
+    }
     setSelectedPost(post);
     setShowConfirmation(true);
   };
 
   const handleConfirmation = (confirmed) => {
-    if (!isAuthenticated) {
-      alert('Faça login para confirmar informações!');
-      navigate('/login');
-      setShowConfirmation(false);
-      return;
-    }
     console.log(`Usuário confirmou: ${confirmed} para o post ${selectedPost.id}`);
     // Aqui você pode adicionar lógica para enviar a confirmação ao backend
     setShowConfirmation(false);
@@ -252,18 +251,18 @@ const Mapa = () => {
                 />
               </button>
             </div>
-            <ForumFilter
-              category={category}
-              setCategory={setCategory}
-              order={order}
-              setOrder={setOrder}
-              onFilter={fetchPostsFromBackend}
-            />
             <button className="new-post-btn" onClick={handleNewPostClick}>
               Nova postagem
             </button>
             <div className="forum-section">
               <h3 className="forum-title">Fórum da região</h3>
+              <ForumFilter
+                category={category}
+                setCategory={setCategory}
+                order={order}
+                setOrder={setOrder}
+                onFilter={fetchPostsFromBackend}
+              />
               <div className="forum-posts-container">
                 {posts.length > 0 ? (
                   posts.map((post) => (
