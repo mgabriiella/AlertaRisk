@@ -1,4 +1,4 @@
-package br.alertarisk.controllers.response.clima;
+package br.alertarisk.controllers.response.alerta;
 
 import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.enums.AlertaStatus;
@@ -6,7 +6,7 @@ import br.alertarisk.enums.CategoriaPostagem;
 import br.alertarisk.models.Endereco;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record DetailAlertaResponse(
+public record SaveAlertaResponse (
         @JsonProperty("id")
         Long id,
         @JsonProperty("status")
@@ -17,5 +17,4 @@ public record DetailAlertaResponse(
         AlertaNivel nivel,
         @JsonProperty("endereco")
         Endereco endereco
-)
-{}
+){ }

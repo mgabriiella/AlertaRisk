@@ -1,4 +1,4 @@
-package br.alertarisk.controllers.request.clima;
+package br.alertarisk.controllers.request.alerta;
 
 import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.enums.AlertaStatus;
