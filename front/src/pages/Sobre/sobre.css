@@ -9,7 +9,6 @@ body {
   font-family: 'Montserrat', 'Lato', sans-serif;
   background-color: #fff;
   color: #333;
-  font-size: 1rem;
 }
 
 /* -------- Seção Sobre Nós -------- */
@@ -29,7 +28,7 @@ body {
   color: #fff;
   font-size: 2rem;
   text-transform: uppercase;
-  letter-spacing: 0.125rem;
+  letter-spacing: 2px;
   font-weight: 700;
 }
 
@@ -37,7 +36,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 75rem;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 3.75rem 1.25rem;
   gap: 2.5rem;
@@ -51,7 +50,7 @@ body {
 }
 
 .verde-bar {
-  width: 0.25rem;
+  width: 4px;
   height: 1.5rem;
   background-color: #4CAF50;
   margin-right: 0.625rem;
@@ -60,7 +59,7 @@ body {
 .sobre-nos__text {
   flex: 1;
   text-align: justify;
-  max-width: 37.5rem;
+  max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
   font-size: 1.125rem;
@@ -88,7 +87,7 @@ body {
 .sobre-nos__image {
   width: 50%;
   height: auto;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -102,9 +101,15 @@ body {
 /* -------- Seção Nossa Equipe -------- */
 .nossa-equipe {
   padding: 5rem 1.25rem;
-  max-width: 75rem;
+  max-width: 1200px;
   margin: 0 auto;
   text-align: center;
+}
+
+.title-container {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 1.875rem;
 }
 
 .nossa-equipe h2 {
@@ -114,13 +119,158 @@ body {
   margin-bottom: 1.25rem;
 }
 
+.title-underline {
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background-color: #FF5722;
+}
+
 .equipe-texto {
   font-size: 1.125rem;
   line-height: 1.8;
   margin: 0 auto 2.5rem;
-  max-width: 50rem;
+  max-width: 800px;
   color: #555;
 }
+
+.equipe-texto p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.equipe-texto strong {
+  font-weight: 600;
+}
+
+.team-photo {
+  width: 100%;
+  max-width: 600px;
+  margin: 1.875rem auto;
+  height: auto;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.team-photo img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* -------- Seção Desenvolvedores -------- */
+.desenvolvedores {
+  padding: 3.75rem 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dev-title {
+  margin-bottom: 2.5rem;
+  justify-content: center;
+}
+
+.desenvolvedores h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1E293B;
+  text-align: center;
+}
+
+.dev-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.875rem;
+}
+
+.dev-card {
+  background: white;
+  border-radius: 8px;
+  padding: 0.9375rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dev-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dev-avatar {
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 0.625rem;
+  background-color: #e0e0e0;
+}
+
+.dev-name {
+  font-size: 0.875rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.gradient-divider {
+  height: 0.25rem;
+  max-width: 800px;
+  margin: 1.25rem auto 2.5rem;
+  background: linear-gradient(90deg, #91C55A 0%, #2DC6C9 100%);
+  border-radius: 2px;
+}
+
+/* -------- Seção CTA -------- */
+.cta {
+  text-align: center;
+  padding: 3.75rem 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cta h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.625rem;
+  color: #1E293B;
+}
+
+.cta p {
+  font-size: 1.125rem;
+  margin-bottom: 1.25rem;
+  color: #555;
+}
+
+.cta .highlight {
+  font-weight: bold;
+}
+
+.register-button {
+  background-color: #FAC715;
+  color: rgb(3, 2, 2);
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  margin-top: 1.25rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.register-button:hover {
+  background-color: #e0b50d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 
 /* -------- Seção Responsiva -------- */
 @media (max-width: 48rem) {
