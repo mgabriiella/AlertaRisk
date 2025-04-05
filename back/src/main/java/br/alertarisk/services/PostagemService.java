@@ -9,6 +9,7 @@
     import br.alertarisk.repositories.EnderecoRepository;
     import br.alertarisk.repositories.PostagemRepository;
     import br.alertarisk.repositories.UserRepository;
+    import br.alertarisk.services.alerta.AlertaService;
     import jakarta.transaction.Transactional;
     import lombok.AllArgsConstructor;
     import org.springframework.stereotype.Service;

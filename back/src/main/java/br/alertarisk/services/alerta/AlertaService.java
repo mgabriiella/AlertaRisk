@@ -1,10 +1,6 @@
-package br.alertarisk.services;
+package br.alertarisk.services.alerta;
 
-import br.alertarisk.controllers.request.clima.SaveAlertaRequest;
-import br.alertarisk.controllers.response.clima.ListAlertaResponse;
-import br.alertarisk.dto.AlertaApiDTO;
 import br.alertarisk.dto.WeatherResponse;
-import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.exception.NotFoundException;
 import br.alertarisk.exception.ValidationException;
 import br.alertarisk.models.Alerta;

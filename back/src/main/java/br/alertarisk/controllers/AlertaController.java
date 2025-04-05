@@ -1,12 +1,13 @@
 package br.alertarisk.controllers;
 
-import br.alertarisk.controllers.request.clima.SaveAlertaRequest;
-import br.alertarisk.controllers.request.clima.UpdateAlertaRequest;
-import br.alertarisk.controllers.response.clima.DetailAlertaResponse;
-import br.alertarisk.controllers.response.clima.ListAlertaResponse;
-import br.alertarisk.controllers.response.clima.UpdateAlertaResponse;
+import br.alertarisk.controllers.request.alerta.SaveAlertaRequest;
+import br.alertarisk.controllers.request.alerta.UpdateAlertaRequest;
+import br.alertarisk.controllers.response.alerta.DetailAlertaResponse;
+import br.alertarisk.controllers.response.alerta.ListAlertaResponse;
+import br.alertarisk.controllers.response.alerta.SaveAlertaResponse;
+import br.alertarisk.controllers.response.alerta.UpdateAlertaResponse;
 import br.alertarisk.mappers.AlertaMapper;
-import br.alertarisk.services.AlertaService;
+import br.alertarisk.services.alerta.AlertaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class AlertaController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    ListAlertaResponse save(@RequestBody @Valid final SaveAlertaRequest request) {
+    SaveAlertaResponse save(@RequestBody @Valid final SaveAlertaRequest request) {
         var alerta = alertaMapper.toModel(request);
         alertaService.save(alerta);
         return alertaMapper.toSaveResponse(alerta);
