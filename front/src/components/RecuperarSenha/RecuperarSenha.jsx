@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../../pages/cadastro/cadastro.css";
-
 
 const RecuperarSenha = () => {
   const navigate = useNavigate();
