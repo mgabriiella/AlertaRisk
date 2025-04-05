@@ -119,6 +119,7 @@ const Mapa = () => {
   ]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null); // Track the pending action (like/dislike)
 
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem('userId');
@@ -161,71 +162,79 @@ const Mapa = () => {
     navigate('/mapa/nova-postagem');
   };
 
-  const handleLike = async (postId) => {
+  const handleLike = (postId) => {
     if (!isAuthenticated) {
       alert('Faça login para curtir!');
       navigate('/login');
       return;
     }
-    try {
-      const userId = localStorage.getItem('userId');
-      const response = await fetch(`/api/posts/${postId}/like`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId }),
-      });
-      if (response.ok) {
-        setPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post.id === postId ? { ...post, likes: post.likes + 1 } : post
-          )
-        );
-      }
-    } catch (error) {
-      console.error('Erro ao curtir o post:', error);
-    }
+    const post = posts.find((p) => p.id === postId);
+    setSelectedPost(post);
+    setPendingAction('like'); // Set the pending action to 'like'
+    setShowConfirmation(true); // Show the confirmation popup
   };
 
-  const handleDislike = async (postId) => {
+  const handleDislike = (postId) => {
     if (!isAuthenticated) {
       alert('Faça login para descurtir!');
       navigate('/login');
       return;
     }
-    try {
-      const userId = localStorage.getItem('userId');
-      const response = await fetch(`/api/posts/${postId}/dislike`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId }),
-      });
-      if (response.ok) {
-        setPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post.id === postId ? { ...post, dislikes: post.dislikes + 1 } : post
-          )
-        );
-      }
-    } catch (error) {
-      console.error('Erro ao descurtir o post:', error);
-    }
+    const post = posts.find((p) => p.id === postId);
+    setSelectedPost(post);
+    setPendingAction('dislike'); // Set the pending action to 'dislike'
+    setShowConfirmation(true); // Show the confirmation popup
   };
 
-  const handlePostClick = (post) => {
-    if (!isAuthenticated) {
-      alert('Faça login para confirmar informações!');
-      navigate('/login');
+  const handleConfirmation = async (confirmed) => {
+    if (!confirmed) {
+      // If the user cancels, reset the state and close the popup
+      setShowConfirmation(false);
+      setSelectedPost(null);
+      setPendingAction(null);
       return;
     }
-    setSelectedPost(post);
-    setShowConfirmation(true);
-  };
 
-  const handleConfirmation = (confirmed) => {
-    console.log(`Usuário confirmou: ${confirmed} para o post ${selectedPost.id}`);
-    // Aqui você pode adicionar lógica para enviar a confirmação ao backend
-    setShowConfirmation(false);
-    setSelectedPost(null);
+    // If the user confirms, proceed with the like/dislike action
+    const postId = selectedPost.id;
+    const userId = localStorage.getItem('userId');
+
+    try {
+      if (pendingAction === 'like') {
+        const response = await fetch(`/api/posts/${postId}/like`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId }),
+        });
+        if (response.ok) {
+          setPosts((prevPosts) =>
+            prevPosts.map((post) =>
+              post.id === postId ? { ...post, likes: post.likes + 1 } : post
+            )
+          );
+        }
+      } else if (pendingAction === 'dislike') {
+        const response = await fetch(`/api/posts/${postId}/dislike`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId }),
+        });
+        if (response.ok) {
+          setPosts((prevPosts) =>
+            prevPosts.map((post) =>
+              post.id === postId ? { ...post, dislikes: post.dislikes + 1 } : post
+            )
+          );
+        }
+      }
+    } catch (error) {
+      console.error(`Erro ao ${pendingAction === 'like' ? 'curtir' : 'descurtir'} o post:`, error);
+    } finally {
+      // Reset the state and close the popup
+      setShowConfirmation(false);
+      setSelectedPost(null);
+      setPendingAction(null);
+    }
   };
 
   const getColor = (intensity) => {
@@ -349,9 +358,6 @@ const Mapa = () => {
                 key={post.id}
                 position={[post.lat, post.lon]}
                 icon={postMarkerIcon}
-                eventHandlers={{
-                  click: () => handlePostClick(post),
-                }}
               >
                 <Popup>
                   <div className="post-info-popup">
@@ -368,15 +374,15 @@ const Mapa = () => {
                     <p><strong>Local:</strong> {post.bairro}</p>
                     <p><strong>Postagem:</strong> {new Date(post.time).toLocaleString()}</p>
                     <div className="post-actions">
-                      <button onClick={(e) => { e.stopPropagation(); handleLike(post.id); }} className="action-btn">
+                      <button onClick={() => handleLike(post.id)} className="action-btn">
                         <img src="/like.png" alt="Like" /> {post.likes}
                       </button>
-                      <button onClick={(e) => { e.stopPropagation(); handleDislike(post.id); }} className="action-btn">
+                      <button onClick={() => handleDislike(post.id)} className="action-btn">
                         <img src="/deslike.png" alt="Dislike" /> {post.dislikes}
                       </button>
                     </div>
                     {!isAuthenticated && (
-                      <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>
+                      <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.3125rem' }}>
                         Faça login para interagir!
                       </p>
                     )}
