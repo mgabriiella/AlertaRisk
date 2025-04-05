@@ -1,5 +1,7 @@
 package br.alertarisk.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -14,6 +16,7 @@ import java.util.Set;
 @Table(name = "ENDERECO")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Endereco {
 
     @Id
@@ -45,6 +48,7 @@ public class Endereco {
     private Set<Postagem> posts;
 
     @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private Set<Alerta> alertas;
 
     @Override
