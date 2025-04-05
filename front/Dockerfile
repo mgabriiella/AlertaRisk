@@ -12,6 +12,11 @@ RUN npm install
 
 RUN npm install -g vite
 
-RUN npm install lucide-react react react-dom leaflet
+RUN npm install react react-dom
 
 COPY . .
+
+RUN npm run build
+
+EXPOSE 5173
+

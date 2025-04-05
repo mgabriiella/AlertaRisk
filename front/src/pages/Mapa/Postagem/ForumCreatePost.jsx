@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./ForumCreatePost.css";
+import "./forumcreatepost.css";
 import { useNavigate } from "react-router-dom";
 
 // Página para criar uma nova postagem no fórum

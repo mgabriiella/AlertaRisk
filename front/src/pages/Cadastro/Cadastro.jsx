@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { bairrosRecife } from "../../pages/Service/api";
 import { useAuth } from "/src/components/context/AuthContext";
-import "../../pages/cadastro/cadastro.css";
+import "./cadastro.css";
 
 const Cadastro = () => {
   const navigate = useNavigate();

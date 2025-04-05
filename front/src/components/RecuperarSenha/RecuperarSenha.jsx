@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../../pages/cadastro/cadastro.css";
 
 
 const RecuperarSenha = () => {
   const navigate = useNavigate();
   const [etapa, setEtapa] = useState("senha1"); 
 
- 
+
   const handleSenhaEtapa1 = async (e) => {
     e.preventDefault(); 
     const email = e.target.querySelector('input[type="email"]').value; 
