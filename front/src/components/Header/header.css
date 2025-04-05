@@ -44,7 +44,7 @@
 
 .app-header .btn-alerta {
   background-color: #ffb800;
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
@@ -52,7 +52,7 @@
 }
 .app-header .btn-alerta:hover {
   background-color: #e6a600; /* Um tom mais escuro de amarelo para o fundo */
-  color: white; /* Mantém o texto branco */
+  color: rgb(0, 0, 0); /* Mantém o texto branco */
 }
 .btn-sair {
   background-color: #ffb800;
