@@ -22,9 +22,7 @@ function Header() {
           {isAuthenticated ? (
             <>
               <Link to="/perfil">Perfil</Link>
-              <button onClick={logout}>
-                Sair
-              </button>
+              <button onClick={logout} className="btn-sair">Sair</button>
             </>
           ) : (
             <>

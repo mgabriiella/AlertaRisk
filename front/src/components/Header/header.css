@@ -44,12 +44,25 @@
 
 .app-header .btn-alerta {
   background-color: #ffb800;
-  color: black;
+  color: white;
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
-  text-decoration: none;
+  cursor: pointer;
 }
+.app-header .btn-alerta:hover {
+  background-color: #e6a600; /* Um tom mais escuro de amarelo para o fundo */
+  color: white; /* Mantém o texto branco */
+}
+.btn-sair {
+  background-color: #ffb800;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 @media (max-width: 768px) {
   .app-header nav {

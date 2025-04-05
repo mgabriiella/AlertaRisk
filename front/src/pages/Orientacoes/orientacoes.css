@@ -48,10 +48,11 @@
   font-size: 0.875rem;
   border: none;
   cursor: pointer;
+  color:#ffffff;
 }
 
 .btn-amarelo {
-  background-color: #facc15;
+  background-color: #ffb800;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -59,7 +60,7 @@
 }
 
 .btn-laranja {
-  background-color: #ffb347;
+  background-color: #f97316;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -107,7 +108,7 @@
 }
 
 .section-header-amarelo {
-  background-color: #facc15;
+  background-color: #ffb800;
   color: #ffffff;
   padding: 1.5rem 3rem;
   font-weight: 500;
@@ -118,7 +119,7 @@
 }
 
 .section-header-laranja {
-  background-color: #ffb347;
+  background-color: #f97316;
   color: #ffffff;
   padding: 1.5rem 3rem;
   font-weight: 500;
@@ -146,11 +147,11 @@
 }
 
 .icon-amarelo {
-  color: #facc15;
+  color: #ffb800;
 }
 
 .icon-laranja {
-  color: #f09819;
+  color: #f97316;
 }
 
 .icon-azul {
@@ -174,7 +175,7 @@ ul li {
 
 /* Contatos de Emergência */
 .contacts-header {
-  color: #facc15;
+  color: #ffb800;
   border-bottom: 8px solid #facc15;
   font-size: 1.25rem;
   border-radius: 5px;
@@ -202,7 +203,7 @@ ul li {
 .contact-number {
   font-size: 2rem;
   font-weight: bold;
-  color: #facc15;
+  color: #ffb800;
 }
 
 /* Media Queries para Responsividade */

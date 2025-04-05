@@ -1,27 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "/src/components/context/AuthContext"; // Caminho ajustado conforme seu exemplo
+import { useAuth } from "/src/components/context/AuthContext";
 import "./perfil.css";
 
 const Perfil = () => {
-  const { user, logout } = useAuth(); // Pega user e logout do contexto
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  // Redireciona para login se não houver usuário autenticado
+  // Redireciona para login se o usuário não estiver autenticado
   if (!user) {
     navigate("/login");
     return null;
   }
 
-  const [secaoAtiva, setSecaoAtiva] = useState("dados"); // Controla a seção ativa
-  const [confirmarExclusao, setConfirmarExclusao] = useState(false); // Etapa de confirmação de exclusão
+  const [secaoAtiva, setSecaoAtiva] = useState("dados");
+  const [confirmarExclusao, setConfirmarExclusao] = useState(false);
+  const [editandoHistorico, setEditandoHistorico] = useState(null);
+  const [alertasAtivados, setAlertasAtivados] = useState(true);
+  const [mostrarFormularioEndereco, setMostrarFormularioEndereco] = useState(false);
 
-  // Dados iniciais baseados no user do contexto (ou mockados se vazio)
   const [dadosPessoais, setDadosPessoais] = useState({
-    nome: user?.nome || "",
-    sobrenome: user?.sobrenome || "",
-    email: user?.email || "",
-    whatsapp: user?.whatsapp || "",
+    nome: user?.nome || "Nome Padrão",
+    sobrenome: user?.sobrenome || "Sobrenome Padrão",
+    email: user?.email || "email@exemplo.com",
+    whatsapp: user?.whatsapp || "123456789",
   });
   const [endereco, setEndereco] = useState({
     cep: user?.cep || "",
@@ -30,13 +32,18 @@ const Perfil = () => {
     cidade: user?.cidade || "",
     estado: user?.estado || "",
   });
-  const [locaisSalvos, setLocaisSalvos] = useState([
-    { id: 1, nome: "Casa", endereco: "124 R. Vic de Ibiamauna, Recife, PE", imagem: "/image/image (1).png" },
-    { id: 2, nome: "Trabalho", endereco: "Av. Alfredo Lisboa, 810, Recife, PE", imagem: "/image/image (2).png" },
+  const [historico, setHistorico] = useState([
+    { id: 1, nome: "Histórico 1 #1", descricao: "Chuvas intensas em Boa Viagem", data: "2025-04-01" },
+    { id: 2, nome: "Histórico 2 #2", descricao: "Alagamento na Madalena", data: "2025-04-02" },
   ]);
-  const [historico, setHistorico] = useState([]); // Histórico vazio por enquanto
+  const [enderecoAlerta, setEnderecoAlerta] = useState({
+    cep: "",
+    rua: "",
+    bairro: "",
+    cidade: "",
+    estado: "",
+  });
 
-  // Handlers para formulários
   const handleDadosSubmit = (e) => {
     e.preventDefault();
     const novosDados = {
@@ -47,7 +54,6 @@ const Perfil = () => {
     };
     setDadosPessoais(novosDados);
     alert("Dados atualizados com sucesso!");
-    // Aqui você pode enviar ao backend
   };
 
   const handleEnderecoSubmit = (e) => {
@@ -61,16 +67,121 @@ const Perfil = () => {
     };
     setEndereco(novoEndereco);
     alert("Endereço atualizado com sucesso!");
-    // Aqui você pode enviar ao backend
+  };
+
+  const handleExcluirHistorico = async (id) => {
+    try {
+      const response = await fetch(`/api/historico/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        setHistorico(historico.filter((item) => item.id !== id));
+        alert("Histórico excluído com sucesso!");
+      } else {
+        throw new Error("Erro ao excluir o histórico");
+      }
+    } catch (error) {
+      alert(error.message || "Erro ao excluir o histórico. Tente novamente.");
+    }
+  };
+
+  const handleEditarHistorico = (historicoItem) => {
+    setEditandoHistorico(historicoItem);
+  };
+
+  const handleSalvarEdicao = async (e) => {
+    e.preventDefault();
+    const novoNome = e.target.nome.value;
+    const novaDescricao = e.target.descricao.value;
+
+    try {
+      const response = await fetch(`/api/historico/${editandoHistorico.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome: novoNome, descricao: novaDescricao }),
+      });
+
+      if (response.ok) {
+        setHistorico(
+          historico.map((item) =>
+            item.id === editandoHistorico.id
+              ? { ...item, nome: novoNome, descricao: novaDescricao }
+              : item
+          )
+        );
+        setEditandoHistorico(null);
+        alert("Histórico atualizado com sucesso!");
+      } else {
+        throw new Error("Erro ao atualizar o histórico");
+      }
+    } catch (error) {
+      alert(error.message || "Erro ao atualizar o histórico. Tente novamente.");
+    }
+  };
+
+  const handleCancelarAlertas = async () => {
+    try {
+      const response = await fetch("/api/user/alertas/desativar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id }),
+      });
+
+      if (response.ok) {
+        setAlertasAtivados(false);
+        setMostrarFormularioEndereco(false);
+        alert("Alertas cancelados com sucesso!");
+      } else {
+        throw new Error("Erro ao cancelar os alertas");
+      }
+    } catch (error) {
+      alert(error.message || "Erro ao cancelar os alertas. Tente novamente.");
+    }
+  };
+
+  const handleAtivarAlertas = () => {
+    setMostrarFormularioEndereco(true);
+  };
+
+  const handleSalvarEnderecoAlerta = async (e) => {
+    e.preventDefault();
+    const novoEndereco = {
+      cep: e.target.cep.value,
+      rua: e.target.rua.value,
+      bairro: e.target.bairro.value,
+      cidade: e.target.cidade.value,
+      estado: e.target.estado.value,
+    };
+
+    try {
+      const response = await fetch("/api/user/alertas/ativar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, endereco: novoEndereco }),
+      });
+
+      if (response.ok) {
+        setEnderecoAlerta(novoEndereco);
+        setAlertasAtivados(true);
+        setMostrarFormularioEndereco(false);
+        alert("Alertas personalizados ativados com sucesso!");
+      } else {
+        throw new Error("Erro ao ativar os alertas");
+      }
+    } catch (error) {
+      alert(error.message || "Erro ao ativar os alertas. Tente novamente.");
+    }
   };
 
   const handleExcluirConta = (e) => {
     e.preventDefault();
     const senha = e.target.senha.value;
-    if (senha) { // Validação simples, substitua por lógica real
+    if (senha) {
       localStorage.clear();
       logout();
-      navigate("/login"); // Redireciona para login após exclusão
+      navigate("/login");
       alert("Conta excluída com sucesso!");
     } else {
       alert("Digite sua senha para confirmar.");
@@ -79,24 +190,20 @@ const Perfil = () => {
 
   return (
     <div className="perfil-container">
-      {/* Menu Lateral */}
       <aside className="menu-lateral">
         <h2>Perfil</h2>
         <button onClick={() => setSecaoAtiva("dados")}>Dados Pessoais</button>
         <button onClick={() => setSecaoAtiva("endereco")}>Endereço</button>
-        <button onClick={() => setSecaoAtiva("locais")}>Locais Salvos</button>
         <button onClick={() => setSecaoAtiva("historico")}>Histórico</button>
+        <button onClick={() => setSecaoAtiva("propriedade")}>Propriedade da Conta</button>
         <button onClick={() => setSecaoAtiva("excluir")}>Excluir Conta</button>
       </aside>
 
-      {/* Conteúdo Principal */}
+      {/* Renderização condicional das seções do perfil */}
       <section className="conteudo">
         {secaoAtiva === "dados" && (
           <div>
             <h1>Meus Dados</h1>
-            <div className="profile">
-              <img src="/image/usuario.png" alt="Foto de Perfil" />
-            </div>
             <form className="form" onSubmit={handleDadosSubmit}>
               <label>Nome:</label>
               <input type="text" name="nome" defaultValue={dadosPessoais.nome} />
@@ -130,53 +237,129 @@ const Perfil = () => {
           </div>
         )}
 
-        {secaoAtiva === "locais" && (
-          <div className="localizacao">
-            <h2>Meus Locais</h2>
-            {locaisSalvos.map((local) => (
-              <div key={local.id} className="local">
-                <img src={local.imagem} alt={`Imagem de ${local.nome}`} />
-                <div className="info">
-                  <h3>Salvo como: {local.nome}</h3>
-                  <p>{local.endereco}</p>
-                </div>
-                <div className="actions">
-                  <button className="map-btn">Ver no mapa</button>
-                  <button className="edit-btn">
-                    <img src="/image/icone-editar.png" alt="Editar" />
-                  </button>
-                  <button className="delete-btn">
-                    <img src="/image/icone-excluir.png" alt="Excluir" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
         {secaoAtiva === "historico" && (
           <div className="localizacao">
             <h2>Meus Históricos</h2>
             {historico.length === 0 ? (
               <div className="local">
-                <img src="/image/Rectangle 251.png" alt="Sem histórico" />
                 <div className="info">
                   <h3>Salvo como: (vazio)</h3>
                   <p>(vazio)</p>
                 </div>
                 <div className="actions">
-                  <button className="map-btn">Ver no mapa</button>
-                  <button className="edit-btn">
-                    <img src="/image/icone-editar.png" alt="Editar" />
-                  </button>
-                  <button className="delete-btn">
-                    <img src="/image/icone-excluir.png" alt="Excluir" />
-                  </button>
+                  <button className="map-btn" disabled>Ver no mapa</button>
+                  <div className="action-edit">
+                    <button className="edit-btn" disabled>
+                      <img src="./icones/icone-editar.png" alt="Editar" />
+                    </button>
+                    <button className="delete-btn" disabled>
+                      <img src="./icones/icone-excluir.png" alt="Excluir" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
-              <p>Histórico ainda não implementado.</p>
+              historico.map((item) => (
+                <div key={item.id} className="local">
+                  {editandoHistorico && editandoHistorico.id === item.id ? (
+                    <form onSubmit={handleSalvarEdicao}>
+                      <label>Nome:</label>
+                      <input
+                        type="text"
+                        name="nome"
+                        defaultValue={editandoHistorico.nome}
+                        required
+                      />
+                      <label>Descrição:</label>
+                      <input
+                        type="text"
+                        name="descricao"
+                        defaultValue={editandoHistorico.descricao}
+                        required
+                      />
+                      <button type="submit" className="btn-confirmar">Salvar</button>
+                      <button
+                        type="button"
+                        className="btn-cancelar"
+                        onClick={() => setEditandoHistorico(null)}
+                      >
+                        Cancelar
+                      </button>
+                    </form>
+                  ) : (
+                    <>
+                      <div className="info">
+                        <h3>Salvo como: {item.nome}</h3>
+                        <p>{item.descricao}</p>
+                        <p>Data: {item.data}</p>
+                      </div>
+                      <div className="actions">
+                        <button className="map-btn">Ver no mapa</button>
+                        <div className="action-edit">
+                          <button
+                            className="edit-btn"
+                            onClick={() => handleEditarHistorico(item)}
+                          >
+                            <img src="./icones/icone-editar.png" alt="Editar" />
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleExcluirHistorico(item.id)}
+                          >
+                            <img src="./icones/icone-excluir.png" alt="Excluir" />
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))
             )}
+          </div>
+        )}
+
+        {secaoAtiva === "propriedade" && (
+          <div>
+            <h1>Propriedade da Conta</h1>
+            <div className="propriedade-conta">
+              <h3>Gerenciar Alertas</h3>
+              {mostrarFormularioEndereco ? (
+                <form className="form" onSubmit={handleSalvarEnderecoAlerta}>
+                  <label>CEP:</label>
+                  <input type="text" name="cep" defaultValue={enderecoAlerta.cep} required />
+                  <label>Rua:</label>
+                  <input type="text" name="rua" defaultValue={enderecoAlerta.rua} required />
+                  <label>Bairro:</label>
+                  <input type="text" name="bairro" defaultValue={enderecoAlerta.bairro} required />
+                  <label>Cidade:</label>
+                  <input type="text" name="cidade" defaultValue={enderecoAlerta.cidade} required />
+                  <label>Estado:</label>
+                  <input type="text" name="estado" defaultValue={enderecoAlerta.estado} required />
+                  <button type="submit" className="btn-confirmar">Ativar Alertas</button>
+                  <button
+                    type="button"
+                    className="btn-cancelar"
+                    onClick={() => setMostrarFormularioEndereco(false)}
+                  >
+                    Cancelar
+                  </button>
+                </form>
+              ) : (
+                <>
+                  <p>Status dos alertas: {alertasAtivados ? "Ativados" : "Desativados"}</p>
+                  {alertasAtivados && (
+                    <button className="btn-cancelar" onClick={handleCancelarAlertas}>
+                      Cancelar Alertas
+                    </button>
+                  )}
+                  {!alertasAtivados && (
+                    <button className="btn-confirmar" onClick={handleAtivarAlertas}>
+                      Ativar Alertas Personalizados
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         )}
 
@@ -191,7 +374,7 @@ const Perfil = () => {
                   <br /> deixará de receber alertas e atualizações sobre áreas de risco.
                 </p>
                 <button className="btn-continuar" onClick={() => setConfirmarExclusao(true)}>
-                  Continuar 
+                  Continuar
                 </button>
               </div>
             ) : (
