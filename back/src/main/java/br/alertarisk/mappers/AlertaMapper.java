@@ -1,10 +1,11 @@
 package br.alertarisk.mappers;
 
-import br.alertarisk.controllers.request.clima.SaveAlertaRequest;
-import br.alertarisk.controllers.request.clima.UpdateAlertaRequest;
-import br.alertarisk.controllers.response.clima.DetailAlertaResponse;
-import br.alertarisk.controllers.response.clima.ListAlertaResponse;
-import br.alertarisk.controllers.response.clima.UpdateAlertaResponse;
+import br.alertarisk.controllers.request.alerta.SaveAlertaRequest;
+import br.alertarisk.controllers.request.alerta.UpdateAlertaRequest;
+import br.alertarisk.controllers.response.alerta.DetailAlertaResponse;
+import br.alertarisk.controllers.response.alerta.ListAlertaResponse;
+import br.alertarisk.controllers.response.alerta.SaveAlertaResponse;
+import br.alertarisk.controllers.response.alerta.UpdateAlertaResponse;
 import br.alertarisk.models.Alerta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,16 +21,19 @@ public interface AlertaMapper {
     @Mapping(target = "alertaAtivos",ignore = true)
     @Mapping(target = "alertaEnderecoStatus",ignore = true)
     @Mapping(target = "alertaPostagemStatus",ignore = true)
-    @Mapping(target = "user",ignore = true)
+    @Mapping(target = "endereco.alertas", ignore = true)
     Alerta toModel(final SaveAlertaRequest request );
 
-    ListAlertaResponse toSaveResponse(final Alerta alerta);
+    @Mapping(target = "endereco.alertas", ignore = true)
+    SaveAlertaResponse toSaveResponse(final Alerta alerta);
 
     Alerta toModel(final Long id, final UpdateAlertaRequest request);
 
     UpdateAlertaResponse toUpdateResponse(final Alerta alerta);
 
+    @Mapping(target = "endereco.alertas", ignore = true)
     DetailAlertaResponse toDetailResponse(final Alerta alerta);
 
+    @Mapping(target = "endereco.alertas", ignore = true)
     List<ListAlertaResponse> toListResponse(final List<Alerta> alerta);
 }

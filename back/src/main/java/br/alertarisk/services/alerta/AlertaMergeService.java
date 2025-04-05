@@ -1,4 +1,4 @@
-package br.alertarisk.services;
+package br.alertarisk.services.alerta;
 
 import br.alertarisk.dto.AlertaApiDTO;
 import br.alertarisk.enums.AlertaNivel;
@@ -55,7 +55,6 @@ public class AlertaMergeService {
                     Alerta merged = mergeAlerts(existingAlertOpt.get(), apiAlert);
                     mergedAlerts.add(alertaRepository.save(merged));
                 } else {
-                    // When saving a new alert, determine the level based on the API data.
                     double rainVolume = (apiAlert.getRainVolume() != null) ? apiAlert.getRainVolume() : 0.0;
                     apiAlert.setNivel(determineAlertaNivel(rainVolume));
                     mergedAlerts.add(alertaRepository.save(apiAlert));
@@ -78,7 +77,6 @@ public class AlertaMergeService {
         if (apiAlert.getLongitude() != null) {
             existing.setLongitude(apiAlert.getLongitude());
         }
-        // Update core properties if needed
         existing.setStatus(apiAlert.getStatus());
         existing.setCategoria(apiAlert.getCategoria());
 
@@ -89,9 +87,9 @@ public class AlertaMergeService {
     }
 
     public AlertaNivel determineAlertaNivel(double rainVolume) {
-        if (rainVolume <= 0) {
+        if (rainVolume <= 10 ) {
             return AlertaNivel.VERDE;
-        } else if (rainVolume > 0 && rainVolume < 10) {
+        } else if (rainVolume > 10 && rainVolume < 20) {
             return AlertaNivel.AMARELO;
         } else {
             return AlertaNivel.VERMELHO;
