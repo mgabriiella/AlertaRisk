@@ -7,12 +7,11 @@ const Perfil = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  // Redireciona para login se o usuário não estiver autenticado
   if (!user) {
     navigate("/login");
     return null;
   }
-
+// Seções e estados auxiliares
   const [secaoAtiva, setSecaoAtiva] = useState("dados");
   const [confirmarExclusao, setConfirmarExclusao] = useState(false);
   const [editandoHistorico, setEditandoHistorico] = useState(null);
@@ -189,207 +188,208 @@ const Perfil = () => {
   };
 
   return (
-    <div className="perfil-container">
-      <aside className="menu-lateral">
-        <h2>Perfil</h2>
-        <button onClick={() => setSecaoAtiva("dados")}>Dados Pessoais</button>
-        <button onClick={() => setSecaoAtiva("endereco")}>Endereço</button>
-        <button onClick={() => setSecaoAtiva("historico")}>Histórico</button>
-        <button onClick={() => setSecaoAtiva("propriedade")}>Propriedade da Conta</button>
-        <button onClick={() => setSecaoAtiva("excluir")}>Excluir Conta</button>
-      </aside>
+    <div className="perfil-background-wrapper">
+      <div className="perfil-container">
+        <aside className="perfil-menu-lateral">
+          <h2>Perfil</h2>
+          <button onClick={() => setSecaoAtiva("dados")}>Dados Pessoais</button>
+          <button onClick={() => setSecaoAtiva("endereco")}>Endereço</button>
+          <button onClick={() => setSecaoAtiva("historico")}>Histórico</button>
+          <button onClick={() => setSecaoAtiva("propriedade")}>Propriedade da Conta</button>
+          <button onClick={() => setSecaoAtiva("excluir")}>Excluir Conta</button>
+        </aside>
 
-      {/* Renderização condicional das seções do perfil */}
-      <section className="conteudo">
-        {secaoAtiva === "dados" && (
-          <div>
-            <h1>Meus Dados</h1>
-            <form className="form" onSubmit={handleDadosSubmit}>
-              <label>Nome:</label>
-              <input type="text" name="nome" defaultValue={dadosPessoais.nome} />
-              <label>Sobrenome:</label>
-              <input type="text" name="sobrenome" defaultValue={dadosPessoais.sobrenome} />
-              <label>Email:</label>
-              <input type="email" name="email" defaultValue={dadosPessoais.email} />
-              <label>WhatsApp:</label>
-              <input type="number" name="whatsapp" defaultValue={dadosPessoais.whatsapp} />
-              <button type="submit" className="btn-confirmar">Confirmar</button>
-            </form>
-          </div>
-        )}
+        <section className="perfil-conteudo">
+          {secaoAtiva === "dados" && (
+            <div>
+              <h1>Meus Dados</h1>
+              <form className="perfil-form" onSubmit={handleDadosSubmit}>
+                <label>Nome:</label>
+                <input type="text" name="nome" defaultValue={dadosPessoais.nome} />
+                <label>Sobrenome:</label>
+                <input type="text" name="sobrenome" defaultValue={dadosPessoais.sobrenome} />
+                <label>Email:</label>
+                <input type="email" name="email" defaultValue={dadosPessoais.email} />
+                <label>WhatsApp:</label>
+                <input type="number" name="whatsapp" defaultValue={dadosPessoais.whatsapp} />
+                <button type="submit" className="perfil-btn-confirmar">Confirmar</button>
+              </form>
+            </div>
+          )}
 
-        {secaoAtiva === "endereco" && (
-          <div>
-            <h1>Meu Endereço</h1>
-            <form className="form" onSubmit={handleEnderecoSubmit}>
-              <label>CEP:</label>
-              <input type="number" name="cep" defaultValue={endereco.cep} />
-              <label>Rua:</label>
-              <input type="text" name="rua" defaultValue={endereco.rua} />
-              <label>Bairro:</label>
-              <input type="text" name="bairro" defaultValue={endereco.bairro} />
-              <label>Cidade:</label>
-              <input type="text" name="cidade" defaultValue={endereco.cidade} />
-              <label>Estado:</label>
-              <input type="text" name="estado" defaultValue={endereco.estado} />
-              <button type="submit" className="btn-confirmar">Confirmar</button>
-            </form>
-          </div>
-        )}
+          {secaoAtiva === "endereco" && (
+            <div>
+              <h1>Meu Endereço</h1>
+              <form className="perfil-form" onSubmit={handleEnderecoSubmit}>
+                <label>CEP:</label>
+                <input type="number" name="cep" defaultValue={endereco.cep} />
+                <label>Rua:</label>
+                <input type="text" name="rua" defaultValue={endereco.rua} />
+                <label>Bairro:</label>
+                <input type="text" name="bairro" defaultValue={endereco.bairro} />
+                <label>Cidade:</label>
+                <input type="text" name="cidade" defaultValue={endereco.cidade} />
+                <label>Estado:</label>
+                <input type="text" name="estado" defaultValue={endereco.estado} />
+                <button type="submit" className="perfil-btn-confirmar">Confirmar</button>
+              </form>
+            </div>
+          )}
 
-        {secaoAtiva === "historico" && (
-          <div className="localizacao">
-            <h2>Meus Históricos</h2>
-            {historico.length === 0 ? (
-              <div className="local">
-                <div className="info">
-                  <h3>Salvo como: (vazio)</h3>
-                  <p>(vazio)</p>
-                </div>
-                <div className="actions">
-                  <button className="map-btn" disabled>Ver no mapa</button>
-                  <div className="action-edit">
-                    <button className="edit-btn" disabled>
-                      <img src="./icones/icone-editar.png" alt="Editar" />
-                    </button>
-                    <button className="delete-btn" disabled>
-                      <img src="./icones/icone-excluir.png" alt="Excluir" />
-                    </button>
+          {secaoAtiva === "historico" && (
+            <div className="perfil-localizacao">
+              <h2>Meus Históricos</h2>
+              {historico.length === 0 ? (
+                <div className="perfil-local">
+                  <div className="perfil-info">
+                    <h3>Salvo como: (vazio)</h3>
+                    <p>(vazio)</p>
+                  </div>
+                  <div className="perfil-actions">
+                    <button className="perfil-map-btn" disabled>Ver no mapa</button>
+                    <div className="perfil-action-edit">
+                      <button className="perfil-edit-btn" disabled>
+                        <img src="./icones/icone-editar.png" alt="Editar" />
+                      </button>
+                      <button className="perfil-delete-btn" disabled>
+                        <img src="./icones/icone-excluir.png" alt="Excluir" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              historico.map((item) => (
-                <div key={item.id} className="local">
-                  {editandoHistorico && editandoHistorico.id === item.id ? (
-                    <form onSubmit={handleSalvarEdicao}>
-                      <label>Nome:</label>
-                      <input
-                        type="text"
-                        name="nome"
-                        defaultValue={editandoHistorico.nome}
-                        required
-                      />
-                      <label>Descrição:</label>
-                      <input
-                        type="text"
-                        name="descricao"
-                        defaultValue={editandoHistorico.descricao}
-                        required
-                      />
-                      <button type="submit" className="btn-confirmar">Salvar</button>
-                      <button
-                        type="button"
-                        className="btn-cancelar"
-                        onClick={() => setEditandoHistorico(null)}
-                      >
-                        Cancelar
-                      </button>
-                    </form>
-                  ) : (
-                    <>
-                      <div className="info">
-                        <h3>Salvo como: {item.nome}</h3>
-                        <p>{item.descricao}</p>
-                        <p>Data: {item.data}</p>
-                      </div>
-                      <div className="actions">
-                        <button className="map-btn">Ver no mapa</button>
-                        <div className="action-edit">
-                          <button
-                            className="edit-btn"
-                            onClick={() => handleEditarHistorico(item)}
-                          >
-                            <img src="./icones/icone-editar.png" alt="Editar" />
-                          </button>
-                          <button
-                            className="delete-btn"
-                            onClick={() => handleExcluirHistorico(item.id)}
-                          >
-                            <img src="./icones/icone-excluir.png" alt="Excluir" />
-                          </button>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))
-            )}
-          </div>
-        )}
-
-        {secaoAtiva === "propriedade" && (
-          <div>
-            <h1>Propriedade da Conta</h1>
-            <div className="propriedade-conta">
-              <h3>Gerenciar Alertas</h3>
-              {mostrarFormularioEndereco ? (
-                <form className="form" onSubmit={handleSalvarEnderecoAlerta}>
-                  <label>CEP:</label>
-                  <input type="text" name="cep" defaultValue={enderecoAlerta.cep} required />
-                  <label>Rua:</label>
-                  <input type="text" name="rua" defaultValue={enderecoAlerta.rua} required />
-                  <label>Bairro:</label>
-                  <input type="text" name="bairro" defaultValue={enderecoAlerta.bairro} required />
-                  <label>Cidade:</label>
-                  <input type="text" name="cidade" defaultValue={enderecoAlerta.cidade} required />
-                  <label>Estado:</label>
-                  <input type="text" name="estado" defaultValue={enderecoAlerta.estado} required />
-                  <button type="submit" className="btn-confirmar">Ativar Alertas</button>
-                  <button
-                    type="button"
-                    className="btn-cancelar"
-                    onClick={() => setMostrarFormularioEndereco(false)}
-                  >
-                    Cancelar
-                  </button>
-                </form>
               ) : (
-                <>
-                  <p>Status dos alertas: {alertasAtivados ? "Ativados" : "Desativados"}</p>
-                  {alertasAtivados && (
-                    <button className="btn-cancelar" onClick={handleCancelarAlertas}>
-                      Cancelar Alertas
-                    </button>
-                  )}
-                  {!alertasAtivados && (
-                    <button className="btn-confirmar" onClick={handleAtivarAlertas}>
-                      Ativar Alertas Personalizados
-                    </button>
-                  )}
-                </>
+                historico.map((item) => (
+                  <div key={item.id} className="perfil-local">
+                    {editandoHistorico && editandoHistorico.id === item.id ? (
+                      <form onSubmit={handleSalvarEdicao}>
+                        <label>Nome:</label>
+                        <input
+                          type="text"
+                          name="nome"
+                          defaultValue={editandoHistorico.nome}
+                          required
+                        />
+                        <label>Descrição:</label>
+                        <input
+                          type="text"
+                          name="descricao"
+                          defaultValue={editandoHistorico.descricao}
+                          required
+                        />
+                        <button type="submit" className="perfil-btn-confirmar">Salvar</button>
+                        <button
+                          type="button"
+                          className="perfil-btn-cancelar"
+                          onClick={() => setEditandoHistorico(null)}
+                        >
+                          Cancelar
+                        </button>
+                      </form>
+                    ) : (
+                      <>
+                        <div className="perfil-info">
+                          <h3>Salvo como: {item.nome}</h3>
+                          <p>{item.descricao}</p>
+                          <p>Data: {item.data}</p>
+                        </div>
+                        <div className="perfil-actions">
+                          <button className="perfil-map-btn">Ver no mapa</button>
+                          <div className="perfil-action-edit">
+                            <button
+                              className="perfil-edit-btn"
+                              onClick={() => handleEditarHistorico(item)}
+                            >
+                              <img src="./icones/icone-editar.png" alt="Editar" />
+                            </button>
+                            <button
+                              className="perfil-delete-btn"
+                              onClick={() => handleExcluirHistorico(item.id)}
+                            >
+                              <img src="./icones/icone-excluir.png" alt="Excluir" />
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))
               )}
             </div>
-          </div>
-        )}
+          )}
 
-        {secaoAtiva === "excluir" && (
-          <div>
-            {!confirmarExclusao ? (
-              <div className="content-text">
-                <h3>Isso excluirá sua conta</h3>
-                <p>
-                  Você está prestes a iniciar o processo de exclusão da sua conta do AlertaRisk.
-                  <br /> Seus dados e perfil não estarão mais acessíveis na plataforma, e você
-                  <br /> deixará de receber alertas e atualizações sobre áreas de risco.
-                </p>
-                <button className="btn-continuar" onClick={() => setConfirmarExclusao(true)}>
-                  Continuar
-                </button>
+          {secaoAtiva === "propriedade" && (
+            <div>
+              <h1>Propriedade da Conta</h1>
+              <div className="perfil-propriedade-conta">
+                <h3>Gerenciar Alertas</h3>
+                {mostrarFormularioEndereco ? (
+                  <form className="perfil-form" onSubmit={handleSalvarEnderecoAlerta}>
+                    <label>CEP:</label>
+                    <input type="text" name="cep" defaultValue={enderecoAlerta.cep} required />
+                    <label>Rua:</label>
+                    <input type="text" name="rua" defaultValue={enderecoAlerta.rua} required />
+                    <label>Bairro:</label>
+                    <input type="text" name="bairro" defaultValue={enderecoAlerta.bairro} required />
+                    <label>Cidade:</label>
+                    <input type="text" name="cidade" defaultValue={enderecoAlerta.cidade} required />
+                    <label>Estado:</label>
+                    <input type="text" name="estado" defaultValue={enderecoAlerta.estado} required />
+                    <button type="submit" className="perfil-btn-confirmar">Ativar Alertas</button>
+                    <button
+                      type="button"
+                      className="perfil-btn-cancelar"
+                      onClick={() => setMostrarFormularioEndereco(false)}
+                    >
+                      Cancelar
+                    </button>
+                  </form>
+                ) : (
+                  <>
+                    <p>Status dos alertas: {alertasAtivados ? "Ativados" : "Desativados"}</p>
+                    {alertasAtivados && (
+                      <button className="perfil-btn-cancelar" onClick={handleCancelarAlertas}>
+                        Cancelar Alertas
+                      </button>
+                    )}
+                    {!alertasAtivados && (
+                      <button className="perfil-btn-confirmar" onClick={handleAtivarAlertas}>
+                        Ativar Alertas Personalizados
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
-            ) : (
-              <div className="container-senha">
-                <h3>Confirme sua senha</h3>
-                <form onSubmit={handleExcluirConta}>
-                  <label>Senha</label>
-                  <input type="password" name="senha" />
-                  <button type="submit" className="btn-excluir">Excluir conta</button>
-                </form>
-              </div>
-            )}
-          </div>
-        )}
-      </section>
+            </div>
+          )}
+
+          {secaoAtiva === "excluir" && (
+            <div>
+              {!confirmarExclusao ? (
+                <div className="perfil-content-text">
+                  <h3>Isso excluirá sua conta</h3>
+                  <p>
+                    Você está prestes a iniciar o processo de exclusão da sua conta do AlertaRisk.
+                    <br /> Seus dados e perfil não estarão mais acessíveis na plataforma, e você
+                    <br /> deixará de receber alertas e atualizações sobre áreas de risco.
+                  </p>
+                  <button className="perfil-btn-continuar" onClick={() => setConfirmarExclusao(true)}>
+                    Continuar
+                  </button>
+                </div>
+              ) : (
+                <div className="perfil-container-senha">
+                  <h3>Confirme sua senha</h3>
+                  <form onSubmit={handleExcluirConta}>
+                    <label>Senha</label>
+                    <input type="password" name="senha" />
+                    <button type="submit" className="perfil-btn-excluir">Excluir conta</button>
+                  </form>
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 };

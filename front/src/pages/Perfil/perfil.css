@@ -1,36 +1,26 @@
-body {
+.perfil-background-wrapper {
+  background-image: url("./background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+}
+
+/* O .perfil-container agora não tem fundo, apenas o layout */
+.perfil-container {
   margin: 0;
   padding: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: 
-    linear-gradient(90deg, #FFF9E5 0%, #E5F5FF 100%),
-    repeating-linear-gradient(
-      60deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.2) 0.0625rem,
-      transparent 0.0625rem,
-      transparent 2.5rem
-    ),
-    repeating-linear-gradient(
-      -60deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.2) 0.0625rem,
-      transparent 0.0625rem,
-      transparent 2.5rem
-    );
-  background-size: auto, 4.3125rem 2.5rem, 4.3125rem 2.5rem;
-  background-position: 0 0, 0 0, 2.15625rem 1.25rem;
-  min-height: 100vh;
-}
-
-.perfil-container {
   display: flex;
   min-height: 100vh;
   max-width: 62.5rem;
   margin: 0 auto;
 }
 
-.menu-lateral {
+.perfil-menu-lateral {
   width: 13.75rem;
   height: 37.5rem;
   background-color: white;
@@ -38,7 +28,7 @@ body {
   margin: auto;
 }
 
-.menu-lateral h2 {
+.perfil-menu-lateral h2 {
   background-color: #0AC3F4;
   color: white;
   padding: 0.9375rem 1.25rem;
@@ -47,10 +37,11 @@ body {
   font-size: 1.25rem;
   font-weight: 600;
   border-bottom: 0.0625rem solid #f0f0f0;
+  display: flex;
   align-items: center;
 }
 
-.menu-lateral button {
+.perfil-menu-lateral button {
   display: flex;
   align-items: center;
   width: 100%;
@@ -65,12 +56,12 @@ body {
   position: relative;
 }
 
-.menu-lateral button:hover {
+.perfil-menu-lateral button:hover {
   background-color: #f9f9f9;
   color: #00b8d4;
 }
 
-.menu-lateral button::after {
+.perfil-menu-lateral button::after {
   content: "›";
   position: absolute;
   right: 1.25rem;
@@ -78,11 +69,11 @@ body {
   opacity: 0.5;
 }
 
-.menu-lateral button:first-of-type::after {
+.perfil-menu-lateral button:first-of-type::after {
   opacity: 1;
 }
 
-.conteudo {
+.perfil-conteudo {
   flex-grow: 1;
   background-color: white;
   padding: 1.25rem 1.875rem;
@@ -92,27 +83,27 @@ body {
   margin: auto;
 }
 
-.conteudo h1 {
+.perfil-conteudo h1 {
   font-size: 1.25rem;
   color: #000000;
   margin-bottom: 3.125rem;
   font-weight: 500;
 }
 
-.conteudo h2 {
+.perfil-conteudo h2 {
   font-size: 1.125rem;
   color: #333;
   margin-bottom: 1.25rem;
   font-weight: 500;
 }
 
-.profile {
+.perfil-photo {
   display: flex;
   justify-content: center;
   margin: 1.25rem 0 1.875rem;
 }
 
-.profile img {
+.perfil-photo img {
   width: 7.5rem;
   height: 7.5rem;
   border-radius: 50%;
@@ -120,13 +111,13 @@ body {
   border: 0.1875rem solid #f0f0f0;
 }
 
-.profile img:focus,
-.profile img:active {
+.perfil-photo img:focus,
+.perfil-photo img:active {
   outline: none;
   box-shadow: none;
 }
 
-.form {
+.perfil-form {
   display: grid;
   grid-template-columns: 1fr;
   column-gap: 0.625rem;
@@ -134,7 +125,7 @@ body {
   max-width: 37.5rem;
 }
 
-.form label {
+.perfil-form label {
   display: block;
   font-size: 0.875rem;
   color: #555;
@@ -142,7 +133,7 @@ body {
   font-weight: 500;
 }
 
-.form input {
+.perfil-form input {
   width: 43.75rem;
   padding: 0.625rem 0.75rem;
   margin-bottom: 0.625rem;
@@ -153,13 +144,13 @@ body {
   background-color: #f9f9f9;
 }
 
-.form input:focus {
+.perfil-form input:focus {
   outline: none;
   border-color: #00b8d4;
   background-color: white;
 }
 
-.btn-confirmar {
+.perfil-btn-confirmar {
   grid-column: 1 / -1;
   width: auto;
   justify-self: start;
@@ -176,16 +167,16 @@ body {
   transition: background-color 0.2s;
 }
 
-.btn-confirmar:hover {
+.perfil-btn-confirmar:hover {
   background-color: #ffb300;
   opacity: 0.9;
 }
 
-.btn-confirmar:active {
+.perfil-btn-confirmar:active {
   transform: scale(0.95);
 }
 
-.btn-cancelar {
+.perfil-btn-cancelar {
   padding: 0.625rem 1.5625rem;
   background-color: #f44336;
   color: white;
@@ -200,16 +191,16 @@ body {
   transition: background-color 0.2s;
 }
 
-.btn-cancelar:hover {
+.perfil-btn-cancelar:hover {
   background-color: #d32f2f;
   opacity: 0.9;
 }
 
-.btn-cancelar:active {
+.perfil-btn-cancelar:active {
   transform: scale(0.95);
 }
 
-.btn-continuar {
+.perfil-btn-continuar {
   background-color: #F7F7F7;
   color: #FF512F;
   border-radius: 0.25rem;
@@ -222,15 +213,15 @@ body {
   transition: background-color 0.2s;
 }
 
-.btn-continuar:hover {
+.perfil-btn-continuar:hover {
   opacity: 0.9;
 }
 
-.btn-continuar:active {
+.perfil-btn-continuar:active {
   transform: scale(0.95);
 }
 
-.btn-excluir {
+.perfil-btn-excluir {
   padding: 0.625rem 0;
   background-color: #ffffff;
   text-align: left;
@@ -243,10 +234,10 @@ body {
   margin-top: 1.25rem;
 }
 
-.btn-excluir:hover {
+.perfil-btn-excluir:hover {
   opacity: 0.9;
 }
 
-.btn-excluir:active {
+.perfil-btn-excluir:active {
   transform: scale(0.95);
 }
