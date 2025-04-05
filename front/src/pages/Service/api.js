@@ -136,11 +136,20 @@ export const coordenadasBairros = {
   'Vila Tamandaré': { lat: -8.0167, lon: -34.8833 },
   'Zumbi': { lat: -8.0667, lon: -34.8667 },
 };
-
 export const fetchWeather = async (lat, lon) => {
-  const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=pt_br`
-  );
+  const API_KEY = import.meta.env.VITE_API_KEY;
+  console.log("API_KEY:", API_KEY);
+  if (!API_KEY) {
+    throw new Error("API Key is missing. Please set VITE_API_KEY in your .env file.");
+  }
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=pt_br`;
+  console.log("Fetching URL:", url); // Veja a URL completa
+  const response = await fetch(url);
+  console.log("Response status:", response.status); // Veja o código de status
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to fetch weather data: ${response.status} - ${errorText}`);
+  }
   const data = await response.json();
   return data;
 };
