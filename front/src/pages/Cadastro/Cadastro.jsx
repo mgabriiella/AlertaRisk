@@ -4,74 +4,87 @@ import { bairrosRecife } from "../../pages/Service/api";
 import { useAuth } from "/src/components/context/AuthContext";
 import "./cadastro.css";
 
+var usuario = [];
+
 const Cadastro = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [etapa, setEtapa] = useState("cadastro1");
-  const [userData, setUserData] = useState({});
 
   const handleCadastroEtapa1 = async (e) => {
     e.preventDefault();
-
+ 
     const nome = e.target.querySelector("#nome").value;
     const sobrenome = e.target.querySelector("#sobrenome").value;
     const email = e.target.querySelector("#email").value;
-    const whatsapp = e.target.querySelector("#whatsapp").value;
-    const senha = e.target.querySelector("#senha").value;
+    const phone = e.target.querySelector("#phone").value;
+    const password = e.target.querySelector("#password").value;
     const confirmarSenha = e.target.querySelector("#confirmar-senha").value;
-
-    if (senha !== confirmarSenha) {
+ 
+    if (password !== confirmarSenha) {
       alert("As senhas não coincidem.");
       return;
     }
-
-    const mockResponse = { ok: true };
-
-    try {
-      if (mockResponse.ok) {
-        setUserData({ nome, sobrenome, email, whatsapp, senha });
-        setEtapa("cadastro2");
-      } else {
-        throw new Error("Erro ao registrar. Verifique os dados e tente novamente.");
-      }
-    } catch (error) {
-      console.error("Erro ao registrar usuário:", error);
-      alert("Ocorreu um erro. Tente novamente mais tarde.");
-    }
+ 
+    const name = nome + " " + sobrenome;
+    usuario = [ name, email, phone, password ];
+ 
+    // setUserData(setUserData);
+    setEtapa("cadastro2");
   };
-
+ 
   const handleCadastroEtapa2 = async (e) => {
     e.preventDefault();
-
+ 
     const cep = e.target.querySelector("#cep").value;
     const rua = e.target.querySelector("#rua").value;
     const bairro = e.target.querySelector("#bairro").value;
     const cidade = e.target.querySelector("#cidade").value;
     const estado = e.target.querySelector("#estado").value;
-
-    const finalUserData = { ...userData, cep, rua, bairro, cidade, estado };
-
-    const mockResponse = {
-      ok: true,
-      userId: "67890", // Simula um userId retornado pelo backend
-      token: "mock-token",
+ 
+ 
+    const finalUserData = {
+      name: usuario[0],
+      email: usuario[1],
+      password: usuario[3],
+      phone: usuario[2],
+      enderecos: [{
+        cep,
+        rua,
+        bairro,
+        cidade,
+        estado
+      }]
     };
-
+ 
     try {
-      if (mockResponse.ok) {
+      const response = await fetch("http://localhost:8080/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(finalUserData),
+      });
+ 
+      if (response.ok) {
+        const responseData = await response.json();
         login(finalUserData);
-        localStorage.setItem("userId", mockResponse.userId); // Salva o userId no localStorage
-        localStorage.setItem("token", mockResponse.token); // Salva o token no localStorage
+        localStorage.setItem("userId", responseData.id);
         setEtapa("cadastro3");
+ 
         setTimeout(() => navigate("/mapa"), 3000);
       } else {
-        throw new Error("Erro ao finalizar cadastro. Tente novamente.");
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "Erro ao finalizar cadastro. Tente novamente."
+        );
       }
     } catch (error) {
       console.error("Erro ao finalizar cadastro:", error);
-      alert("Ocorreu um erro. Tente novamente mais tarde.");
+      alert(error.message || "Ocorreu um erro. Tente novamente mais tarde.");
     }
   };
+ 
 
   return (
     <div className="cadastro">
@@ -103,12 +116,12 @@ const Cadastro = () => {
                   <input type="email" id="email" placeholder="Seu melhor e-mail" required />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="whatsapp">WhatsApp:</label>
-                  <input type="tel" id="whatsapp" placeholder="Seu número de WhatsApp" pattern="[0-9]+" required />
+                  <label htmlFor="phone">WhatsApp:</label>
+                  <input type="tel" id="phone" placeholder="Seu número de WhatsApp" pattern="[0-9]+" required />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="senha">Senha:</label>
-                  <input type="password" id="senha" placeholder="Crie uma senha" required />
+                  <label htmlFor="password">Senha:</label>
+                  <input type="password" id="password" placeholder="Crie uma senha" required />
                 </div>
                 <div className="input-group">
                   <label htmlFor="confirmar-senha">Confirmar Senha:</label>
