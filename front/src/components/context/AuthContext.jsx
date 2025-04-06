@@ -3,34 +3,40 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
+  const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setIsAuthenticated(true);
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  const login = (userData) => {
-    console.log("Usuário logado:", userData); // Log para depuração
-    setIsAuthenticated(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return !!localStorage.getItem("token");
+  });
+
+  const login = (userData, token) => {
     setUser(userData);
+    setIsAuthenticated(true);
     localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", token);
+    localStorage.setItem("id", userData.id); // Ensure ID is stored
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
     setUser(null);
-    localStorage.removeItem("user");    
-    localStorage.removeItem("userId");  
-    localStorage.removeItem("token");   
+    setIsAuthenticated(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("id"); // Clear ID on logout
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token && user) {
+      logout();
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

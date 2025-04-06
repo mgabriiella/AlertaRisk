@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./forumcreatepost.css";
 import { useNavigate } from "react-router-dom";
+import { apiconfig } from "../../Service/apiconfig";
 
 // Página para criar uma nova postagem no fórum
 const ForumCreatePost = () => {
@@ -16,14 +17,14 @@ const ForumCreatePost = () => {
   const [image, setImage] = useState(null);
 
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem('userId'); // Verifica se userId existe e não é vazio
+  const isAuthenticated = !!localStorage.getItem("userId"); // Verifica se userId existe e não é vazio
 
   // Verifica autenticação ao carregar a página
   useEffect(() => {
-    console.log("Verificando autenticação..."); // Debug
-    console.log("userId no localStorage:", localStorage.getItem('userId')); 
+    console.log("Verificando autenticação...");
+    console.log("userId no localStorage:", localStorage.getItem("userId"));
     if (!isAuthenticated) {
-      console.log("Usuário não autenticado, redirecionando para /login"); // Debug
+      console.log("Usuário não autenticado, redirecionando para /login");
       alert("Você precisa fazer login para criar uma postagem!");
       navigate("/login");
     }
@@ -47,7 +48,7 @@ const ForumCreatePost = () => {
 
     // Verificação redundante para garantir que só usuários autenticados continuem
     if (!isAuthenticated) {
-      console.log("Tentativa de submissão sem autenticação detectada"); // Debug
+      console.log("Tentativa de submissão sem autenticação detectada");
       alert("Você precisa estar logado para publicar uma postagem!");
       navigate("/login");
       return;
@@ -59,36 +60,50 @@ const ForumCreatePost = () => {
       return;
     }
 
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem("userId");
     const postData = {
-      address: { street, neighborhood, city, state, referencePoint },
-      post: { category, title, content, image, userId },
+      categoria: category.toUpperCase(), 
+      titulo: title,
+      conteudo: content,
+      id_usuario: userId,
+      endereco: {
+        status: "ATIVO",
+        categoria: category.toUpperCase(),
+        nivel: "VERDE",
+        endereco: {
+          rua: street,
+          bairro: neighborhood,
+          cidade: city,
+          estado: state,
+          cep: "", 
+        },
+      },
     };
-
-    // Simulação de resposta do backend (mock)
-    const mockResponse = { ok: true };
-
     try {
-      if (mockResponse.ok) {
+      
+      const response = await apiconfig.post("http://localhost:8080/posts", postData);
+
+      if (response.status === 201 || response.status === 200) {
         // Cria um objeto de postagem para adicionar ao mapa
         const newPost = {
-          id: Date.now(), // ID único baseado no timestamp
-          title: postData.post.title,
-          description: postData.post.content,
+          id: response.data.id || Date.now(), 
+          title: postData.titulo,
+          description: postData.conteudo,
           author: "Maria Julia", // Nome do usuário logado (deve vir do backend ou AuthContext no futuro)
-          bairro: postData.address.neighborhood,
-          category: postData.post.category,
+          bairro: postData.endereco.endereco.bairro,
+          category: postData.categoria,
           time: new Date().toISOString(),
           likes: 0,
           dislikes: 0,
-          imageUrl: postData.post.image ? URL.createObjectURL(postData.post.image) : 'https://via.placeholder.com/50',
-          avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
-          lat: -8.0578, // Coordenadas fictícias (devem vir do backend ou geolocalização)
+          imageUrl: "https://via.placeholder.com/50", 
+          avatarUrl:
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
+          lat: -8.0578, 
           lon: -34.9045,
         };
 
         // Salva a nova postagem no localStorage para o Mapa.jsx ler
-        localStorage.setItem('newPost', JSON.stringify(newPost));
+        localStorage.setItem("newPost", JSON.stringify(newPost));
 
         // Sucesso: resetar formulário e redirecionar
         setStreet("");
@@ -106,13 +121,38 @@ const ForumCreatePost = () => {
         throw new Error("Erro ao criar a postagem");
       }
     } catch (error) {
-      alert(error.message || "Erro ao enviar a postagem. Tente novamente.");
+      console.error("Erro ao enviar a postagem:", error);
+      alert(error.response?.data?.message || "Erro ao enviar a postagem. Tente novamente.");
     }
   };
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
+    }
+  };
+//buscar uma lista de todos os posts armazenados no backend
+  const fetchAllPosts = async () => {
+    try {
+      const response = await apiconfig.get("http://localhost:8080/posts");
+      console.log("Lista de postagens:", response.data);
+      return response.data; // Return the list of posts for use elsewhere
+    } catch (error) {
+      console.error("Erro ao buscar postagens:", error);
+      alert("Erro ao buscar postagens. Tente novamente.");
+      return [];
+    }
+  };
+
+  const fetchPostById = async (postId) => {
+    try {
+      const response = await apiconfig.get(`http://localhost:8080/posts/${postId}`);
+      console.log("Postagem encontrada:", response.data);
+      return response.data; 
+    } catch (error) {
+      console.error("Erro ao buscar a postagem:", error);
+      alert("Erro ao buscar a postagem. Tente novamente.");
+      return null;
     }
   };
 
@@ -209,7 +249,11 @@ const ForumCreatePost = () => {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Categoria *</label>
-                <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  required
+                >
                   <option value="" disabled>
                     Selecione uma categoria
                   </option>
@@ -241,7 +285,12 @@ const ForumCreatePost = () => {
               <div className="form-group">
                 <label>Imagem</label>
                 <label className="image-upload">
-                  <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    style={{ display: "none" }}
+                  />
                   Clique para adicionar foto
                 </label>
               </div>
@@ -252,7 +301,7 @@ const ForumCreatePost = () => {
           </>
         )}
       </div>
-      </div>
+    </div>
   );
 };
 

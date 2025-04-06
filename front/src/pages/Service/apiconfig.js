@@ -1,22 +1,19 @@
 import axios from "axios";
 
-export const api = axios.create({
-    baseURL: 'https://prontorecife-app-dev.up.railway.app/',
-    timeout: 5000,
-    headers: { 'Content-Type': 'application/json' }
-})
-
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers['Authorization'] = Bearer ${token};
-        config.headers['Access-Control-Allow-Origin'] = '*';
-    }
-    return config;
+const apiconfig = axios.create({
+  baseURL: "http://localhost:8080",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-api.interceptors.response.use((response) => {
-    return response
+apiconfig.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  console.log("Attaching token to request:", token); // Debug log
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`;
+  }
+  return config;
 });
-config.headers['Authorization'] = Bearer ${token};
-        config.headers['Access-Control-Allow-Origin'] = '*';
+
+export { apiconfig };

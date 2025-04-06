@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { bairrosRecife } from "../../pages/Service/api";
 import { useAuth } from "/src/components/context/AuthContext";
 import "./cadastro.css";
+import { apiconfig } from "../Service/apiconfig";
 
 var usuario = [];
 
@@ -20,16 +21,26 @@ const Cadastro = () => {
     const phone = e.target.querySelector("#phone").value;
     const password = e.target.querySelector("#password").value;
     const confirmarSenha = e.target.querySelector("#confirmar-senha").value;
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 96072c8 (Integracao cadastro e login, falha no perfil)
     if (password !== confirmarSenha) {
       alert("As senhas não coincidem.");
       return;
     }
+<<<<<<< HEAD
  
     const name = nome + " " + sobrenome;
     usuario = [ name, email, phone, password ];
  
     // setUserData(setUserData);
+=======
+
+    const name = `${nome} ${sobrenome}`;
+    setUserData({ name, email, phone, password });
+>>>>>>> 96072c8 (Integracao cadastro e login, falha no perfil)
     setEtapa("cadastro2");
   };
  
@@ -41,6 +52,7 @@ const Cadastro = () => {
     const bairro = e.target.querySelector("#bairro").value;
     const cidade = e.target.querySelector("#cidade").value;
     const estado = e.target.querySelector("#estado").value;
+<<<<<<< HEAD
  
  
     const finalUserData = {
@@ -55,9 +67,27 @@ const Cadastro = () => {
         cidade,
         estado
       }]
+=======
+
+    const finalUserData = {
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      phone: userData.phone,
+      enderecos: [
+        {
+          cep,
+          rua,
+          bairro,
+          cidade,
+          estado,
+        },
+      ],
+>>>>>>> 96072c8 (Integracao cadastro e login, falha no perfil)
     };
  
     try {
+<<<<<<< HEAD
       const response = await fetch("http://localhost:8080/users", {
         method: "POST",
         headers: {
@@ -70,10 +100,23 @@ const Cadastro = () => {
         const responseData = await response.json();
         login(finalUserData);
         localStorage.setItem("userId", responseData.id);
+=======
+      const response = await apiconfig.post("http://localhost:8080/users", finalUserData);
+      if (response.status === 201) {
+        const responseData = response.data;
+        console.log("Cadastro response data:", responseData); // Debug log
+        if (!responseData.token) {
+          throw new Error("Token não retornado pelo backend.");
+        }
+        const userDataWithId = { ...finalUserData, id: responseData.id };
+        login(userDataWithId, responseData.token);
+        localStorage.setItem("id", responseData.id);
+>>>>>>> 96072c8 (Integracao cadastro e login, falha no perfil)
         setEtapa("cadastro3");
  
         setTimeout(() => navigate("/mapa"), 3000);
       } else {
+<<<<<<< HEAD
         const errorData = await response.json();
         throw new Error(
           errorData.message || "Erro ao finalizar cadastro. Tente novamente."
@@ -82,6 +125,13 @@ const Cadastro = () => {
     } catch (error) {
       console.error("Erro ao finalizar cadastro:", error);
       alert(error.message || "Ocorreu um erro. Tente novamente mais tarde.");
+=======
+        throw new Error(response.data.message || "Erro ao finalizar cadastro. Tente novamente.");
+      }
+    } catch (error) {
+      console.error("Erro ao finalizar cadastro:", error);
+      alert(error.response?.data?.message || "Ocorreu um erro. Tente novamente mais tarde.");
+>>>>>>> 96072c8 (Integracao cadastro e login, falha no perfil)
     }
   };
  

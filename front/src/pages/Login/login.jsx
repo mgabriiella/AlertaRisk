@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "/src/components/context/AuthContext";
 import "./login.css";
+import { apiconfig } from "../Service/apiconfig";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,32 +15,32 @@ const Login = () => {
     const senha = e.target.querySelector("#password").value;
 
     try {
-      // Requisição real para o backend
-      const response = await fetch("URL_DO_BACKEND/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password: senha }),
+      const response = await apiconfig.post("http://localhost:8080/auth", {
+        email,
+        password: senha,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        // O backend deve retornar userId, token e dados do usuário
-        const userData = {
-          userId: data.userId,
-          token: data.token,
-          email: data.email // ou outros dados que o backend fornecer
-        };
-        login(userData);
-        navigate("/");
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || "E-mail ou senha incorretos.");
+      const data = response.data;
+      console.log("Login response data:", data); // Debug log
+      if (!data.token) {
+        throw new Error("Token não retornado pelo backend.");
       }
+      const userData = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        enderecos: data.enderecos || [],
+      };
+      const authToken = data.token;
+
+      localStorage.setItem("id", data.id);
+      localStorage.setItem("token", authToken); // Ensure token is stored
+      login(userData, authToken);
+      navigate("/");
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      alert("Ocorreu um erro. Tente novamente mais tarde.");
+      alert(error.response?.data?.message || "E-mail ou senha incorretos.");
     }
   };
 
