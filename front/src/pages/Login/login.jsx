@@ -53,8 +53,9 @@ const Login = () => {
           </div>
           <h2>Acesse sua conta</h2>
           <button className="google-button">
-            Continuar com o Google
-          </button>
+        <img src="./devicon_google.png" alt="Google" className="google-icon" />
+           Continuar com o Google
+           </button>
           <hr className="divider" />
           <form onSubmit={handleLoginSubmit}>
             <div className="input-group">

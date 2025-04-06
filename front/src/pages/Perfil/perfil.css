@@ -187,8 +187,10 @@
   cursor: pointer;
   font-size: 0.875rem;
   margin-top: 0.625rem;
-  margin-left: 0.625rem;
-  transition: background-color 0.2s;
+  margin-left: 0; 
+  margin-right: auto; 
+  text-align: center; 
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .perfil-btn-cancelar:hover {
@@ -197,7 +199,7 @@
 }
 
 .perfil-btn-cancelar:active {
-  transform: scale(0.95);
+  transform: scale(0.98); /* Reduz o efeito de escala para suavidade */
 }
 
 .perfil-btn-continuar {
