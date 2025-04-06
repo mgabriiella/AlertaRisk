@@ -2,30 +2,57 @@ package br.alertarisk.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import java.util.List;
 
 @Data
-@Getter
-@Setter
 public class WeatherResponse {
     private Coord coord;
+    private List<Weather> weather;
+    private Main main;
     private Rain rain;
-    private Long dt;  // Timestamp provided in seconds since the epoch
-
-    @Getter
-    @Setter
+    private Wind wind;
+    private Clouds clouds;
+    private String name;
+    @JsonProperty("dt")
+    private Long dt;
     @Data
     public static class Coord {
         private double lon;
         private double lat;
     }
-    @Getter
-    @Setter
+
+    @Data
+    public static class Weather {
+        private String main;
+        private String description;
+        private String icon;
+    }
+
+    @Data
+    public static class Main {
+        private double temp;
+        private double feels_like;
+        private double temp_min;
+        private double temp_max;
+        private int pressure;
+        private int humidity;
+    }
+
     @Data
     public static class Rain {
         @JsonProperty("1h")
-        private Double oneH;  // Rain volume for the last hour
+        private Double oneH;
+    }
 
+    @Data
+    public static class Wind {
+        private double speed;
+        private int deg;
+    }
+
+    @Data
+    public static class Clouds {
+        private int all;
     }
 }

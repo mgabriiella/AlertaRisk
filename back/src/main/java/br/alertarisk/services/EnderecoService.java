@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,9 @@ public class EnderecoService {
     private final UserService userService;
 
     public List<Endereco> list() {
-        return repository.findAll();
+        Iterable<Endereco> enderecosIterable = repository.findAll();
+        return StreamSupport.stream(enderecosIterable.spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     public Endereco findById(final Long id) {
@@ -32,10 +36,6 @@ public class EnderecoService {
     }
     public Endereco save(final Endereco endereco)
     {
-        boolean userExists = userRepository.existsByEmail(endereco.getUser().getEmail());
-        if (!userExists) {
-            throw new NotFoundException("Usuário não encontrado");
-        }
         return repository.save(endereco);
     }
 

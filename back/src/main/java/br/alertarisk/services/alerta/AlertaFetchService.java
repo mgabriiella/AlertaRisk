@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AlertaFetchService {
 
-        private final AlertaService alertaService;
+    private final ChuvaAlertaService chuvaAlertaService;
+    private final AlertaMergeService alertaMergeService;
 
+    @Scheduled(fixedRate = 300000)
+    public void fetchAndCreateSignificantRainAlerts() {
+        chuvaAlertaService.fetchAndCreateAlerts();
+    }
 
-        @Scheduled(fixedRate = 3600000)
-        public void fetchAndMergeAlerts() {
-            alertaService.newAlert();
-        }
-
+    @Scheduled(fixedRate = 360000)
+    public void fetchAndMergeAllAlerts() {
+        alertaMergeService.mergeAndSaveApiAlerts();
+    }
 }

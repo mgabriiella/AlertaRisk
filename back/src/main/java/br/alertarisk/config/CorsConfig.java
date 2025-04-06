@@ -23,6 +23,7 @@ public class CorsConfig {
 
         // Permite requisições provenientes da URL definida para o front end
         config.addAllowedOrigin(frontEndUrl);
+        config.addAllowedOrigin(frontEndUrl + "/**");
 
         // Permite todos os cabeçalhos nas requisições
         config.addAllowedHeader("*");

@@ -3,8 +3,9 @@ package br.alertarisk.controllers.response.alerta;
 import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.enums.AlertaStatus;
 import br.alertarisk.enums.CategoriaPostagem;
-import br.alertarisk.models.Endereco;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.LocalDateTime;
 
 public record DetailAlertaResponse(
         @JsonProperty("id")
@@ -15,7 +16,20 @@ public record DetailAlertaResponse(
         CategoriaPostagem categoria,
         @JsonProperty("nivel")
         AlertaNivel nivel,
-        @JsonProperty("endereco")
-        Endereco endereco
-)
-{}
+        @JsonProperty("rainVolume")
+        Double rainVolume,
+        @JsonProperty("latitude")
+        Double latitude,
+        @JsonProperty("longitude")
+        Double longitude,
+        @JsonProperty("descricao")
+        String descricao,
+        @JsonProperty("createdAt")
+        LocalDateTime createdAt,
+        @JsonProperty("bairro")
+        String bairro, // Add this field
+        @JsonProperty("cidade")
+        String cidade, // Add this field
+        @JsonProperty("estado")
+        String estado  // Add this field
+) { }

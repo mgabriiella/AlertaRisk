@@ -42,7 +42,7 @@ public class AlertaController {
     @ResponseStatus(CREATED)
     SaveAlertaResponse save(@RequestBody @Valid final SaveAlertaRequest request) {
         var alerta = alertaMapper.toModel(request);
-        alertaService.save(alerta);
+        alerta = alertaService.save(alerta);
         return alertaMapper.toSaveResponse(alerta);
     }
 
