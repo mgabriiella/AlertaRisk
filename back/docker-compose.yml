@@ -34,7 +34,7 @@ services:
       API_KEY: 
       SID_TWILIO:
       TWILIO_AUTH_TOKEN:
-      TWILIO_NUMBER: +14155238886
+      TWILIO_NUMBER:
     ports:
       - "8080:8080"
       - "5005:5005"

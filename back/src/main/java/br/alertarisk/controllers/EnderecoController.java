@@ -7,6 +7,7 @@ import br.alertarisk.controllers.response.endereco.ListEnderecoResponse;
 import br.alertarisk.controllers.response.endereco.SaveEnderecoResponse;
 import br.alertarisk.controllers.response.endereco.UpdateEnderecoResponse;
 import br.alertarisk.mappers.EnderecoMapper;
+import br.alertarisk.mappers.EnderecoMapperImpl;
 import br.alertarisk.services.EnderecoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,7 +29,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 public class EnderecoController {
 
     private final EnderecoService service;
-    private final EnderecoMapper mapper;
+    private final EnderecoMapper mapper = new EnderecoMapperImpl();
 
     @Operation(summary = "Listar todos os endereços", description = "Retorna uma lista de todos os endereços cadastrados no sistema.")
     @ApiResponses({
@@ -70,6 +71,7 @@ public class EnderecoController {
             @ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Endereço não encontrado")
     })
+
     @PutMapping("{id}")
     public UpdateEnderecoResponse update(@PathVariable Long id, @RequestBody @Valid UpdateEnderecoRequest request) {
         var endereco = mapper.toModel(id, request);

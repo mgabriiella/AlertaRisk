@@ -41,13 +41,14 @@ public class UserService {
 
     }
 
-    public void verifyPhone(final UUID id,final String phone) {
+    public void verifyPhone(final UUID id, final String phone) {
         var optional = repository.findByPhone(phone);
-        if (optional.isPresent() && !Objects.equals(optional.get().getPhone(),phone)) {
-            var message = String.format("Número de telefone %s Já está em uso", phone);
+        if (optional.isPresent() && !Objects.equals(optional.get().getId(), id)) {
+            var message = String.format("Número de telefone %s já está em uso", phone);
             throw new InUseException(message);
         }
     }
+
 
     public void verifyEmail(final String email) {
         if (repository.existsByEmail(email)) {
@@ -56,13 +57,14 @@ public class UserService {
         }
     }
 
-    public void verifyEmail(final UUID id,final String email) {
+    public void verifyEmail(final UUID id, final String email) {
         var optional = repository.findByEmail(email);
-        if (optional.isPresent() && !Objects.equals(optional.get().getEmail(),email)) {
-            var message = String.format("O Endereço de email %s Já está em uso", email);
+        if (optional.isPresent() && !Objects.equals(optional.get().getId(), id)) {
+            var message = String.format("O endereço de email %s já está em uso", email);
             throw new InUseException(message);
         }
     }
+
 
     @Transactional
     public UserModel save(final UserModel user) {
@@ -82,26 +84,25 @@ public class UserService {
     }
 
     public UserModel update(final UserModel user) {
-        UserModel existUser = repository.findById(user.getId()).orElseThrow(
-                () -> new NotFoundException("Usuário não encontrado")
-        );
+        UserModel existUser = repository.findById(user.getId())
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+
         verifyEmail(user.getId(), user.getEmail());
         verifyPhone(user.getId(), user.getPhone());
-
-        if(user.getEnderecos() == null || user.getEnderecos().isEmpty()) {
-            throw new NotFoundException("O usuário precisa conter um Endereço válido");
-        }
 
         existUser.setName(user.getName());
         existUser.setEmail(user.getEmail());
         existUser.setPhone(user.getPhone());
 
-        existUser.getEnderecos().clear();
-        existUser.getEnderecos().addAll(user.getEnderecos());
-        existUser.getEnderecos().forEach(endereco -> endereco.setUser(user));
+        if (user.getEnderecos() != null && !user.getEnderecos().isEmpty()) {
+            existUser.getEnderecos().clear();
+            existUser.getEnderecos().addAll(user.getEnderecos());
+            existUser.getEnderecos().forEach(endereco -> endereco.setUser(user));
+        }
 
         return repository.save(existUser);
     }
+
 
     public void delete(final UUID id) {
         repository.findById(id);

@@ -19,6 +19,5 @@ public record UpdateUserRequest(
         @NotNull
         @JsonProperty("phone")
         @Length(min = 11, max = 11,message = "O campo [phone] deve conter 11 caracteres")
-        String phone,
-        List<SaveEnderecoRequest> enderecos
+        String phone
 ){}
