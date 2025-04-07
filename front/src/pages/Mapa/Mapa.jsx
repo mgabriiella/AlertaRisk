@@ -8,6 +8,7 @@ import ForumFilter from '../../components/Forum/ForumFilter';
 import ForumPost from '../../components/Forum/ForumPost';
 import MapLegend from '../../components/Map/MapLegend';
 import { RECIFE_LAT, RECIFE_LON, bairrosRecife, coordenadasBairros, fetchWeather } from '../Service/api';
+import { useToken } from '../../hooks/useToken'; // Import the useToken hook
 
 const formatWeatherCondition = (condition) => {
   const conditionsMap = {
@@ -121,8 +122,27 @@ const Mapa = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [pendingAction, setPendingAction] = useState(null); // Track the pending action (like/dislike)
 
+  const { token, loading: tokenLoading, fetchToken } = useToken(); // Use the useToken hook
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem('userId');
+
+  // Token validation
+  useEffect(() => {
+    const validateToken = async () => {
+      if (!token) {
+        await fetchToken(); // Fetch the token asynchronously
+      }
+
+      if (!token) {
+        console.log('Usuário não autenticado, redirecionando para /login');
+        alert('Você precisa fazer login para acessar o mapa!');
+        navigate('/login');
+      }
+    };
+
+    if (!tokenLoading) {
+      validateToken();
+    }
+  }, [token, tokenLoading, fetchToken, navigate]);
 
   useEffect(() => {
     const newPost = localStorage.getItem('newPost');
@@ -154,7 +174,7 @@ const Mapa = () => {
   };
 
   const handleNewPostClick = () => {
-    if (!isAuthenticated) {
+    if (!token) {
       alert('Faça login para criar uma postagem!');
       navigate('/login');
       return;
@@ -163,7 +183,7 @@ const Mapa = () => {
   };
 
   const handleLike = (postId) => {
-    if (!isAuthenticated) {
+    if (!token) {
       alert('Faça login para curtir!');
       navigate('/login');
       return;
@@ -175,7 +195,7 @@ const Mapa = () => {
   };
 
   const handleDislike = (postId) => {
-    if (!isAuthenticated) {
+    if (!token) {
       alert('Faça login para descurtir!');
       navigate('/login');
       return;
@@ -197,35 +217,20 @@ const Mapa = () => {
 
     // If the user confirms, proceed with the like/dislike action
     const postId = selectedPost.id;
-    const userId = localStorage.getItem('userId');
 
     try {
       if (pendingAction === 'like') {
-        const response = await fetch(`/api/posts/${postId}/like`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId }),
-        });
-        if (response.ok) {
-          setPosts((prevPosts) =>
-            prevPosts.map((post) =>
-              post.id === postId ? { ...post, likes: post.likes + 1 } : post
-            )
-          );
-        }
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId ? { ...post, likes: post.likes + 1 } : post
+          )
+        );
       } else if (pendingAction === 'dislike') {
-        const response = await fetch(`/api/posts/${postId}/dislike`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId }),
-        });
-        if (response.ok) {
-          setPosts((prevPosts) =>
-            prevPosts.map((post) =>
-              post.id === postId ? { ...post, dislikes: post.dislikes + 1 } : post
-            )
-          );
-        }
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId ? { ...post, dislikes: post.dislikes + 1 } : post
+          )
+        );
       }
     } catch (error) {
       console.error(`Erro ao ${pendingAction === 'like' ? 'curtir' : 'descurtir'} o post:`, error);
@@ -242,6 +247,10 @@ const Mapa = () => {
     if (intensity >= 2.5) return '#ffaa33';
     return '#33cc33';
   };
+
+  if (tokenLoading) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <div className="mapa-container">
@@ -381,7 +390,7 @@ const Mapa = () => {
                         <img src="/deslike.png" alt="Dislike" /> {post.dislikes}
                       </button>
                     </div>
-                    {!isAuthenticated && (
+                    {!token && (
                       <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.3125rem' }}>
                         Faça login para interagir!
                       </p>

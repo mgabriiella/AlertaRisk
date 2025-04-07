@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { apiconfig } from "../pages/Service/apiconfig";
 import { decodeToken } from "../utils/jwtUtils";
+import { useToken } from "./useToken";
 
-//Foi nessecario a criação desse para reaproveitar os dados do usuario em diferentes componentes, pq o token tá sendo enviado como string.
 export const useUserData = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { token, loading: tokenLoading } = useToken();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
+      if (tokenLoading) return;
+
       if (!token) {
         setError("Token não encontrado.");
         setLoading(false);
@@ -36,7 +38,7 @@ export const useUserData = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [token, tokenLoading]);
 
-  return { userData, loading, error };
+  return { userData, loading: loading || tokenLoading, error };
 };

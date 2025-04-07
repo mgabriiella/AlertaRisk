@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./forumcreatepost.css";
 import { useNavigate } from "react-router-dom";
 import { apiconfig } from "../../Service/apiconfig";
+import { useToken } from "../../../hooks/useToken";
 
-// Página para criar uma nova postagem no fórum
 const ForumCreatePost = () => {
   const [currentSection, setCurrentSection] = useState("address");
   const [street, setStreet] = useState("");
@@ -16,19 +16,26 @@ const ForumCreatePost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
 
+  const { token, loading: tokenLoading, fetchToken } = useToken();
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem("userId"); // Verifica se userId existe e não é vazio
 
-  // Verifica autenticação ao carregar a página
   useEffect(() => {
-    console.log("Verificando autenticação...");
-    console.log("userId no localStorage:", localStorage.getItem("userId"));
-    if (!isAuthenticated) {
-      console.log("Usuário não autenticado, redirecionando para /login");
-      alert("Você precisa fazer login para criar uma postagem!");
-      navigate("/login");
+    const validateToken = async () => {
+      if (!token) {
+        await fetchToken(); // Fetch the token asynchronously
+      }
+
+      if (!token) {
+        console.log("Usuário não autenticado, redirecionando para /login");
+        alert("Você precisa fazer login para criar uma postagem!");
+        // navigate("/login");
+      }
+    };
+
+    if (!tokenLoading) {
+      validateToken();
     }
-  }, [isAuthenticated, navigate]);
+  }, [token, tokenLoading, fetchToken, navigate]);
 
   const handleContinue = (e) => {
     e.preventDefault();
@@ -46,15 +53,6 @@ const ForumCreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verificação redundante para garantir que só usuários autenticados continuem
-    if (!isAuthenticated) {
-      console.log("Tentativa de submissão sem autenticação detectada");
-      alert("Você precisa estar logado para publicar uma postagem!");
-      navigate("/login");
-      return;
-    }
-
-    // Validação mínima no frontend para UX
     if (!category || !title || !content) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
@@ -62,7 +60,7 @@ const ForumCreatePost = () => {
 
     const userId = localStorage.getItem("userId");
     const postData = {
-      categoria: category.toUpperCase(), 
+      categoria: category.toUpperCase(),
       titulo: title,
       conteudo: content,
       id_usuario: userId,
@@ -75,37 +73,34 @@ const ForumCreatePost = () => {
           bairro: neighborhood,
           cidade: city,
           estado: state,
-          cep: "", 
+          cep: "",
         },
       },
     };
+
     try {
-      
-      const response = await apiconfig.post("http://localhost:8080/posts", postData);
+      const response = await apiconfig.post("/posts", postData);
 
       if (response.status === 201 || response.status === 200) {
-        // Cria um objeto de postagem para adicionar ao mapa
         const newPost = {
-          id: response.data.id || Date.now(), 
+          id: response.data.id || Date.now(),
           title: postData.titulo,
           description: postData.conteudo,
-          author: "Maria Julia", // Nome do usuário logado (deve vir do backend ou AuthContext no futuro)
+          author: "Usuário Logado",
           bairro: postData.endereco.endereco.bairro,
           category: postData.categoria,
           time: new Date().toISOString(),
           likes: 0,
           dislikes: 0,
-          imageUrl: "https://via.placeholder.com/50", 
+          imageUrl: "https://via.placeholder.com/50",
           avatarUrl:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
-          lat: -8.0578, 
+          lat: -8.0578,
           lon: -34.9045,
         };
 
-        // Salva a nova postagem no localStorage para o Mapa.jsx ler
         localStorage.setItem("newPost", JSON.stringify(newPost));
 
-        // Sucesso: resetar formulário e redirecionar
         setStreet("");
         setNeighborhood("");
         setCity("Recife");
@@ -131,39 +126,21 @@ const ForumCreatePost = () => {
       setImage(e.target.files[0]);
     }
   };
-//buscar uma lista de todos os posts armazenados no backend
-  const fetchAllPosts = async () => {
-    try {
-      const response = await apiconfig.get("http://localhost:8080/posts");
-      console.log("Lista de postagens:", response.data);
-      return response.data; // Return the list of posts for use elsewhere
-    } catch (error) {
-      console.error("Erro ao buscar postagens:", error);
-      alert("Erro ao buscar postagens. Tente novamente.");
-      return [];
-    }
-  };
 
-  const fetchPostById = async (postId) => {
-    try {
-      const response = await apiconfig.get(`http://localhost:8080/posts/${postId}`);
-      console.log("Postagem encontrada:", response.data);
-      return response.data; 
-    } catch (error) {
-      console.error("Erro ao buscar a postagem:", error);
-      alert("Erro ao buscar a postagem. Tente novamente.");
-      return null;
-    }
-  };
+  if (tokenLoading) {
+    return <p>Carregando...</p>;
+  }
 
-  // Se não estiver autenticado, exibe mensagem e impede renderização do formulário
-  if (!isAuthenticated) {
+  if (!token) {
     return (
       <div className="forum-create-post">
         <h2>Você precisa estar logado</h2>
         <p>Por favor, faça login para criar uma postagem no fórum.</p>
-        <button className="continue-btn" onClick={() => navigate("/login")}>
-          FAZER LOGIN
+        <button className="continue-btn" onClick
+        ={alert("Você precisa fazer login para criar uma postagem!")}>
+          {/* () => navigate("/login")
+          }>
+          FAZER LOGIN */}
         </button>
       </div>
     );
@@ -180,7 +157,6 @@ const ForumCreatePost = () => {
               </button>
               <h2>Detalhes do endereço</h2>
             </div>
-            <p>Preencha as informações detalhadas do local</p>
             <form onSubmit={handleContinue}>
               <div className="form-group">
                 <label>Rua/Avenida *</label>
@@ -224,17 +200,8 @@ const ForumCreatePost = () => {
                   />
                 </div>
               </div>
-              <div className="form-group">
-                <label>Ponto de Referência</label>
-                <input
-                  type="text"
-                  value={referencePoint}
-                  onChange={(e) => setReferencePoint(e.target.value)}
-                  placeholder="Ex: Próximo ao supermercado central"
-                />
-              </div>
               <button type="submit" className="continue-btn">
-                CONTINUAR <span className="arrow">→</span>
+                CONTINUAR
               </button>
             </form>
           </>
@@ -281,18 +248,6 @@ const ForumCreatePost = () => {
                   placeholder="Descreva a situação..."
                   required
                 />
-              </div>
-              <div className="form-group">
-                <label>Imagem</label>
-                <label className="image-upload">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    style={{ display: "none" }}
-                  />
-                  Clique para adicionar foto
-                </label>
               </div>
               <button type="submit" className="publish-btn">
                 PUBLICAR

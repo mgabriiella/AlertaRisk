@@ -191,15 +191,15 @@ const Perfil = () => {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      name: `${formData.name.split(" ")[0]} ${e.target.value}`,
+                      name: `${formData.name.split(" ")[0]} ${e.target.value}`.trim(),
                     })
                   }
                   required
                 />
                 <label>Email:</label>
-                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
+                <input type="email" name="email" value={formData.email.trim()} onChange={handleInputChange} required />
                 <label>WhatsApp:</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required />
+                <input type="tel" name="phone" value={formData.phone.trim()} onChange={handleInputChange} required />
                 <button type="submit" className="perfil-btn-confirmar">Confirmar</button>
               </form>
             </>
@@ -215,7 +215,7 @@ const Perfil = () => {
                     <input
                       type="text"
                       name={field}
-                      value={formData.enderecos[0][field]}
+                      value={formData.enderecos[0][field].trim()}
                       onChange={handleInputChange}
                       required
                     />

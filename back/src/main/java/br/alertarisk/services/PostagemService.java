@@ -1,85 +1,76 @@
-    package br.alertarisk.services;
+package br.alertarisk.services;
 
-    import br.alertarisk.controllers.request.postagem.SavePostagemRequest;
-    import br.alertarisk.exception.NotFoundException;
-    import br.alertarisk.exception.ValidationException;
-    import br.alertarisk.models.Endereco;
-    import br.alertarisk.models.Postagem;
-    import br.alertarisk.models.UserModel;
-    import br.alertarisk.repositories.EnderecoRepository;
-    import br.alertarisk.repositories.PostagemRepository;
-    import br.alertarisk.repositories.UserRepository;
-    import br.alertarisk.services.alerta.AlertaService;
-    import jakarta.transaction.Transactional;
-    import lombok.AllArgsConstructor;
-    import org.springframework.stereotype.Service;
+import br.alertarisk.controllers.request.postagem.SavePostagemRequest;
+import br.alertarisk.enums.CategoriaPostagem;
+import br.alertarisk.exception.NotFoundException;
+import br.alertarisk.models.Endereco;
+import br.alertarisk.models.Postagem;
+import br.alertarisk.models.UserModel;
+import br.alertarisk.repositories.EnderecoRepository;
+import br.alertarisk.repositories.PostagemRepository;
+import br.alertarisk.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-    import java.util.List;
+import java.time.LocalDateTime;
+import java.util.List;
 
-    @Service
-    @AllArgsConstructor
-    public class PostagemService {
+@Service
+@RequiredArgsConstructor
+public class PostagemService {
 
-        private final PostagemRepository repository;
+    private final PostagemRepository postagemRepository;
+    private final EnderecoRepository enderecoRepository;
+    private final UserRepository userRepository;
 
-        private final EnderecoRepository enderecoRepository;
+    public Postagem save(SavePostagemRequest request) {
+        // Buscar o usuário pelo ID
+        UserModel user = userRepository.findById(request.idUsuario())
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado com o ID fornecido."));
 
-        private final UserRepository userRepository;
+        // Buscar o endereço pelo CEP e bairro
+        Endereco endereco = enderecoRepository.findByCepAndBairro(request.cep(), request.bairro())
+                .orElseThrow(() -> new NotFoundException("Endereço não encontrado para o CEP e bairro fornecidos."));
 
+        // Criar a postagem
+        Postagem postagem = new Postagem();
+        postagem.setCategoria(request.categoria());
+        postagem.setTitulo(request.titulo());
+        postagem.setConteudo(request.conteudo());
+        postagem.setMedia(request.media());
+        postagem.setUser(user);
+        postagem.setEndereco(endereco);
+        postagem.setCreatedAt(LocalDateTime.now());
+        postagem.setUpdatedAt(LocalDateTime.now());
 
-        private final AlertaService alertaService;
-
-        public List<Postagem> list() {
-            return repository.findAll();
-        }
-
-        public Postagem findById(final Long id) {
-            return repository.findById(id).orElseThrow(
-                    () -> new NotFoundException("Postagem não encontrada")
-            );
-        }
-
-        @Transactional
-        public Postagem save(final SavePostagemRequest request) {
-
-            UserModel user = userRepository.findById(request.idUsuario())
-                    .orElseThrow(() -> new NotFoundException("Usuário não encontrado com o ID " + request.idUsuario()));
-
-            Endereco endereco = enderecoRepository.findById(request.idEndereco())
-                    .orElseThrow(() -> new NotFoundException("Endereço não encontrado com ID: " + request.idEndereco()));
-
-            if (!endereco.getUser().getId().equals(user.getId())) {
-                throw new ValidationException("O endereço informado não pertence ao usuário.");
-            }
-
-            Postagem postagem = new Postagem();
-            postagem.setCategoria(request.categoria());
-            postagem.setTitulo(request.titulo());
-            postagem.setConteudo(request.conteudo());
-            postagem.setUser(user);
-            postagem.setEndereco(endereco);
-
-            return repository.save(postagem);
-        }
-
-
-
-        public Postagem update(final Postagem postagem) {
-            Postagem existPost = repository.findById(postagem.getId()).orElseThrow(
-                    () -> new NotFoundException("Post não encontrado")
-            );
-
-            existPost.setConteudo(postagem.getConteudo());
-            existPost.setTitulo(postagem.getTitulo());
-            existPost.setCategoria(postagem.getCategoria());
-            existPost.setEndereco(postagem.getEndereco());
-
-
-            return repository.save(existPost);
-        }
-
-        public void delete(final Long id) {
-            repository.findById(id);
-            repository.deleteById(id);
-        }
+        return postagemRepository.save(postagem);
     }
+
+    public List<Postagem> list() {
+        return postagemRepository.findAll();
+    }
+
+    public Postagem findById(final Long id) {
+        return postagemRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Postagem não encontrada")
+        );
+    }
+
+    public Postagem update(final Postagem postagem) {
+        Postagem existPost = postagemRepository.findById(postagem.getId()).orElseThrow(
+                () -> new NotFoundException("Post não encontrado")
+        );
+
+        existPost.setConteudo(postagem.getConteudo());
+        existPost.setTitulo(postagem.getTitulo());
+        existPost.setCategoria(postagem.getCategoria());
+        existPost.setEndereco(postagem.getEndereco());
+
+        return postagemRepository.save(existPost);
+    }
+
+    public void delete(final Long id) {
+        postagemRepository.findById(id);
+        postagemRepository.deleteById(id);
+    }
+}

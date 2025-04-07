@@ -1,6 +1,8 @@
 package br.alertarisk.controllers.response.postagem;
 
 import br.alertarisk.controllers.request.endereco.SaveEnderecoRequest;
+import br.alertarisk.controllers.response.endereco.EnderecoDetailResponse;
+import br.alertarisk.controllers.response.user.UserDetailResponse;
 import br.alertarisk.models.Endereco;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
@@ -22,9 +24,9 @@ public record PostagemDetailResponse(
         String conteudo,
 
         @JsonProperty("endereco")
-        SaveEnderecoRequest endereco ,
+        EnderecoDetailResponse endereco ,
 
-        @JsonProperty("id_usuario")
-        Long idUsuario
+        @JsonProperty("usuario")
+        UserDetailResponse usuario
 )
 {}

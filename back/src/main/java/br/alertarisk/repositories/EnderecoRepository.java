@@ -3,6 +3,7 @@ package br.alertarisk.repositories;
 import br.alertarisk.models.Endereco;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -15,5 +16,6 @@ public interface EnderecoRepository extends CrudRepository<Endereco, Long> {
             "LIMIT 1", nativeQuery = true)
     Endereco findNearestAddress(Double latitude, Double longitude);
 
-    Optional<Endereco> findByCepAndBairro(String cep, String bairro);
+    @Query("SELECT e FROM Endereco e WHERE e.cep = :cep AND e.bairro = :bairro")
+    Optional<Endereco> findByCepAndBairro(@Param("cep") String cep, @Param("bairro") String bairro);
 }
