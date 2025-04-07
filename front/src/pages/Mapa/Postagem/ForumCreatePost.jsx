@@ -3,10 +3,11 @@ import "./forumcreatepost.css";
 import { useNavigate } from "react-router-dom";
 import { apiconfig } from "../../Service/apiconfig";
 import { useToken } from "../../../hooks/useToken";
+import { useUserData } from "../../../hooks/useUserData";
 
 const ForumCreatePost = () => {
   const [currentSection, setCurrentSection] = useState("address");
-  const [cep, setCep] = useState("")
+  const [cep, setCep] = useState("");
   const [street, setStreet] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
   const [city, setCity] = useState("Recife");
@@ -17,19 +18,18 @@ const ForumCreatePost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
 
+  const { userData: user, userId, loading } = useUserData();
   const { token, loading: tokenLoading, fetchToken } = useToken();
   const navigate = useNavigate();
 
   useEffect(() => {
     const validateToken = async () => {
       if (!token) {
-        await fetchToken(); // Fetch the token asynchronously
+        await fetchToken();
       }
-
       if (!token) {
-        console.log("Usuário não autenticado, redirecionando para /login");
         alert("Você precisa fazer login para criar uma postagem!");
-        // navigate("/login");
+        navigate("/login");
       }
     };
 
@@ -40,7 +40,6 @@ const ForumCreatePost = () => {
 
   const handleContinue = (e) => {
     e.preventDefault();
-
     if (!cep || !street || !neighborhood || !city || !state) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
@@ -60,49 +59,25 @@ const ForumCreatePost = () => {
       return;
     }
 
-    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Erro ao identificar o usuário. Faça login novamente.");
+      return;
+    }
+
     const postData = {
       categoria: category.toUpperCase(),
       titulo: title,
       conteudo: content,
       id_usuario: userId,
-      endereco: {
-        status: "ATIVO",
-        categoria: category.toUpperCase(),
-        nivel: "VERDE",
-        endereco: {
-          cep: cep,
-          rua: street,
-          bairro: neighborhood,
-          cidade: city,
-          estado: state,
-        },
-      },
+      cep: cep,
+      bairro: neighborhood,
     };
 
     try {
       const response = await apiconfig.post("/posts", postData);
-
-      if (response.status === 201 || response.status === 200) {
-        const newPost = {
-          id: response.data.id || Date.now(),
-          title: postData.titulo,
-          description: postData.conteudo,
-          author: "Usuário Logado",
-          bairro: postData.endereco.endereco.bairro,
-          category: postData.categoria,
-          time: new Date().toISOString(),
-          likes: 0,
-          dislikes: 0,
-          imageUrl: "https://via.placeholder.com/50",
-          avatarUrl:
-            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
-          lat: -8.0578,
-          lon: -34.9045,
-        };
-
-        localStorage.setItem("newPost", JSON.stringify(newPost));
-
+      if (response.status === 200 || response.status === 201) {
+        localStorage.setItem("newPost", JSON.stringify(postData));
+        setCep("");
         setStreet("");
         setNeighborhood("");
         setCity("Recife");
@@ -114,8 +89,6 @@ const ForumCreatePost = () => {
         setImage(null);
         setCurrentSection("address");
         navigate("/mapa");
-      } else {
-        throw new Error("Erro ao criar a postagem");
       }
     } catch (error) {
       console.error("Erro ao enviar a postagem:", error);
@@ -129,28 +102,13 @@ const ForumCreatePost = () => {
     }
   };
 
-  const fetchPostById = async (postId) => {
-    try {
-      const response = await apiconfig.get(`http://localhost:8080/posts/${postId}`);
-      console.log("Postagem encontrada:", response.data);
-      return response.data; 
-    } catch (error) {
-      console.error("Erro ao buscar a postagem:", error);
-      alert("Erro ao buscar a postagem. Tente novamente.");
-      return null;
-    }
-  };
-
   if (!token) {
     return (
       <div className="forum-create-post">
         <h2>Você precisa estar logado</h2>
         <p>Por favor, faça login para criar uma postagem no fórum.</p>
-        <button className="continue-btn" onClick
-        ={alert("Você precisa fazer login para criar uma postagem!")}>
-          {() => navigate("/login")
-          }>
-          FAZER LOGIN }
+        <button className="continue-btn" onClick={() => navigate("/login")}>
+          FAZER LOGIN
         </button>
       </div>
     );
@@ -169,6 +127,17 @@ const ForumCreatePost = () => {
             </div>
             <form onSubmit={handleContinue}>
               <div className="form-group">
+                <label>CEP *</label>
+                <input
+                  type="text"
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                  placeholder="Digite o CEP"
+                  required
+                  maxLength="8"
+                />
+              </div>
+              <div className="form-group">
                 <label>Rua/Avenida *</label>
                 <input
                   type="text"
@@ -178,74 +147,6 @@ const ForumCreatePost = () => {
                   required
                 />
               </div>
-    <div className="forum-create-post">
-      {currentSection === "address" ? (
-        <>
-          <div className="header-with-back">
-            <button className="back-btn" onClick={() => navigate("/mapa")}>
-              ←
-            </button>
-            <h2>Detalhes do endereço</h2>
-          </div>
-          <p>Preencha as informações detalhadas do local</p>
-          <form onSubmit={handleContinue}>
-            {/* Novo campo CEP adicionado aqui */}
-            <div className="form-group">
-              <label>CEP *</label>
-              <input
-                type="text"
-                value={cep}
-                onChange={(e) => setCep(e.target.value)}
-                placeholder="Digite o CEP"
-                required
-                maxLength="8"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Rua/Avenida *</label>
-              <input
-                type="text"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                placeholder="Nome da rua ou avenida"
-                required
-              />
-            </div>
-    <div className="forum-create-post">
-      {currentSection === "address" ? (
-        <>
-          <div className="header-with-back">
-            <button className="back-btn" onClick={() => navigate("/mapa")}>
-              ←
-            </button>
-            <h2>Detalhes do endereço</h2>
-          </div>
-          <p>Preencha as informações detalhadas do local</p>
-          <form onSubmit={handleContinue}>
-            {/* Novo campo CEP adicionado aqui */}
-            <div className="form-group">
-              <label>CEP *</label>
-              <input
-                type="text"
-                value={cep}
-                onChange={(e) => setCep(e.target.value)}
-                placeholder="Digite o CEP"
-                required
-                maxLength="8"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Rua/Avenida *</label>
-              <input
-                type="text"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                placeholder="Nome da rua ou avenida"
-                required
-              />
-            </div>
               <div className="form-group">
                 <label>Bairro *</label>
                 <input
@@ -263,7 +164,6 @@ const ForumCreatePost = () => {
                     type="text"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    placeholder="Recife"
                     required
                   />
                 </div>
@@ -273,7 +173,6 @@ const ForumCreatePost = () => {
                     type="text"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
-                    placeholder="PE"
                     required
                   />
                 </div>
@@ -284,7 +183,6 @@ const ForumCreatePost = () => {
                   type="text"
                   value={referencePoint}
                   onChange={(e) => setReferencePoint(e.target.value)}
-                  placeholder="Ex: Próximo ao supermercado central"
                 />
               </div>
               <button type="submit" className="continue-btn">
