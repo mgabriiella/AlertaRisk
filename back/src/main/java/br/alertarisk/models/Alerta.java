@@ -15,9 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Data
-@Table(name = "ALERTA", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"latitude", "longitude", "categoria", "status", "rain_volume"})
-})
+@Table(name = "ALERTA")
 public class Alerta {
 
     @Id

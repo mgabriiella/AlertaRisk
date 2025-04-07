@@ -11,12 +11,12 @@ public class AlertaFetchService {
     private final ChuvaAlertaService chuvaAlertaService;
     private final AlertaMergeService alertaMergeService;
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 3600000)
     public void fetchAndCreateSignificantRainAlerts() {
         chuvaAlertaService.fetchAndCreateAlerts();
     }
 
-    @Scheduled(fixedRate = 360000)
+    @Scheduled(fixedRate = 3600000)
     public void fetchAndMergeAllAlerts() {
         alertaMergeService.mergeAndSaveApiAlerts();
     }

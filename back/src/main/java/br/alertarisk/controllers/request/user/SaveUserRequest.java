@@ -22,7 +22,7 @@ public record SaveUserRequest(
         String password,
         @NotNull
         @JsonProperty("phone")
-        @Length(min = 11, max = 11,message = "O campo [phone] deve conter 11 caracteres")
+        @Length(min = 11, max = 14,message = "O campo [phone] deve conter no mínimo 11 caracteres")
         String phone,
         @NotNull
         List<SaveEnderecoRequest> enderecos

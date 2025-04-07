@@ -6,7 +6,10 @@ import br.alertarisk.controllers.response.alerta.DetailAlertaResponse;
 import br.alertarisk.controllers.response.alerta.ListAlertaResponse;
 import br.alertarisk.controllers.response.alerta.SaveAlertaResponse;
 import br.alertarisk.controllers.response.alerta.UpdateAlertaResponse;
+import br.alertarisk.exception.NotFoundException;
 import br.alertarisk.mappers.AlertaMapper;
+import br.alertarisk.repositories.AlertaRepository;
+import br.alertarisk.repositories.UserRepository;
 import br.alertarisk.services.alerta.AlertaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,7 +26,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 public class AlertaController {
 
     private final AlertaService alertaService;
-
+    private final UserRepository userRepository;
     private final AlertaMapper alertaMapper;
 
     @GetMapping
@@ -41,15 +44,17 @@ public class AlertaController {
     @PostMapping
     @ResponseStatus(CREATED)
     SaveAlertaResponse save(@RequestBody @Valid final SaveAlertaRequest request) {
+        var user = userRepository.findByBairroAndCep(request.bairro(), request.cep())
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado para o bairro e CEP fornecidos."));
         var alerta = alertaMapper.toModel(request);
-        alerta = alertaService.save(alerta);
+        alerta = alertaService.save(alerta, request.cep(), request.bairro(), request.rua(), request.cidade(), request.estado(), user);
         return alertaMapper.toSaveResponse(alerta);
     }
 
     @PutMapping("{id}")
     UpdateAlertaResponse update(@PathVariable Long id, @RequestBody @Valid final UpdateAlertaRequest request) {
         var alerta = alertaMapper.toModel(id,request);
-        alertaService.save(alerta);
+        alertaService.update(alerta);
         return alertaMapper.toUpdateResponse(alerta);
     }
 

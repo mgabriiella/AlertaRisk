@@ -17,7 +17,7 @@ services:
   backend:
     build:
       context: .
-    command: bash start-dev.sh
+    command: mvn spring-boot:run
     container_name: alertarisk-api
     restart: always
     depends_on:
@@ -31,7 +31,10 @@ services:
       SWAGGER_SERVER_URL: http://localhost:8080
       APP_FRONTEND_URL: http://localhost:3000
       JWT_SECRET: alertarisk@123
-      API_KEY: d05e1865b9c1e8235452f8797ecd2910
+      API_KEY: 
+      SID_TWILIO:
+      TWILIO_AUTH_TOKEN:
+      TWILIO_NUMBER: +14155238886
     ports:
       - "8080:8080"
       - "5005:5005"

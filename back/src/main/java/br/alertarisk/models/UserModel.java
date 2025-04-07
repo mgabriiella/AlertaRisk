@@ -39,7 +39,7 @@ public class UserModel {
     @Column
     private String cpf;
     
-    @Column(unique = true, length = 11, columnDefinition = "bpchar(11)")
+    @Column(unique = true, length = 14, columnDefinition = "bpchar(14)")
     private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = LAZY)

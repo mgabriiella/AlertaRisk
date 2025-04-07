@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EnderecoRepository extends CrudRepository<Endereco, Long> {
 
@@ -12,4 +14,6 @@ public interface EnderecoRepository extends CrudRepository<Endereco, Long> {
             "ORDER BY earth_distance(ll_to_earth(e.latitude, e.longitude), ll_to_earth(?1, ?2)) ASC " +
             "LIMIT 1", nativeQuery = true)
     Endereco findNearestAddress(Double latitude, Double longitude);
+
+    Optional<Endereco> findByCepAndBairro(String cep, String bairro);
 }

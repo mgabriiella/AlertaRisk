@@ -44,7 +44,7 @@ public class BairrosData {
             Map.entry("Beberibe", "52120000"),
             Map.entry("Benfica", "50750000"),
             Map.entry("Boa Viagem", "51020000"),
-            Map.entry("Boa Vista", "50060000"),
+//            Map.entry("Boa Vista", "50070120"),
             Map.entry("Bomba do Hemetério", "52110000"),
             Map.entry("Bongi", "50750000"),
             Map.entry("Brasília Teimosa", "51010000"),
@@ -133,7 +133,7 @@ public class BairrosData {
             Map.entry("Zumbi", "52110000")
     );
 
-    // Utility method to get CEP by neighborhood
+    
     public static String getCepByNeighborhood(String neighborhood) {
         return NEIGHBORHOOD_CEP_MAP.getOrDefault(neighborhood, "00000000");
     }

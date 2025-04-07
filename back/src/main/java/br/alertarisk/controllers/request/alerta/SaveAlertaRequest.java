@@ -13,9 +13,13 @@ public record SaveAlertaRequest(
         @NotNull @JsonProperty("categoria") CategoriaPostagem categoria,
         @NotNull @JsonProperty("nivel") AlertaNivel nivel,
         @NotNull @JsonProperty("bairro") String bairro,
+        @NotNull @JsonProperty("cep") String cep,
+        @NotNull @JsonProperty("rua") String rua,
+        @NotNull @JsonProperty("cidade") String cidade,
+        @NotNull @JsonProperty("estado") String estado,
         @JsonProperty("latitude") Double latitude,
         @JsonProperty("longitude") Double longitude,
         @JsonProperty("rainVolume") Double rainVolume,
-        @JsonProperty("descricao") String descricao, 
+        @JsonProperty("descricao") String descricao,
         @JsonProperty("createdAt") LocalDateTime createdAt
 ) { }

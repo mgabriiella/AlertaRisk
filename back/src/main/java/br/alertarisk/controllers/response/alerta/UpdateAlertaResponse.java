@@ -4,6 +4,7 @@ import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.enums.AlertaStatus;
 import br.alertarisk.enums.CategoriaPostagem;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateAlertaResponse (
         @JsonProperty("id")
@@ -15,9 +16,11 @@ public record UpdateAlertaResponse (
         @JsonProperty("nivel")
         AlertaNivel nivel,
         @JsonProperty("bairro")
-        String bairro, // Extracted from Endereco
+        String bairro,
+        @JsonProperty("cep")
+        String cep,
         @JsonProperty("cidade")
-        String cidade, // Extracted from Endereco
+        String cidade,
         @JsonProperty("estado")
-        String estado  // Extracted from Endereco
+        String estado
 ) { }
