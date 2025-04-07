@@ -159,6 +159,11 @@ const Mapa = () => {
     localStorage.setItem('posts', JSON.stringify(posts));
   }, [posts]);
 
+  // Salva os posts no localStorage sempre que o estado mudar
+  useEffect(() => {
+    localStorage.setItem('posts', JSON.stringify(posts));
+  }, [posts]);
+
   useEffect(() => {
     const newPost = localStorage.getItem('newPost');
     if (newPost) {
@@ -237,6 +242,60 @@ const Mapa = () => {
     const postId = selectedPost.id;
     const userId = localStorage.getItem('userId');
 
+    setPosts((prevPosts) =>
+      prevPosts.map((post) => {
+        if (post.id !== postId) return post;
+
+        // Verifica se o usuário já interagiu
+        if (pendingAction === 'like') {
+          if (post.likedBy.includes(userId)) {
+            alert('Você já curtiu este post!');
+            return post;
+          }
+          if (post.dislikedBy.includes(userId)) {
+            // Remove o dislike se o usuário já tiver descurtido
+            return {
+              ...post,
+              likes: post.likes + 1,
+              dislikes: post.dislikes - 1,
+              likedBy: [...post.likedBy, userId],
+              dislikedBy: post.dislikedBy.filter((id) => id !== userId),
+            };
+          }
+          return {
+            ...post,
+            likes: post.likes + 1,
+            likedBy: [...post.likedBy, userId],
+          };
+        } else if (pendingAction === 'dislike') {
+          if (post.dislikedBy.includes(userId)) {
+            alert('Você já descurtiu este post!');
+            return post;
+          }
+          if (post.likedBy.includes(userId)) {
+            // Remove o like se o usuário já tiver curtido
+            return {
+              ...post,
+              dislikes: post.dislikes + 1,
+              likes: post.likes - 1,
+              dislikedBy: [...post.dislikedBy, userId],
+              likedBy: post.likedBy.filter((id) => id !== userId),
+            };
+          }
+          return {
+            ...post,
+            dislikes: post.dislikes + 1,
+            dislikedBy: [...post.dislikedBy, userId],
+          };
+        }
+        return post;
+      })
+    );
+
+    // Fecha o popup de confirmação
+    setShowConfirmation(false);
+    setSelectedPost(null);
+    setPendingAction(null);
     setPosts((prevPosts) =>
       prevPosts.map((post) => {
         if (post.id !== postId) return post;

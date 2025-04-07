@@ -212,6 +212,40 @@ const ForumCreatePost = () => {
                 required
               />
             </div>
+    <div className="forum-create-post">
+      {currentSection === "address" ? (
+        <>
+          <div className="header-with-back">
+            <button className="back-btn" onClick={() => navigate("/mapa")}>
+              ←
+            </button>
+            <h2>Detalhes do endereço</h2>
+          </div>
+          <p>Preencha as informações detalhadas do local</p>
+          <form onSubmit={handleContinue}>
+            {/* Novo campo CEP adicionado aqui */}
+            <div className="form-group">
+              <label>CEP *</label>
+              <input
+                type="text"
+                value={cep}
+                onChange={(e) => setCep(e.target.value)}
+                placeholder="Digite o CEP"
+                required
+                maxLength="8"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Rua/Avenida *</label>
+              <input
+                type="text"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+                placeholder="Nome da rua ou avenida"
+                required
+              />
+            </div>
               <div className="form-group">
                 <label>Bairro *</label>
                 <input
