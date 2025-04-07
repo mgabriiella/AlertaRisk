@@ -86,41 +86,51 @@ const Mapa = () => {
   const [bairrosWeather, setBairrosWeather] = useState({});
   const [isForumExpanded, setIsForumExpanded] = useState(false);
   const [mapMode, setMapMode] = useState('weather');
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: 'Alagamento grave',
-      description: 'Rua Exemplo, 123',
-      author: 'Colaborador',
-      bairro: 'Boa Viagem',
-      category: 'alagamento',
-      time: new Date().toISOString(),
-      likes: 0,
-      dislikes: 0,
-      imageUrl: 'https://via.placeholder.com/50',
-      avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
-      lat: -8.1135,
-      lon: -34.8912,
-    },
-    {
-      id: 2,
-      title: 'Problema na via',
-      description: 'Avenida Teste, 456',
-      author: 'Usuario2',
-      bairro: 'Madalena',
-      category: 'outros',
-      time: new Date().toISOString(),
-      likes: 0,
-      dislikes: 0,
-      imageUrl: 'https://via.placeholder.com/50',
-      avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
-      lat: -8.0578,
-      lon: -34.9045,
-    },
-  ]);
+  const [posts, setPosts] = useState(() => {
+    // Carrega os posts do localStorage, se existirem
+    const savedPosts = localStorage.getItem('posts');
+    return savedPosts
+      ? JSON.parse(savedPosts)
+      : [
+          {
+            id: 1,
+            title: 'Alagamento grave',
+            description: 'Rua Exemplo, 123',
+            author: 'Colaborador',
+            bairro: 'Boa Viagem',
+            category: 'alagamento',
+            time: new Date().toISOString(),
+            likes: 5, // Valor inicial predefinido
+            dislikes: 2, // Valor inicial predefinido
+            likedBy: [], // Lista de userIds que curtiram
+            dislikedBy: [], // Lista de userIds que descurtiram
+            imageUrl: 'https://via.placeholder.com/50',
+            avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+            lat: -8.1135,
+            lon: -34.8912,
+          },
+          {
+            id: 2,
+            title: 'Problema na via',
+            description: 'Avenida Teste, 456',
+            author: 'Usuario2',
+            bairro: 'Madalena',
+            category: 'outros',
+            time: new Date().toISOString(),
+            likes: 3, // Valor inicial predefinido
+            dislikes: 1, // Valor inicial predefinido
+            likedBy: [],
+            dislikedBy: [],
+            imageUrl: 'https://via.placeholder.com/50',
+            avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+            lat: -8.0578,
+            lon: -34.9045,
+          },
+        ];
+  });
   const [selectedPost, setSelectedPost] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [pendingAction, setPendingAction] = useState(null); // Track the pending action (like/dislike)
+  const [pendingAction, setPendingAction] = useState(null);
 
   const { token, loading: tokenLoading, fetchToken } = useToken(); // Use the useToken hook
   const navigate = useNavigate();
@@ -144,10 +154,20 @@ const Mapa = () => {
     }
   }, [token, tokenLoading, fetchToken, navigate]);
 
+  // Salva os posts no localStorage sempre que o estado mudar
+  useEffect(() => {
+    localStorage.setItem('posts', JSON.stringify(posts));
+  }, [posts]);
+
   useEffect(() => {
     const newPost = localStorage.getItem('newPost');
     if (newPost) {
       const parsedPost = JSON.parse(newPost);
+      // Adiciona likedBy e dislikedBy ao novo post
+      parsedPost.likedBy = [];
+      parsedPost.dislikedBy = [];
+      parsedPost.likes = 0; // Novo post começa com 0 likes
+      parsedPost.dislikes = 0; // Novo post começa com 0 dislikes
       setPosts((prevPosts) => [...prevPosts, parsedPost]);
       localStorage.removeItem('newPost');
     }
@@ -190,8 +210,8 @@ const Mapa = () => {
     }
     const post = posts.find((p) => p.id === postId);
     setSelectedPost(post);
-    setPendingAction('like'); // Set the pending action to 'like'
-    setShowConfirmation(true); // Show the confirmation popup
+    setPendingAction('like');
+    setShowConfirmation(true);
   };
 
   const handleDislike = (postId) => {
@@ -202,22 +222,75 @@ const Mapa = () => {
     }
     const post = posts.find((p) => p.id === postId);
     setSelectedPost(post);
-    setPendingAction('dislike'); // Set the pending action to 'dislike'
-    setShowConfirmation(true); // Show the confirmation popup
+    setPendingAction('dislike');
+    setShowConfirmation(true);
   };
 
   const handleConfirmation = async (confirmed) => {
     if (!confirmed) {
-      // If the user cancels, reset the state and close the popup
       setShowConfirmation(false);
       setSelectedPost(null);
       setPendingAction(null);
       return;
     }
 
-    // If the user confirms, proceed with the like/dislike action
     const postId = selectedPost.id;
+    const userId = localStorage.getItem('userId');
 
+    setPosts((prevPosts) =>
+      prevPosts.map((post) => {
+        if (post.id !== postId) return post;
+
+        // Verifica se o usuário já interagiu
+        if (pendingAction === 'like') {
+          if (post.likedBy.includes(userId)) {
+            alert('Você já curtiu este post!');
+            return post;
+          }
+          if (post.dislikedBy.includes(userId)) {
+            // Remove o dislike se o usuário já tiver descurtido
+            return {
+              ...post,
+              likes: post.likes + 1,
+              dislikes: post.dislikes - 1,
+              likedBy: [...post.likedBy, userId],
+              dislikedBy: post.dislikedBy.filter((id) => id !== userId),
+            };
+          }
+          return {
+            ...post,
+            likes: post.likes + 1,
+            likedBy: [...post.likedBy, userId],
+          };
+        } else if (pendingAction === 'dislike') {
+          if (post.dislikedBy.includes(userId)) {
+            alert('Você já descurtiu este post!');
+            return post;
+          }
+          if (post.likedBy.includes(userId)) {
+            // Remove o like se o usuário já tiver curtido
+            return {
+              ...post,
+              dislikes: post.dislikes + 1,
+              likes: post.likes - 1,
+              dislikedBy: [...post.dislikedBy, userId],
+              likedBy: post.likedBy.filter((id) => id !== userId),
+            };
+          }
+          return {
+            ...post,
+            dislikes: post.dislikes + 1,
+            dislikedBy: [...post.dislikedBy, userId],
+          };
+        }
+        return post;
+      })
+    );
+
+    // Fecha o popup de confirmação
+    setShowConfirmation(false);
+    setSelectedPost(null);
+    setPendingAction(null);
     try {
       if (pendingAction === 'like') {
         setPosts((prevPosts) =>

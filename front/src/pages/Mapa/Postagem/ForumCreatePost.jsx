@@ -6,6 +6,7 @@ import { useToken } from "../../../hooks/useToken";
 
 const ForumCreatePost = () => {
   const [currentSection, setCurrentSection] = useState("address");
+  const [cep, setCep] = useState("")
   const [street, setStreet] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
   const [city, setCity] = useState("Recife");
@@ -39,7 +40,8 @@ const ForumCreatePost = () => {
 
   const handleContinue = (e) => {
     e.preventDefault();
-    if (!street || !neighborhood || !city || !state) {
+
+    if (!cep || !street || !neighborhood || !city || !state) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
@@ -69,11 +71,11 @@ const ForumCreatePost = () => {
         categoria: category.toUpperCase(),
         nivel: "VERDE",
         endereco: {
+          cep: cep,
           rua: street,
           bairro: neighborhood,
           cidade: city,
           estado: state,
-          cep: "",
         },
       },
     };
@@ -127,9 +129,17 @@ const ForumCreatePost = () => {
     }
   };
 
-  if (tokenLoading) {
-    return <p>Carregando...</p>;
-  }
+  const fetchPostById = async (postId) => {
+    try {
+      const response = await apiconfig.get(`http://localhost:8080/posts/${postId}`);
+      console.log("Postagem encontrada:", response.data);
+      return response.data; 
+    } catch (error) {
+      console.error("Erro ao buscar a postagem:", error);
+      alert("Erro ao buscar a postagem. Tente novamente.");
+      return null;
+    }
+  };
 
   if (!token) {
     return (
@@ -138,9 +148,9 @@ const ForumCreatePost = () => {
         <p>Por favor, faça login para criar uma postagem no fórum.</p>
         <button className="continue-btn" onClick
         ={alert("Você precisa fazer login para criar uma postagem!")}>
-          {/* () => navigate("/login")
+          {() => navigate("/login")
           }>
-          FAZER LOGIN */}
+          FAZER LOGIN }
         </button>
       </div>
     );
@@ -168,6 +178,40 @@ const ForumCreatePost = () => {
                   required
                 />
               </div>
+    <div className="forum-create-post">
+      {currentSection === "address" ? (
+        <>
+          <div className="header-with-back">
+            <button className="back-btn" onClick={() => navigate("/mapa")}>
+              ←
+            </button>
+            <h2>Detalhes do endereço</h2>
+          </div>
+          <p>Preencha as informações detalhadas do local</p>
+          <form onSubmit={handleContinue}>
+            {/* Novo campo CEP adicionado aqui */}
+            <div className="form-group">
+              <label>CEP *</label>
+              <input
+                type="text"
+                value={cep}
+                onChange={(e) => setCep(e.target.value)}
+                placeholder="Digite o CEP"
+                required
+                maxLength="8"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Rua/Avenida *</label>
+              <input
+                type="text"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+                placeholder="Nome da rua ou avenida"
+                required
+              />
+            </div>
               <div className="form-group">
                 <label>Bairro *</label>
                 <input
@@ -200,8 +244,17 @@ const ForumCreatePost = () => {
                   />
                 </div>
               </div>
+              <div className="form-group">
+                <label>Ponto de Referência</label>
+                <input
+                  type="text"
+                  value={referencePoint}
+                  onChange={(e) => setReferencePoint(e.target.value)}
+                  placeholder="Ex: Próximo ao supermercado central"
+                />
+              </div>
               <button type="submit" className="continue-btn">
-                CONTINUAR
+                CONTINUAR <span className="arrow">→</span>
               </button>
             </form>
           </>
@@ -248,6 +301,18 @@ const ForumCreatePost = () => {
                   placeholder="Descreva a situação..."
                   required
                 />
+              </div>
+              <div className="form-group">
+                <label>Imagem</label>
+                <label className="image-upload">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    style={{ display: "none" }}
+                  />
+                  Clique para adicionar foto
+                </label>
               </div>
               <button type="submit" className="publish-btn">
                 PUBLICAR

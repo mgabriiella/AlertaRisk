@@ -137,8 +137,7 @@ export const coordenadasBairros = {
   'Zumbi': { lat: -8.0667, lon: -34.8667 },
 };
 export const fetchWeather = async (lat, lon) => {
-  const API_KEY = import.meta.env.VITE_API_KEY;
-  console.log("API_KEY:", API_KEY);
+  console.log("API_KEY:", API_KEY); // Use a constante já definida
   if (!API_KEY) {
     throw new Error("API Key is missing. Please set VITE_API_KEY in your .env file.");
   }
