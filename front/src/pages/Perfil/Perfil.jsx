@@ -298,8 +298,11 @@ const Perfil = () => {
                         <input type="text" name={field} defaultValue={enderecoAlerta[field]} required />
                       </React.Fragment>
                     ))}
-                    <button type="submit" className="perfil-btn-confirmar">Ativar Alertas</button>
-                    <button type="button" className="perfil-btn-cancelar" onClick={() => setMostrarFormularioEndereco(false)}>Cancelar</button>
+                    <div className="perfil-btn-container">
+                      <button type="submit" className="perfil-btn-confirmar">Ativar Alertas</button>
+                      <button type="button" className="perfil-btn-cancelar" onClick={() => setMostrarFormularioEndereco(false)}>Cancelar</button>
+                    </div>
+
                   </form>
                 ) : (
                   <>
