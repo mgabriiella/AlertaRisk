@@ -6,6 +6,7 @@ import { apiconfig } from "../../Service/apiconfig";
 // Página para criar uma nova postagem no fórum
 const ForumCreatePost = () => {
   const [currentSection, setCurrentSection] = useState("address");
+  const [cep, setCep] = useState("")
   const [street, setStreet] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
   const [city, setCity] = useState("Recife");
@@ -32,7 +33,8 @@ const ForumCreatePost = () => {
 
   const handleContinue = (e) => {
     e.preventDefault();
-    if (!street || !neighborhood || !city || !state) {
+   
+    if (!cep || !street || !neighborhood || !city || !state) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
@@ -62,7 +64,7 @@ const ForumCreatePost = () => {
 
     const userId = localStorage.getItem("userId");
     const postData = {
-      categoria: category.toUpperCase(), 
+      categoria: category.toUpperCase(),
       titulo: title,
       conteudo: content,
       id_usuario: userId,
@@ -71,11 +73,11 @@ const ForumCreatePost = () => {
         categoria: category.toUpperCase(),
         nivel: "VERDE",
         endereco: {
+          cep: cep, 
           rua: street,
           bairro: neighborhood,
           cidade: city,
           estado: state,
-          cep: "", 
         },
       },
     };
@@ -171,27 +173,40 @@ const ForumCreatePost = () => {
 
   return (
     <div className="forum-create-post-container">
-      <div className="forum-create-post">
-        {currentSection === "address" ? (
-          <>
-            <div className="header-with-back">
-              <button className="back-btn" onClick={() => navigate("/mapa")}>
-                ←
-              </button>
-              <h2>Detalhes do endereço</h2>
+    <div className="forum-create-post">
+      {currentSection === "address" ? (
+        <>
+          <div className="header-with-back">
+            <button className="back-btn" onClick={() => navigate("/mapa")}>
+              ←
+            </button>
+            <h2>Detalhes do endereço</h2>
+          </div>
+          <p>Preencha as informações detalhadas do local</p>
+          <form onSubmit={handleContinue}>
+            {/* Novo campo CEP adicionado aqui */}
+            <div className="form-group">
+              <label>CEP *</label>
+              <input
+                type="text"
+                value={cep}
+                onChange={(e) => setCep(e.target.value)}
+                placeholder="Digite o CEP"
+                required
+                maxLength="8"
+              />
             </div>
-            <p>Preencha as informações detalhadas do local</p>
-            <form onSubmit={handleContinue}>
-              <div className="form-group">
-                <label>Rua/Avenida *</label>
-                <input
-                  type="text"
-                  value={street}
-                  onChange={(e) => setStreet(e.target.value)}
-                  placeholder="Nome da rua ou avenida"
-                  required
-                />
-              </div>
+            
+            <div className="form-group">
+              <label>Rua/Avenida *</label>
+              <input
+                type="text"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+                placeholder="Nome da rua ou avenida"
+                required
+              />
+            </div>
               <div className="form-group">
                 <label>Bairro *</label>
                 <input
