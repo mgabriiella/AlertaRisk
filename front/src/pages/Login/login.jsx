@@ -20,27 +20,24 @@ const Login = () => {
         password: senha,
       });
 
-      const data = response.data;
-      console.log("Login response data:", data); // Debug log
-      if (!data.token) {
+      const token = response.data;
+      console.log("Token recebido:", token);
+
+      if (!token) {
         throw new Error("Token não retornado pelo backend.");
       }
-      const userData = {
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        enderecos: data.enderecos || [],
-      };
-      const authToken = data.token;
 
-      localStorage.setItem("id", data.id);
-      localStorage.setItem("token", authToken); // Ensure token is stored
-      login(userData, authToken);
+      localStorage.setItem("token", token);
+      login({}, token); 
       navigate("/");
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      alert(error.response?.data?.message || "E-mail ou senha incorretos.");
+
+      const message = typeof error.response?.data === "string"
+        ? error.response.data
+        : error.response?.data?.message || "E-mail ou senha incorretos.";
+
+      alert(message);
     }
   };
 
@@ -53,9 +50,9 @@ const Login = () => {
           </div>
           <h2>Acesse sua conta</h2>
           <button className="google-button">
-        <img src="./devicon_google.png" alt="Google" className="google-icon" />
-           Continuar com o Google
-           </button>
+            <img src="./devicon_google.png" alt="Google" className="google-icon" />
+            Continuar com o Google
+          </button>
           <hr className="divider" />
           <form onSubmit={handleLoginSubmit}>
             <div className="input-group">
