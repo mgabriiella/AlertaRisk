@@ -33,32 +33,38 @@ import lombok.AllArgsConstructor;
 @RequestMapping("posts")
 @AllArgsConstructor
 @Tag(name = "CRUD Postagens", description = "Operações para gerenciamento de postagens")
-//@ApiResponses(value = {
-//        @ApiResponse(responseCode = "200",description = "Requisição realizada com Sucesso"),
-//        @ApiResponse(responseCode = "400", description = "Requisição inválida"),
-//        @ApiResponse(responseCode = "401", description = "Não autorizado"),
-//        @ApiResponse(responseCode = "404", description = "Não encontrado"),
-//        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-//})
 public class PostagemController {
 
     private final PostagemService postagemService;
     private final PostagemMapper postagemMapper;
 
-    @Operation(summary = "Veja uma lista com todos os postagens cadastrados no sistema")
+    @Operation(summary = "Listar todas as postagens", description = "Retorna uma lista de todas as postagens cadastradas no sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de postagens retornada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping
     public List<ListPostagemResponse> list() {
         var postagens = postagemService.list();
         return postagemMapper.toListResponse(postagens);
     }
 
-    @Operation(summary = "Veja um postagem cadastrado no sistema com o id específicado")
+    @Operation(summary = "Buscar postagem por ID", description = "Retorna os detalhes de uma postagem específica.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Postagem encontrada"),
+            @ApiResponse(responseCode = "404", description = "Postagem não encontrada")
+    })
     @GetMapping("{id}")
     public PostagemDetailResponse findById(@PathVariable Long id) {
         var postagem = postagemService.findById(id);
         return postagemMapper.toDetailResponse(postagem);
     }
-    @Operation(summary = "Adicione um postagem no sistema")
+
+    @Operation(summary = "Criar uma nova postagem", description = "Adiciona uma nova postagem ao sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Postagem criada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SavePostagemResponse save(@RequestBody @Valid SavePostagemRequest request) {
@@ -66,7 +72,11 @@ public class PostagemController {
         return postagemMapper.toSaveResponse(postagem);
     }
 
-    @Operation(summary = "Edite os dados de um postagem no sistema")
+    @Operation(summary = "Atualizar uma postagem", description = "Atualiza os dados de uma postagem existente.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Postagem atualizada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Postagem não encontrada")
+    })
     @PutMapping("{id}")
     public UpdatePostagemResponse update(@PathVariable Long id, @RequestBody UpdatePostagemRequest request) {
         var postagem = postagemMapper.toModel(id, request);
@@ -74,12 +84,14 @@ public class PostagemController {
         return postagemMapper.toUpdateResponse(postagem);
     }
 
-    @Operation(summary = "Remova um postagem no sistema")
+    @Operation(summary = "Deletar uma postagem", description = "Remove uma postagem do sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Postagem removida com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Postagem não encontrada")
+    })
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         postagemService.delete(id);
     }
-
-
 }

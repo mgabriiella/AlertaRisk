@@ -1,10 +1,20 @@
 package br.alertarisk.services.alerta;
 
 import br.alertarisk.dto.WeatherResponse;
+import br.alertarisk.enums.AlertaStatus;
+import br.alertarisk.enums.CategoriaPostagem;
 import br.alertarisk.exception.NotFoundException;
 import br.alertarisk.exception.ValidationException;
 import br.alertarisk.models.Alerta;
+import br.alertarisk.models.Endereco;
+import br.alertarisk.models.UserModel;
 import br.alertarisk.repositories.AlertaRepository;
+import br.alertarisk.repositories.EnderecoRepository;
+import br.alertarisk.services.EnderecoService;
+import br.alertarisk.services.TwilioService;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -22,72 +32,53 @@ import static br.alertarisk.enums.CategoriaPostagem.ALAGAMENTO;
 @RequiredArgsConstructor
 public class AlertaService {
 
-        private final AlertaRepository repository;
-        private final RestTemplate restTemplate = new RestTemplate();
-        private final AlertaMergeService alertaMergeService;
+    private final AlertaRepository repository;
+    private final EnderecoService enderecoService;
+    private final TwilioService twilioService;
 
-        @Value("${api.key}")
-        private String apiKey;
+    public Alerta save(final Alerta alerta, String cep, String bairro, String rua, String cidade, String estado, UserModel user) {
+        alerta.setStatus(ATIVO);
 
-        private static final double RECIFE_LAT = -8.0476;
-        private static final double RECIFE_LON = -34.8770;
+        // Busca ou cria o endereço associado ao alerta
+        Endereco endereco = enderecoService.findOrCreateEndereco(cep, bairro, rua, cidade, estado, user);
+        alerta.setEndereco(endereco);
 
-        public Alerta newAlert() {
-            String url = String.format(
-                    "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s",
-                    RECIFE_LAT, RECIFE_LON, apiKey
-            );
+        // Salva o alerta
+        Alerta savedAlerta = repository.save(alerta);
 
-            ResponseEntity<WeatherResponse> response = restTemplate.getForEntity(url, WeatherResponse.class);
+        // Notifica os usuários associados ao endereço
+        notifyUsers(savedAlerta);
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                WeatherResponse weatherResponse = response.getBody();
+        return savedAlerta;
+    }
 
-                double lat = weatherResponse.getCoord().getLat();
-                double lon = weatherResponse.getCoord().getLon();
-
-                double rainVolume = (weatherResponse.getRain() != null && weatherResponse.getRain().getOneH() != null)
-                        ? weatherResponse.getRain().getOneH()
-                        : 0.0;
-
-                LocalDateTime alertCreationTime =
-                        LocalDateTime.ofEpochSecond(weatherResponse.getDt(), 0, ZoneOffset.UTC);
-
-                Alerta alerta = new Alerta();
-                alerta.setStatus(ATIVO);
-                alerta.setCategoria(ALAGAMENTO);
-
-                alerta.setNivel(alertaMergeService.determineAlertaNivel(rainVolume));
-
-                alerta.setLatitude(lat);
-                alerta.setLongitude(lon);
-                alerta.setRainVolume(rainVolume);
-
-
-                return repository.save(alerta);
-            } else {
-                throw new ValidationException("Erro ao buscar dados da API.");
+    private void notifyUsers(Alerta alerta) {
+        Endereco endereco = alerta.getEndereco();
+        if (endereco != null && endereco.getUser() != null) {
+            String userPhone = endereco.getUser().getPhone();
+            if (userPhone != null && !userPhone.isBlank()) {
+                twilioService.sendAlertMessage(
+                        String.format("%s, %s, %s", endereco.getRua(), endereco.getBairro(), endereco.getCidade()),
+                        alerta.getCategoria().toString(),
+                        alerta.getNivel().toString(),
+                        alerta.getCreatedAt().toString(),
+                        userPhone
+                );
             }
         }
+    }
 
 
-    public List<Alerta>list() {
+    public List<Alerta> list() {
         return repository.findAll();
     }
 
     public Alerta findById(final Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new NotFoundException("Alerta nao encontrado com o id: " + id)
+                () -> new NotFoundException("Alerta não encontrado com o id: " + id)
         );
     }
 
-    public Alerta save(final Alerta alerta) {
-        alerta.setCategoria(alerta.getCategoria());
-        alerta.setNivel(alerta.getNivel());
-        alerta.setStatus(ATIVO);
-        alerta.setEndereco(alerta.getEndereco());
-        return repository.save(alerta);
-    }
 
     public Alerta update(final Alerta alerta) {
         Alerta existAlerta = repository.findById(alerta.getId()).orElseThrow(
@@ -95,13 +86,14 @@ public class AlertaService {
         );
         existAlerta.setEndereco(alerta.getEndereco());
         existAlerta.setNivel(alerta.getNivel());
-        existAlerta.setEndereco(alerta.getEndereco());
-
         return repository.save(existAlerta);
     }
 
-    public void delete(final Long id){
-        repository.findById(id);
+    public void delete(final Long id) {
+        repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Alerta não encontrado com o id: " + id)
+        );
         repository.deleteById(id);
     }
 }
+

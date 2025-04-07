@@ -3,22 +3,23 @@ package br.alertarisk.controllers.request.alerta;
 import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.enums.AlertaStatus;
 import br.alertarisk.enums.CategoriaPostagem;
-import br.alertarisk.models.Endereco;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
-public record UpdateAlertaRequest (
-    @NotNull
-    @JsonProperty("status")
-    AlertaStatus status,
-    @NotNull
-    @JsonProperty("categoria")
-    CategoriaPostagem categoria,
-    @NotNull
-    @JsonProperty("nivel")
-    AlertaNivel nivel,
-    @NotNull
-    @JsonProperty("endereco")
-    Endereco endereco
-    )
-{}
+import java.time.LocalDateTime;
+
+public record UpdateAlertaRequest(
+        @NotNull @JsonProperty("status") AlertaStatus status,
+        @NotNull @JsonProperty("categoria") CategoriaPostagem categoria,
+        @NotNull @JsonProperty("nivel") AlertaNivel nivel,
+        @NotNull @JsonProperty("bairro") String bairro,
+        @NotNull @JsonProperty("cep") String cep,
+        @NotNull @JsonProperty("rua") String rua,
+        @NotNull @JsonProperty("cidade") String cidade,
+        @NotNull @JsonProperty("estado") String estado,
+        @JsonProperty("latitude") Double latitude,
+        @JsonProperty("longitude") Double longitude,
+        @JsonProperty("rainVolume") Double rainVolume,
+        @JsonProperty("descricao") String descricao,
+        @JsonProperty("createdAt") LocalDateTime createdAt
+) { }

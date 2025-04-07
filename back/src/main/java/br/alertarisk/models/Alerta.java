@@ -3,10 +3,11 @@ package br.alertarisk.models;
 import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.enums.AlertaStatus;
 import br.alertarisk.enums.CategoriaPostagem;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class Alerta {
     private AlertaNivel nivel;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = LAZY)
-    @JsonManagedReference
+    @JsonBackReference
     private Endereco endereco;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = LAZY)
@@ -58,6 +59,9 @@ public class Alerta {
 
     @Column(name = "rain_volume")
     private Double rainVolume;
+
+    @Column(name = "descricao") // Weather description
+    private String descricao;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

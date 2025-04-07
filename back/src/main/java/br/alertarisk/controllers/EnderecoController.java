@@ -24,55 +24,67 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RestController
 @RequestMapping("enderecos")
 @AllArgsConstructor
-@Tag(name = "CRUD Endereços", description = "Operações para gerenciamento de endereços")
-//@ApiResponses(value = {
-//        @ApiResponse(responseCode = "200",description = "Requisição realizada com Sucesso"),
-//        @ApiResponse(responseCode = "400", description = "Requisição inválida"),
-//        @ApiResponse(responseCode = "401", description = "Não autorizado"),
-//        @ApiResponse(responseCode = "404", description = "Não encontrado"),
-//        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-//})
+@Tag(name = "Endereços", description = "Operações para gerenciamento de endereços")
 public class EnderecoController {
+
     private final EnderecoService service;
     private final EnderecoMapper mapper;
 
-    @Operation(summary = "Veja uma lista com todos os endereços cadastrados no sistema")
+    @Operation(summary = "Listar todos os endereços", description = "Retorna uma lista de todos os endereços cadastrados no sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de endereços retornada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping
-    List<ListEnderecoResponse> list() {
+    public List<ListEnderecoResponse> list() {
         var enderecos = service.list();
         return mapper.toListResponse(enderecos);
     }
 
-    @Operation(summary = "Veja um endereço cadastrado no sistema com o id específicado")
+    @Operation(summary = "Buscar endereço por ID", description = "Retorna os detalhes de um endereço específico.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Endereço encontrado"),
+            @ApiResponse(responseCode = "404", description = "Endereço não encontrado")
+    })
     @GetMapping("{id}")
-    EnderecoDetailResponse findById(@PathVariable Long id) {
+    public EnderecoDetailResponse findById(@PathVariable Long id) {
         var endereco = service.findById(id);
         return mapper.toDetailResponse(endereco);
     }
 
-    @Operation(summary = "Adicione um endereço no sistema")
+    @Operation(summary = "Criar um novo endereço", description = "Adiciona um novo endereço ao sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Endereço criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping
     @ResponseStatus(CREATED)
-    SaveEnderecoResponse save(@RequestBody @Valid final SaveEnderecoRequest request){
+    public SaveEnderecoResponse save(@RequestBody @Valid SaveEnderecoRequest request) {
         var endereco = mapper.toModel(request);
         service.save(endereco);
         return mapper.toSaveResponse(endereco);
     }
 
-    @Operation(summary = "Edite os dados de um endereço no sistema")
+    @Operation(summary = "Atualizar um endereço", description = "Atualiza os dados de um endereço existente.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Endereço não encontrado")
+    })
     @PutMapping("{id}")
-    UpdateEnderecoResponse update(@PathVariable final Long id, @RequestBody final UpdateEnderecoRequest request){
-        var endereco = mapper.toModel(id,request);
+    public UpdateEnderecoResponse update(@PathVariable Long id, @RequestBody @Valid UpdateEnderecoRequest request) {
+        var endereco = mapper.toModel(id, request);
         service.update(endereco);
         return mapper.toUpdateResponse(endereco);
     }
 
-    @Operation(summary = "Remova um endereço no sistema")
+    @Operation(summary = "Deletar um endereço", description = "Remove um endereço do sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Endereço removido com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Endereço não encontrado")
+    })
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
-    void delete(@PathVariable final Long id){
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
-
-
 }

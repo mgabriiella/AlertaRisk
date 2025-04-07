@@ -9,6 +9,8 @@ import br.alertarisk.controllers.response.user.UserDetailResponse;
 import br.alertarisk.mappers.UserMapper;
 import br.alertarisk.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,57 +24,67 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequestMapping("users")
 @AllArgsConstructor
-@Tag(name = "CRUD Usuários", description = "Operações para gerenciamento de usuários")
-//@ApiResponses(value = {
-//        @ApiResponse(responseCode = "200",description = "Requisição realizada com Sucesso"),
-//        @ApiResponse(responseCode = "400", description = "Requisição inválida"),
-//        @ApiResponse(responseCode = "401", description = "Não autorizado"),
-//        @ApiResponse(responseCode = "404", description = "Não encontrado"),
-//        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-//})
+@Tag(name = "Usuários", description = "Operações para gerenciamento de usuários")
 public class UserController {
 
     private final UserService service;
-
     private final UserMapper mapper;
 
-    @Operation(summary = "Veja uma lista com todos os usuários cadastrados no sistema")
+    @Operation(summary = "Listar todos os usuários", description = "Retorna uma lista de todos os usuários cadastrados no sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @GetMapping
-    List<ListUserResponse> list() {
+    public List<ListUserResponse> list() {
         var users = service.list();
         return mapper.toListResponse(users);
     }
 
-    @Operation(summary = "Veja um usuário cadastrado no sistema com o id específicado")
+    @Operation(summary = "Buscar usuário por ID", description = "Retorna os detalhes de um usuário específico.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuário encontrado"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @GetMapping("{id}")
-    UserDetailResponse findById(@PathVariable UUID id) {
+    public UserDetailResponse findById(@PathVariable UUID id) {
         var user = service.findById(id);
         return mapper.toDetailResponse(user);
     }
 
-    @Operation(summary = "Adicione um usuário no sistema")
+    @Operation(summary = "Criar um novo usuário", description = "Adiciona um novo usuário ao sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping
     @ResponseStatus(CREATED)
-    SaveUserResponse save(@RequestBody @Valid final SaveUserRequest request){
+    public SaveUserResponse save(@RequestBody @Valid SaveUserRequest request) {
         var user = mapper.toModel(request);
         service.save(user);
         return mapper.toSaveResponse(user);
     }
 
-    @Operation(summary = "Edite os dados de um usuário no sistema")
+    @Operation(summary = "Atualizar um usuário", description = "Atualiza os dados de um usuário existente.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @PutMapping("{id}")
-    UpdateUserResponse update(@PathVariable final UUID id, @RequestBody @Valid final UpdateUserRequest request){
-        var user = mapper.toModel(id,request);
+    public UpdateUserResponse update(@PathVariable UUID id, @RequestBody @Valid UpdateUserRequest request) {
+        var user = mapper.toModel(id, request);
         service.update(user);
         return mapper.toUpdateResponse(user);
     }
 
-    @Operation(summary = "Remova um usuário no sistema")
+    @Operation(summary = "Deletar um usuário", description = "Remove um usuário do sistema.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Usuário removido com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
-    void delete(@PathVariable final UUID id){
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
-
-
 }

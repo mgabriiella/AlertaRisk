@@ -3,8 +3,8 @@ package br.alertarisk.controllers.response.alerta;
 import br.alertarisk.enums.AlertaNivel;
 import br.alertarisk.enums.AlertaStatus;
 import br.alertarisk.enums.CategoriaPostagem;
-import br.alertarisk.models.Endereco;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 
 public record SaveAlertaResponse (
         @JsonProperty("id")
@@ -15,6 +15,12 @@ public record SaveAlertaResponse (
         CategoriaPostagem categoria,
         @JsonProperty("nivel")
         AlertaNivel nivel,
-        @JsonProperty("endereco")
-        Endereco endereco
-){ }
+        @JsonProperty("bairro")
+        String bairro,
+        @JsonProperty("cep")
+        String cep,
+        @JsonProperty("cidade")
+        String cidade,
+        @JsonProperty("estado")
+        String estado
+) { }

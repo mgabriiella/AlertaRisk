@@ -18,14 +18,14 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 public interface EnderecoMapper {
 
     @Mapping(target = "id",ignore = true)
-    @Mapping(target = "user",ignore = true)
     @Mapping(target = "posts",ignore = true)
+    @Mapping(target = "cep", source = "cep")
     Endereco toModel( final SaveEnderecoRequest request);
 
     SaveEnderecoResponse toSaveResponse(final Endereco endereco);
 
-    @Mapping(target = "user",ignore = true)
     @Mapping(target = "posts",ignore = true)
+    @Mapping(target = "user",ignore = true)
     Endereco toModel(final Long id,final UpdateEnderecoRequest request);
 
     UpdateEnderecoResponse toUpdateResponse(final Endereco endereco);

@@ -17,23 +17,51 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 @Mapper(componentModel = SPRING)
 public interface AlertaMapper {
 
-    @Mapping(target = "id",ignore = true)
-    @Mapping(target = "alertaAtivos",ignore = true)
-    @Mapping(target = "alertaEnderecoStatus",ignore = true)
-    @Mapping(target = "alertaPostagemStatus",ignore = true)
-    @Mapping(target = "endereco.alertas", ignore = true)
-    Alerta toModel(final SaveAlertaRequest request );
+    // Map SaveAlertaRequest to Alerta entity
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "endereco.bairro", source = "bairro")
+    @Mapping(target = "latitude", source = "latitude")
+    @Mapping(target = "longitude", source = "longitude")
+    @Mapping(target = "rainVolume", source = "rainVolume")
+    @Mapping(target = "descricao", source = "descricao")
+    @Mapping(target = "createdAt", source = "createdAt")
+    @Mapping(target = "nivel", source = "nivel")
+    Alerta toModel(SaveAlertaRequest request);
 
-    @Mapping(target = "endereco.alertas", ignore = true)
-    SaveAlertaResponse toSaveResponse(final Alerta alerta);
+    // Map UpdateAlertaRequest to Alerta entity
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "endereco.bairro", source = "request.bairro")
+    @Mapping(target = "latitude", source = "request.latitude")
+    @Mapping(target = "longitude", source = "request.longitude")
+    @Mapping(target = "rainVolume", source = "request.rainVolume")
+    @Mapping(target = "descricao", source = "request.descricao")
+    @Mapping(target = "nivel", source = "request.nivel")
+    Alerta toModel(Long id, UpdateAlertaRequest request);
 
-    Alerta toModel(final Long id, final UpdateAlertaRequest request);
+    // Map Alerta entity to SaveAlertaResponse
+    @Mapping(target = "bairro", source = "endereco.bairro")
+    @Mapping(target = "cidade", source = "endereco.cidade")
+    @Mapping(target = "estado", source = "endereco.estado")
+    SaveAlertaResponse toSaveResponse(Alerta alerta);
 
-    UpdateAlertaResponse toUpdateResponse(final Alerta alerta);
+    // Map Alerta entity to UpdateAlertaResponse
+    @Mapping(target = "bairro", source = "endereco.bairro")
+    @Mapping(target = "cidade", source = "endereco.cidade")
+    @Mapping(target = "estado", source = "endereco.estado")
+    UpdateAlertaResponse toUpdateResponse(Alerta alerta);
 
-    @Mapping(target = "endereco.alertas", ignore = true)
-    DetailAlertaResponse toDetailResponse(final Alerta alerta);
+    // Map Alerta entity to DetailAlertaResponse
+    @Mapping(target = "bairro", source = "endereco.bairro")
+    @Mapping(target = "cidade", source = "endereco.cidade")
+    @Mapping(target = "estado", source = "endereco.estado")
+    DetailAlertaResponse toDetailResponse(Alerta alerta);
 
-    @Mapping(target = "endereco.alertas", ignore = true)
-    List<ListAlertaResponse> toListResponse(final List<Alerta> alerta);
+    // Map list of Alerta entities to list of ListAlertaResponse
+    @Mapping(target = "bairro", source = "endereco.bairro")
+    @Mapping(target = "cidade", source = "endereco.cidade")
+    @Mapping(target = "estado", source = "endereco.estado")
+    ListAlertaResponse toListResponse(Alerta alerta);
+
+    // Map list of Alerta entities to list of ListAlertaResponse
+    List<ListAlertaResponse> toListResponse(List<Alerta> alertas);
 }
