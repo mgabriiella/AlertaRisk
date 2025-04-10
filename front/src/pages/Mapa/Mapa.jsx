@@ -3,6 +3,8 @@ import 'leaflet/dist/leaflet.css';
 import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '/src/components/context/AuthContext';
+import { useToken } from '../../hooks/userToken';
 import './mapa.css';
 import ForumFilter from '../../components/Forum/ForumFilter';
 import ForumPost from '../../components/Forum/ForumPost';
@@ -80,6 +82,8 @@ const WeatherData = ({ onWeatherDataFetched }) => {
 };
 
 const Mapa = () => {
+  const { user } = useAuth();
+  const { token } = useToken();
   const [category, setCategory] = useState('');
   const [order, setOrder] = useState('recent');
   const [bairrosWeather, setBairrosWeather] = useState({});
@@ -119,10 +123,13 @@ const Mapa = () => {
   ]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [pendingAction, setPendingAction] = useState(null); // Track the pending action (like/dislike)
+  const [pendingAction, setPendingAction] = useState(null);
+  const [showJustificationPopup, setShowJustificationPopup] = useState(false);
+  const [justificationText, setJustificationText] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem('userId');
+  const isAuthenticated = !!(token && (user?.id || localStorage.getItem('userId')));
 
   useEffect(() => {
     const newPost = localStorage.getItem('newPost');
@@ -170,8 +177,8 @@ const Mapa = () => {
     }
     const post = posts.find((p) => p.id === postId);
     setSelectedPost(post);
-    setPendingAction('like'); // Set the pending action to 'like'
-    setShowConfirmation(true); // Show the confirmation popup
+    setPendingAction('like');
+    setShowConfirmation(true);
   };
 
   const handleDislike = (postId) => {
@@ -182,22 +189,19 @@ const Mapa = () => {
     }
     const post = posts.find((p) => p.id === postId);
     setSelectedPost(post);
-    setPendingAction('dislike'); // Set the pending action to 'dislike'
-    setShowConfirmation(true); // Show the confirmation popup
+    setPendingAction('dislike');
+    setShowConfirmation(true);
   };
 
   const handleConfirmation = async (confirmed) => {
     if (!confirmed) {
-      // If the user cancels, reset the state and close the popup
       setShowConfirmation(false);
-      setSelectedPost(null);
-      setPendingAction(null);
+      setShowJustificationPopup(true); // Abre o pop-up de justificativa
       return;
     }
 
-    // If the user confirms, proceed with the like/dislike action
     const postId = selectedPost.id;
-    const userId = localStorage.getItem('userId');
+    const userId = user?.id || localStorage.getItem('userId');
 
     try {
       if (pendingAction === 'like') {
@@ -230,11 +234,32 @@ const Mapa = () => {
     } catch (error) {
       console.error(`Erro ao ${pendingAction === 'like' ? 'curtir' : 'descurtir'} o post:`, error);
     } finally {
-      // Reset the state and close the popup
       setShowConfirmation(false);
       setSelectedPost(null);
       setPendingAction(null);
     }
+  };
+
+  const handleJustificationSubmit = (e) => {
+    e.preventDefault();
+    if (!justificationText.trim()) {
+      alert('Por favor, forneça uma justificativa.');
+      return;
+    }
+    // Simulação do envio da justificativa (sem backend)
+    console.log('Justificativa enviada:', justificationText);
+    setShowJustificationPopup(false);
+    setShowSuccessPopup(true);
+    setJustificationText('');
+    // Fechar o pop-up de sucesso após 3 segundos
+    setTimeout(() => setShowSuccessPopup(false), 3000);
+  };
+
+  const handleJustificationCancel = () => {
+    setShowJustificationPopup(false);
+    setJustificationText('');
+    setSelectedPost(null);
+    setPendingAction(null);
   };
 
   const getColor = (intensity) => {
@@ -405,6 +430,62 @@ const Mapa = () => {
                 </button>
                 <button className="deny-btn" onClick={() => handleConfirmation(false)}>
                   Não
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showJustificationPopup && selectedPost && (
+          <div className="confirmation-modal">
+            <div className="confirmation-content">
+              <h3>Justifique sua Negativa</h3>
+              <p>Por favor, explique por que você não confirma a postagem "{selectedPost.title}".</p>
+              <form onSubmit={handleJustificationSubmit}>
+                <textarea
+                  value={justificationText}
+                  onChange={(e) => setJustificationText(e.target.value)}
+                  placeholder="Digite sua justificativa aqui..."
+                  style={{
+                    width: '100%',
+                    minHeight: '5rem',
+                    padding: '0.5rem',
+                    border: '0.0625rem solid #e5e7eb',
+                    borderRadius: '0.25rem',
+                    fontSize: '0.75rem',
+                    marginBottom: '1rem',
+                    resize: 'vertical',
+                  }}
+                  required
+                />
+                <div className="confirmation-buttons">
+                  <button type="submit" className="confirm-btn">
+                    Enviar
+                  </button>
+                  <button
+                    type="button"
+                    className="deny-btn"
+                    onClick={handleJustificationCancel}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {showSuccessPopup && (
+          <div className="confirmation-modal">
+            <div className="confirmation-content">
+              <h3>Sucesso</h3>
+              <p>Relato enviado com sucesso!</p>
+              <div className="confirmation-buttons">
+                <button
+                  className="confirm-btn"
+                  onClick={() => setShowSuccessPopup(false)}
+                >
+                  OK
                 </button>
               </div>
             </div>

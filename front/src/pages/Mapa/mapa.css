@@ -16,11 +16,31 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
-  min-height: calc(100vh - 5rem - 12.5rem);
+  min-height: calc(100vh - 5rem);
   background-color: #ffffff;
-  box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.1);
-  border-radius: 0;
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
   margin: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #98CD64 #f8f9fa;
+}
+
+.mapa-container::-webkit-scrollbar {
+  width: 0.375rem;
+}
+
+.mapa-container::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 0.125rem;
+}
+
+.mapa-container::-webkit-scrollbar-thumb {
+  background: #98CD64;
+  border-radius: 0.125rem;
+}
+
+.mapa-container::-webkit-scrollbar-thumb:hover {
+  background: #85B856;
 }
 
 .map-section {
@@ -34,56 +54,56 @@ body {
 .map {
   width: 100%;
   flex: 1;
-  min-height: 100%;
+  min-height: 25rem;
 }
 
 .sidebar {
   background: #ffffff;
-  padding: 0.9375rem;
+  padding: 0.625rem;
   overflow-y: auto;
   border-right: 0.0625rem solid #e5e7eb;
   transition: width 0.3s ease;
-  width: 3.75rem;
+  width: 3.125rem;
   min-height: 100%;
   box-shadow: 0.125rem 0 0.625rem rgba(0, 0, 0, 0.05);
 }
 
 .sidebar.collapsed {
-  width: 3.75rem;
+  width: 3.125rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .sidebar.expanded {
-  width: 21.875rem;
+  width: 18.75rem;
 }
 
 .forum-posts-container {
-  max-height: 25rem;
+  max-height: 20rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 0.5rem;
+  padding-right: 0.3125rem;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: #98CD64 #f8f9fa;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 0.5rem;
+  margin-top: 0.625rem;
 }
 
 .forum-posts-container::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.375rem;
 }
 
 .forum-posts-container::-webkit-scrollbar-track {
   background: #f8f9fa;
-  border-radius: 0.25rem;
+  border-radius: 0.125rem;
 }
 
 .forum-posts-container::-webkit-scrollbar-thumb {
   background: #98CD64;
-  border-radius: 0.25rem;
+  border-radius: 0.125rem;
 }
 
 .forum-posts-container::-webkit-scrollbar-thumb:hover {
@@ -93,14 +113,13 @@ body {
 .forum-post {
   background: #ffffff;
   border: 0.0625rem solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  margin-bottom: 0.75rem;
-  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+  border-radius: 0.375rem;
+  padding: 0.625rem;
+  margin-bottom: 0.625rem;
+  box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.05);
   max-width: 100%;
   overflow: hidden;
   transition: transform 0.2s ease;
-  box-sizing: border-box;
 }
 
 .forum-post:hover {
@@ -134,7 +153,7 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 0.75rem;
   color: #6b7280;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
   word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -158,7 +177,7 @@ body {
 
 .post-actions {
   display: flex;
-  gap: 0.625rem;
+  gap: 0.5rem;
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -174,36 +193,36 @@ body {
 }
 
 .action-btn img {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-right: 0.3125rem;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
 }
 
 .user-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   border-radius: 50%;
-  margin-right: 0.5rem;
+  margin-right: 0.375rem;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 .forum-header {
-  margin-bottom: 0.9375rem;
+  margin-bottom: 0.625rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .forum-header span {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #333;
 }
 
 .toggle-forum-btn {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -211,8 +230,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.1);
   transition: background 0.3s ease;
+  z-index: 10;
 }
 
 .toggle-forum-btn:hover {
@@ -220,18 +240,18 @@ body {
 }
 
 .toggle-forum-btn img {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .forum-section {
-  margin-top: 0.9375rem;
+  margin-top: 0.625rem;
 }
 
 .forum-title {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.625rem;
   color: #333;
 }
 
@@ -243,18 +263,18 @@ body {
 
 .legend {
   position: absolute;
-  bottom: 1.25rem;
-  right: 1.25rem;
+  bottom: 0.9375rem;
+  right: 0.9375rem;
   background: white;
-  padding: 0.9375rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+  padding: 0.625rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
 .legend h4 {
-  font-size: 0.875rem;
-  margin-bottom: 0.625rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .legend ul {
@@ -264,16 +284,16 @@ body {
 .legend li {
   display: flex;
   align-items: center;
-  margin-bottom: 0.3125rem;
-  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.625rem;
 }
 
 .legend-dot {
   display: inline-block;
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.625rem;
+  height: 0.625rem;
   border-radius: 50%;
-  margin-right: 0.5rem;
+  margin-right: 0.375rem;
 }
 
 .severe {
@@ -289,18 +309,18 @@ body {
 }
 
 .weather-info-popup {
-  padding: 0.625rem;
+  padding: 0.5rem;
 }
 
 .weather-info-popup h4 {
-  font-size: 1rem;
-  margin-bottom: 0.625rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
   font-weight: 500;
 }
 
 .weather-info-popup p {
-  font-size: 0.875rem;
-  margin-bottom: 0.3125rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .weather-info-popup p strong {
@@ -313,19 +333,19 @@ body {
 }
 
 .post-info-popup {
-  padding: 0.625rem;
+  padding: 0.5rem;
 }
 
 .post-info-popup h4 {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
   color: #333;
 }
 
 .post-info-popup p {
-  font-size: 0.875rem;
-  margin-bottom: 0.3125rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
   color: #6b7280;
 }
 
@@ -336,14 +356,14 @@ body {
 
 .new-post-btn {
   width: 100%;
-  padding: 0.625rem;
+  padding: 0.5rem;
   background: #85B856;
   color: #fff;
   border: none;
   border-radius: 0.25rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   cursor: pointer;
-  margin-bottom: 0.9375rem;
+  margin-bottom: 0.625rem;
   text-align: center;
 }
 
@@ -352,35 +372,35 @@ body {
 }
 
 .filter-section h3 {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
   color: #333;
 }
 
 .filter-section select {
   width: 100%;
-  padding: 0.5rem;
-  margin: 0.5rem 0;
+  padding: 0.375rem;
+  margin: 0.375rem 0;
   border: 0.0625rem solid #e5e7eb;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
   color: #333;
   background: #f8f9fa;
 }
 
 .filter-btn {
   width: 100%;
-  padding: 0.625rem;
+  padding: 0.5rem;
   border: none;
-  border-radius: 0.375rem;
-  margin-top: 0.625rem;
+  border-radius: 0.25rem;
+  margin-top: 0.5rem;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: white;
   background: #98CD64;
-  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.1);
   transition: background 0.3s ease;
 }
 
@@ -403,39 +423,39 @@ body {
 
 .confirmation-content {
   background: #ffffff;
-  padding: 1.25rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2);
-  max-width: 25rem;
-  width: 90%; /* Ajustado para ser mais responsivo */
+  padding: 1rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  width: 20rem;
   text-align: center;
 }
 
 .confirmation-content h3 {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.625rem;
+  margin-bottom: 0.5rem;
   color: #333;
 }
 
 .confirmation-content p {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #6b7280;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .confirmation-buttons {
   display: flex;
   justify-content: center;
-  gap: 0.9375rem;
+  gap: 0.625rem;
 }
 
 .confirm-btn,
 .deny-btn {
-  padding: 0.625rem 1.25rem;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -459,82 +479,114 @@ body {
   background: #e63939;
 }
 
-/* Media Queries para Responsividade */
-@media (max-width: 48rem) { /* 768px */
+@media (max-width: 48rem) {
   .mapa-container {
     flex-direction: column;
     min-height: 100vh;
-    height: auto;
+    overflow-y: auto;
   }
 
   .sidebar {
     width: 100%;
     position: static;
     min-height: auto;
-    padding: 0.625rem;
+    padding: 0.5rem;
+    overflow-y: visible;
   }
 
   .sidebar.expanded {
     width: 100%;
   }
 
+  .sidebar.collapsed {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+  }
+
   .map-section {
     margin-left: 0;
     flex: 1;
-    min-height: 25rem;
+    min-height: 20rem;
+    width: 100%;
   }
 
   .map {
-    height: 25rem;
-    min-height: 25rem;
-  }
-
-  .forum-posts-container {
-    max-height: 20rem;
-  }
-
-  .new-post-btn {
-    font-size: 0.875rem;
-    padding: 0.5rem;
-  }
-
-  .filter-section select {
-    font-size: 0.75rem;
-    padding: 0.375rem;
-  }
-
-  .filter-btn {
-    font-size: 0.75rem;
-    padding: 0.5rem;
-  }
-
-  .toggle-forum-btn {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .toggle-forum-btn img {
-    width: 1rem;
-    height: 1rem;
-  }
-}
-
-@media (max-width: 37.5rem) { /* 600px */
-  .sidebar {
-    padding: 0.5rem;
-  }
-
-  .map-section {
-    min-height: 18.75rem;
-  }
-
-  .map {
-    height: 18.75rem;
-    min-height: 18.75rem;
+    height: 20rem;
+    min-height: 20rem;
   }
 
   .forum-posts-container {
     max-height: 15rem;
+  }
+
+  .new-post-btn {
+    font-size: 0.75rem;
+    padding: 0.375rem;
+  }
+
+  .filter-section select {
+    font-size: 0.625rem;
+    padding: 0.25rem;
+  }
+
+  .filter-btn {
+    font-size: 0.625rem;
+    padding: 0.375rem;
+  }
+
+  .toggle-forum-btn {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .toggle-forum-btn img {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .legend {
+    bottom: 0.625rem;
+    right: 0.625rem;
+    padding: 0.5rem;
+  }
+
+  .legend h4 {
+    font-size: 0.625rem;
+  }
+
+  .legend li {
+    font-size: 0.5625rem;
+  }
+
+  .legend-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .map-section {
+    min-height: 15rem;
+  }
+
+  .map {
+    height: 15rem;
+    min-height: 15rem;
+  }
+
+  .sidebar {
+    padding: 0.375rem;
+  }
+
+  .sidebar.collapsed {
+    width: 2.5rem;
+  }
+
+  .forum-posts-container {
+    max-height: 12rem;
   }
 
   .forum-post {
@@ -554,58 +606,78 @@ body {
   }
 
   .action-btn img {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .user-icon {
     width: 1rem;
     height: 1rem;
   }
 
-  .user-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
   .forum-header span {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
   }
 
   .forum-title {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
+  }
+
+  .toggle-forum-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .toggle-forum-btn img {
+    width: 0.75rem;
+    height: 0.75rem;
   }
 
   .confirmation-content {
-    padding: 1rem;
+    padding: 0.75rem;
+    width: 90%;
+    max-width: 18rem;
   }
 
   .confirmation-content h3 {
-    font-size: 1rem;
+    font-size: 0.875rem;
   }
 
   .confirmation-content p {
-    font-size: 0.75rem;
+    font-size: 0.625rem;
   }
 
   .confirm-btn,
   .deny-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.625rem;
   }
 }
 
-@media (max-width: 23.4375rem) { /* 375px - Telas muito pequenas */
+@media (max-width: 20rem) {
   .map-section {
-    min-height: 15rem;
+    min-height: 12.5rem;
   }
 
   .map {
-    height: 15rem;
-    min-height: 15rem;
+    height: 12.5rem;
+    min-height: 12.5rem;
+  }
+
+  .sidebar.collapsed {
+    width: 2rem;
   }
 
   .forum-posts-container {
-    max-height: 12rem;
+    max-height: 10rem;
+  }
+
+  .forum-post {
+    padding: 0.375rem;
   }
 
   .post-title {
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
   }
 
   .post-description {
@@ -614,20 +686,63 @@ body {
 
   .post-meta {
     flex-wrap: wrap;
-    gap: 0.25rem;
+    gap: 0.125rem;
+    font-size: 0.5625rem;
   }
 
   .action-btn {
-    font-size: 0.625rem;
+    font-size: 0.5625rem;
   }
 
   .action-btn img {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .user-icon {
     width: 0.875rem;
     height: 0.875rem;
   }
 
-  .user-icon {
-    width: 1rem;
-    height: 1rem;
+  .forum-header span {
+    font-size: 0.625rem;
+  }
+
+  .forum-title {
+    font-size: 0.625rem;
+  }
+
+  .new-post-btn {
+    font-size: 0.625rem;
+    padding: 0.25rem;
+  }
+
+  .filter-section select {
+    font-size: 0.5625rem;
+    padding: 0.1875rem;
+  }
+
+  .filter-btn {
+    font-size: 0.5625rem;
+    padding: 0.25rem;
+  }
+
+  .confirmation-content {
+    padding: 0.625rem;
+    max-width: 16rem;
+  }
+
+  .confirmation-content h3 {
+    font-size: 0.75rem;
+  }
+
+  .confirmation-content p {
+    font-size: 0.5625rem;
+  }
+
+  .confirm-btn,
+  .deny-btn {
+    padding: 0.25rem 0.625rem;
+    font-size: 0.5625rem;
   }
 }

@@ -12,6 +12,10 @@ import RecuperarSenha from "./components/RecuperarSenha/RecuperarSenha";
 import ForumCreatePost from "./pages/Mapa/Postagem/ForumCreatePost"; // Importar o componente de nova postagem
 import Header from "./components/Header/Header";
 import Footer from "./components/footer/Footer";
+import { useEnderecoData } from "./hooks/userEnderecoData";
+import { useToken } from "./hooks/userToken";
+import { useUserData } from "./hooks/userUserData";
+import {decodeToken} from "./pages/utils/jwtUtils"
 import './App.css';
 
 function App() {
