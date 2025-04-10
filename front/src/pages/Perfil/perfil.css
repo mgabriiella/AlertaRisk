@@ -122,7 +122,7 @@
   grid-template-columns: 1fr;
   column-gap: 0.625rem;
   row-gap: 0.5rem;
-  max-width: 28rem; /* Reduzido para centralizar formulário e botões */
+  max-width: 28rem;
 }
 
 .perfil-form label {
@@ -152,13 +152,13 @@
 
 .perfil-btn-container {
   display: flex;
-  justify-content: center; /* Centraliza os botões na versão desktop */
+  justify-content: center;
   gap: 2rem;
   margin-top: 1.5rem;
 }
 
 .perfil-btn-confirmar {
-  padding: 0.375rem 1rem; /* Reduzido para botões menores */
+  padding: 0.375rem 1rem;
   background-color: #ffc107;
   color: #333;
   border: none;
@@ -180,7 +180,7 @@
 }
 
 .perfil-btn-cancelar {
-  padding: 0.375rem 1rem; /* Reduzido para botões menores */
+  padding: 0.375rem 1rem;
   background-color: #f44336;
   color: white;
   border: none;
@@ -188,7 +188,7 @@
   font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
-  font-size: 0.75rem; /* Reduzido para uniformidade */
+  font-size: 0.75rem;
   transition: background-color 0.2s, transform 0.2s;
 }
 
@@ -241,6 +241,178 @@
 
 .perfil-btn-excluir:active {
   transform: scale(0.95);
+}
+
+/* Estilos para a seção de histórico */
+.perfil-historico-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.perfil-historico-container h2 {
+  font-size: 1.125rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.perfil-historico-vazio {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  color: #555;
+  font-size: 0.875rem;
+}
+
+.perfil-historico-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.perfil-historico-card {
+  background-color: #fff;
+  border: 0.0625rem solid #e0e0e0;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 0 0.3125rem rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.perfil-historico-card:hover {
+  transform: translateY(-0.125rem);
+}
+
+.perfil-historico-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.perfil-historico-info {
+  flex-grow: 1;
+}
+
+.perfil-historico-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem;
+}
+
+.perfil-historico-info p {
+  font-size: 0.875rem;
+  color: #555;
+  margin: 0 0 0.5rem;
+}
+
+.perfil-historico-info span {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.perfil-historico-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.perfil-map-btn {
+  padding: 0.5rem 1rem;
+  background-color: #0AC3F4;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.perfil-map-btn:hover {
+  background-color: #00b8d4;
+}
+
+.perfil-action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.perfil-edit-btn,
+.perfil-delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.perfil-edit-btn img,
+.perfil-delete-btn img {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.perfil-historico-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.perfil-historico-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-historico-form-group label {
+  font-size: 0.875rem;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.perfil-historico-form-group input {
+  padding: 0.625rem;
+  border: 0.0625rem solid #e0e0e0;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.perfil-historico-form-group input:focus {
+  outline: none;
+  border-color: #00b8d4;
+  background-color: white;
+}
+
+.perfil-historico-form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.perfil-historico-form-actions .perfil-btn-confirmar,
+.perfil-historico-form-actions .perfil-btn-cancelar {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+}
+
+/* Novos estilos para a seção de propriedade da conta */
+.perfil-alertas-status {
+  font-size: 0.875rem;
+  color: #333;
+  margin-bottom: 1.5rem; /* Espaço maior abaixo do status para separar do botão */
+}
+
+.perfil-btn-abaixo {
+  display: block; /* Garante que o botão ocupe a largura necessária e fique em uma nova linha */
+  width: fit-content; /* Ajusta a largura ao conteúdo do botão */
+  margin-top: 1rem; /* Espaço acima do botão para separá-lo do status */
 }
 
 @media (max-width: 48rem) {
@@ -299,11 +471,11 @@
     flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
-    justify-content: flex-start; /* Alinha à esquerda em telas menores */
+    justify-content: flex-start;
   }
 
   .perfil-btn-confirmar,
-  .fil-btn-cancelar {
+  .perfil-btn-cancelar {
     width: 100%;
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
@@ -312,6 +484,25 @@
   .perfil-photo img {
     width: 6rem;
     height: 6rem;
+  }
+
+  .perfil-historico-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .perfil-historico-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .perfil-action-buttons {
+    flex-direction: row;
+  }
+
+  .perfil-btn-abaixo {
+    width: 100%; /* Em telas menores, o botão ocupa a largura total */
   }
 }
 

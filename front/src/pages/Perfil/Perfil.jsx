@@ -18,7 +18,20 @@ const Perfil = () => {
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [historico, setHistorico] = useState([]);
+  const [historico, setHistorico] = useState([
+    {
+      id: 1,
+      nome: "Bueiro entupido",
+      descricao: "Rua Augusta 456 - Água no rio escorreu, risco de enchente",
+      data: "13/02/2023 10:30",
+    },
+    {
+      id: 2,
+      nome: "Bueiro entupido",
+      descricao: "Av. Brasil 456 - Água no rio escorreu, risco de enchente",
+      data: "13/02/2023 10:30",
+    },
+  ]);
   const [editandoHistorico, setEditandoHistorico] = useState(null);
   const [mostrarFormularioEndereco, setMostrarFormularioEndereco] = useState(false);
   const [alertasAtivados, setAlertasAtivados] = useState(false);
@@ -90,7 +103,7 @@ const Perfil = () => {
         setSuccess("Dados atualizados com sucesso!");
         const updatedUser = { ...user, ...formData };
         localStorage.setItem("user", JSON.stringify(updatedUser));
-        setUser(updatedUser); // setUser agora está disponível do AuthContext
+        setUser(updatedUser);
         setTimeout(() => setSuccess(null), 3000);
       }
     } catch (err) {
@@ -103,11 +116,21 @@ const Perfil = () => {
 
   const handleSalvarEdicao = (e) => {
     e.preventDefault();
+    const updatedHistorico = historico.map((item) =>
+      item.id === editandoHistorico.id
+        ? {
+            ...item,
+            nome: e.target.nome.value,
+            descricao: e.target.descricao.value,
+          }
+        : item
+    );
+    setHistorico(updatedHistorico);
     setEditandoHistorico(null);
   };
 
   const handleExcluirHistorico = (id) => {
-    // Implementar lógica de exclusão, se necessário
+    setHistorico(historico.filter((item) => item.id !== id));
   };
 
   const handleAtivarAlertas = () => setMostrarFormularioEndereco(true);
@@ -276,86 +299,92 @@ const Perfil = () => {
           )}
 
           {secaoAtiva === "historico" && (
-            <div className="perfil-localizacao">
+            <div className="perfil-historico-container">
               <h2>Meus Históricos</h2>
               {historico.length === 0 ? (
-                <div className="perfil-local">
-                  <div className="perfil-info">
-                    <h3>Salvo como: (vazio)</h3>
-                    <p>(vazio)</p>
-                  </div>
-                  <div className="perfil-actions">
-                    <button className="perfil-map-btn" disabled>
-                      Ver no mapa
-                    </button>
-                    <div className="perfil-action-edit">
-                      <button className="perfil-edit-btn" disabled>
-                        <img src="./icones/icone-editar.png" alt="Editar" />
-                      </button>
-                      <button className="perfil-delete-btn" disabled>
-                        <img src="./icones/icone-excluir.png" alt="Excluir" />
-                      </button>
-                    </div>
-                  </div>
+                <div className="perfil-historico-vazio">
+                  <p>Nenhum histórico salvo no momento.</p>
                 </div>
               ) : (
-                historico.map((item) => (
-                  <div key={item.id} className="perfil-local">
-                    {editandoHistorico?.id === item.id ? (
-                      <form onSubmit={handleSalvarEdicao}>
-                        <label>Nome:</label>
-                        <input
-                          type="text"
-                          name="nome"
-                          defaultValue={editandoHistorico.nome}
-                          required
-                        />
-                        <label>Descrição:</label>
-                        <input
-                          type="text"
-                          name="descricao"
-                          defaultValue={editandoHistorico.descricao}
-                          required
-                        />
-                        <button type="submit" className="perfil-btn-confirmar">
-                          Salvar
-                        </button>
-                        <button
-                          type="button"
-                          className="perfil-btn-cancelar"
-                          onClick={() => setEditandoHistorico(null)}
+                <div className="perfil-historico-lista">
+                  {historico.map((item) => (
+                    <div key={item.id} className="perfil-historico-card">
+                      {editandoHistorico?.id === item.id ? (
+                        <form
+                          onSubmit={handleSalvarEdicao}
+                          className="perfil-historico-form"
                         >
-                          Cancelar
-                        </button>
-                      </form>
-                    ) : (
-                      <>
-                        <div className="perfil-info">
-                          <h3>Salvo como: {item.nome}</h3>
-                          <p>{item.descricao}</p>
-                          <p>Data: {item.data}</p>
-                        </div>
-                        <div className="perfil-actions">
-                          <button className="perfil-map-btn">Ver no mapa</button>
-                          <div className="perfil-action-edit">
+                          <div className="perfil-historico-form-group">
+                            <label>Nome:</label>
+                            <input
+                              type="text"
+                              name="nome"
+                              defaultValue={editandoHistorico.nome}
+                              required
+                            />
+                          </div>
+                          <div className="perfil-historico-form-group">
+                            <label>Descrição:</label>
+                            <input
+                              type="text"
+                              name="descricao"
+                              defaultValue={editandoHistorico.descricao}
+                              required
+                            />
+                          </div>
+                          <div className="perfil-historico-form-actions">
                             <button
-                              className="perfil-edit-btn"
-                              onClick={() => handleEditarHistorico(item)}
+                              type="submit"
+                              className="perfil-btn-confirmar"
                             >
-                              <img src="./icones/icone-editar.png" alt="Editar" />
+                              Salvar
                             </button>
                             <button
-                              className="perfil-delete-btn"
-                              onClick={() => handleExcluirHistorico(item.id)}
+                              type="button"
+                              className="perfil-btn-cancelar"
+                              onClick={() => setEditandoHistorico(null)}
                             >
-                              <img src="./icones/icone-excluir.png" alt="Excluir" />
+                              Cancelar
                             </button>
                           </div>
+                        </form>
+                      ) : (
+                        <div className="perfil-historico-content">
+                          <div className="perfil-historico-info">
+                            <h3>{item.nome}</h3>
+                            <p>{item.descricao}</p>
+                            <span>Data: {item.data}</span>
+                          </div>
+                          <div className="perfil-historico-actions">
+                            <button className="perfil-map-btn">
+                              Ver no mapa
+                            </button>
+                            <div className="perfil-action-buttons">
+                              <button
+                                className="perfil-edit-btn"
+                                onClick={() => handleEditarHistorico(item)}
+                              >
+                                <img
+                                  src="./icones/icone-editar.png"
+                                  alt="Editar"
+                                />
+                              </button>
+                              <button
+                                className="perfil-delete-btn"
+                                onClick={() => handleExcluirHistorico(item.id)}
+                              >
+                                <img
+                                  src="./icones/icone-excluir.png"
+                                  alt="Excluir"
+                                />
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                      </>
-                    )}
-                  </div>
-                ))
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           )}
@@ -366,20 +395,28 @@ const Perfil = () => {
               <div className="perfil-propriedade-conta">
                 <h3>Gerenciar Alertas</h3>
                 {mostrarFormularioEndereco ? (
-                  <form className="perfil-form" onSubmit={handleSalvarEnderecoAlerta}>
-                    {["cep", "rua", "bairro", "cidade", "estado"].map((field) => (
-                      <React.Fragment key={field}>
-                        <label>{field.toUpperCase()}:</label>
-                        <input
-                          type="text"
-                          name={field}
-                          defaultValue={enderecoAlerta[field]}
-                          required
-                        />
-                      </React.Fragment>
-                    ))}
+                  <form
+                    className="perfil-form"
+                    onSubmit={handleSalvarEnderecoAlerta}
+                  >
+                    {["cep", "rua", "bairro", "cidade", "estado"].map(
+                      (field) => (
+                        <React.Fragment key={field}>
+                          <label>{field.toUpperCase()}:</label>
+                          <input
+                            type="text"
+                            name={field}
+                            defaultValue={enderecoAlerta[field]}
+                            required
+                          />
+                        </React.Fragment>
+                      )
+                    )}
                     <div className="perfil-btn-container">
-                      <button type="submit" className="perfil-btn-confirmar">
+                      <button
+                        type="submit"
+                        className="perfil-btn-confirmar"
+                      >
                         Ativar Alertas
                       </button>
                       <button
@@ -393,19 +430,20 @@ const Perfil = () => {
                   </form>
                 ) : (
                   <>
-                    <p>
-                      Status dos alertas: {alertasAtivados ? "Ativados" : "Desativados"}
+                    <p className="perfil-alertas-status">
+                      Status dos alertas:{" "}
+                      {alertasAtivados ? "Ativados" : "Desativados"}
                     </p>
                     {alertasAtivados ? (
                       <button
-                        className="perfil-btn-cancelar"
+                        className="perfil-btn-cancelar perfil-btn-abaixo"
                         onClick={handleCancelarAlertas}
                       >
                         Cancelar Alertas
                       </button>
                     ) : (
                       <button
-                        className="perfil-btn-confirmar"
+                        className="perfil-btn-confirmar perfil-btn-abaixo"
                         onClick={handleAtivarAlertas}
                       >
                         Ativar Alertas Personalizados
@@ -423,9 +461,10 @@ const Perfil = () => {
                 <div className="perfil-content-text">
                   <h3>Isso excluirá sua conta</h3>
                   <p>
-                    Você está prestes a iniciar o processo de exclusão da sua conta do
-                    AlertaRisk.
-                    <br /> Seus dados e perfil não estarão mais acessíveis na plataforma.
+                    Você está prestes a iniciar o processo de exclusão da sua
+                    conta do AlertaRisk.
+                    <br /> Seus dados e perfil não estarão mais acessíveis na
+                    plataforma.
                   </p>
                   <button
                     className="perfil-btn-continuar"
@@ -440,7 +479,10 @@ const Perfil = () => {
                   <form onSubmit={handleExcluirConta}>
                     <label>Senha</label>
                     <input type="password" name="senha" required />
-                    <button type="submit" className="perfil-btn-excluir">
+                    <button
+                      type="submit"
+                      className="perfil-btn-excluir"
+                    >
                       Excluir conta
                     </button>
                   </form>
